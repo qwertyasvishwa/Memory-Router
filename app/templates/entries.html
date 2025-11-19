@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Session entries (in-memory)</h2>
+    {% if entries %}
+    <table>
+        <thead>
+        <tr>
+            <th>Created</th>
+            <th>Project</th>
+            <th>Category</th>
+            <th>Stage</th>
+            <th>Content (normalized)</th>
+            <th>Tags</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in entries %}
+            <tr>
+                <td><code>{{ e.created_at }}</code></td>
+                <td>{{ e.project or "-" }}</td>
+                <td>{{ e.category }}</td>
+                <td>{{ e.progress_stage or "-" }}</td>
+                <td><pre style="white-space: pre-wrap; margin: 0;">{{ e.content_normalized }}</pre></td>
+                <td>{{ ", ".join(e.tags) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No entries recorded in this session yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

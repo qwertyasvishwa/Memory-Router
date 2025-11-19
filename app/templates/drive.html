@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>SharePoint drive browser</h2>
+
+    <form method="get" action="/drive" style="margin-bottom: 1rem;">
+        <label for="drive_id">Drive</label>
+        <select name="drive_id" id="drive_id">
+            {% for drive in drives %}
+                <option value="{{ drive.id }}" {% if drive.id == selected_drive_id %}selected{% endif %}>
+                    {{ drive.name or drive.displayName }} ({{ drive.driveType or "?" }})
+                </option>
+            {% endfor %}
+            {% if not drives %}
+                <option value="{{ selected_drive_id }}" selected>{{ selected_drive_id }}</option>
+            {% endif %}
+        </select>
+
+        <label for="path">Path</label>
+        <input id="path" name="path" type="text" value="{{ path }}" placeholder="subfolder (optional)">
+
+        <button type="submit">Browse</button>
+    </form>
+
+    <p>
+        Path:
+        <a href="/drive?drive_id={{ selected_drive_id }}">/</a>
+        {% set cumulative = "" %}
+        {% for s in segments %}
+            {% set cumulative = cumulative ~ ("/" if cumulative else "") ~ s %}
+            / <a href="/drive?drive_id={{ selected_drive_id }}&path={{ cumulative }}">{{ s }}</a>
+        {% endfor %}
+    </p>
+
+    {% if items %}
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Last modified</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        {% if item.folder %}
+                            {# For folders, link deeper into the browser #}
+                            {% if path %}
+                                <a href="/drive?drive_id={{ selected_drive_id }}&path={{ path }}/{{ item.name }}">{{ item.name }}</a>
+                            {% else %}
+                                <a href="/drive?drive_id={{ selected_drive_id }}&path={{ item.name }}">{{ item.name }}</a>
+                            {% endif %}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.folder %}
+                            Folder
+                        {% else %}
+                            File
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.size is not none %}
+                            {{ (item.size / 1024)|round(1) }} KB
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ item.lastModifiedDateTime or "-" }}
+                    </td>
+                    <td>
+                        {% if item.folder %}
+                            -
+                        {% else %}
+                            <a href="/drive/download/{{ item.id }}?drive_id={{ selected_drive_id }}">Download</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No items in this location.</p>
+    {% endif %}
+</div>
+{% endblock %}

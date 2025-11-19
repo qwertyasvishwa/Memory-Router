@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Memory Ledger</h2>
+    <form action="/ledger" method="post">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" required placeholder="Short descriptor">
+
+        <label for="summary">Summary</label>
+        <textarea id="summary" name="summary" required placeholder="Narrative summary"></textarea>
+
+        <label for="theme">Theme (#Theme/&lt;value&gt;)</label>
+        <input id="theme" name="theme" type="text" required placeholder="Workflow">
+
+        <label for="lens">Lens (#Lens/&lt;value&gt;)</label>
+        <input id="lens" name="lens" type="text" required placeholder="MemoryRouter">
+
+        <label for="project">Project (optional)</label>
+        <input id="project" name="project" type="text" placeholder="happy-eats, kalkine...">
+
+        <label for="value_tags">Value tags (comma, e.g. #HumanTouch,#Integrity)</label>
+        <input id="value_tags" name="value_tags" type="text" placeholder="#Growth,#Efficiency">
+
+        <label for="artifact_tags">Artifact tags (comma, e.g. #WorkflowDecision)</label>
+        <input id="artifact_tags" name="artifact_tags" type="text" placeholder="#WorkflowDecision">
+
+        <label for="references">References (one per line)</label>
+        <textarea id="references" name="references" placeholder="https://..."></textarea>
+
+        <button type="submit">Record entry</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Recent entries (session)</h3>
+    {% if entries %}
+        <table>
+            <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Title</th>
+                <th>Theme / Lens</th>
+                <th>Summary</th>
+                <th>Tags</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in entries %}
+                <tr>
+                    <td><code>{{ entry.created_at }}</code></td>
+                    <td>{{ entry.title }}</td>
+                    <td>
+                        #Theme/{{ entry.theme }}<br>
+                        #Lens/{{ entry.lens }}
+                    </td>
+                    <td style="max-width: 320px;">{{ entry.summary }}</td>
+                    <td>{{ ", ".join(entry.tags) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No ledger entries recorded during this session yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

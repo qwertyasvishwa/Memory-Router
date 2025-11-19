@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Quick links</h2>
+    <ul>
+        {% for link in quick_links %}
+            <li><a href="{{ link.url }}" target="_blank" rel="noreferrer noopener">{{ link.label }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h2>Next actions / milestones</h2>
+    <form action="/todos" method="post">
+        <label for="todo_title">Title</label>
+        <input id="todo_title" name="title" type="text" required placeholder="Ship ledger digest endpoint">
+
+        <label for="todo_details">Details</label>
+        <textarea id="todo_details" name="details" placeholder="Notes, acceptance criteria, links..."></textarea>
+
+        <label for="todo_due">Due date (optional)</label>
+        <input id="todo_due" name="due_date" type="text" placeholder="2025-11-30 or 'ASAP'">
+
+        <label for="todo_tags">Tags (comma separated)</label>
+        <input id="todo_tags" name="tags" type="text" placeholder="release-notes, ai-pm">
+
+        <button type="submit">Add task</button>
+    </form>
+
+    {% if todos %}
+        <h3 style="margin-top: 1.5rem;">Current tasks</h3>
+        <ul>
+            {% for todo in todos %}
+                <li>
+                    <strong>{{ todo.title }}</strong>
+                    {% if todo.due_date %}<em>(due {{ todo.due_date }})</em>{% endif %}
+                    <div style="font-size:0.9em;color:#555;">Status: {{ todo.status }} | Tags: {{ ", ".join(todo.tags) }}</div>
+                    {% if todo.details %}<div>{{ todo.details }}</div>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks logged yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>New entry</h2>
+    <form action="/submit" method="post">
+        <label for="project">Project (optional)</label>
+        <input id="project" name="project" type="text" placeholder="e.g. sharepoint-integration">
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+            <option value="note">Note</option>
+            <option value="progress">Progress update</option>
+        </select>
+
+        <label for="content">Content</label>
+        <textarea id="content" name="content" required placeholder="Write your note or progress update here..."></textarea>
+
+        <label for="tags">Tags (comma separated, optional)</label>
+        <input id="tags" name="tags" type="text" placeholder="backend, milestone-1">
+
+        <label for="progress_stage">Progress stage (optional, for progress entries)</label>
+        <input id="progress_stage" name="progress_stage" type="text" placeholder="design, implementation, review...">
+
+        <label for="progress_notes">Progress note (optional, for progress entries)</label>
+        <textarea id="progress_notes" name="progress_notes" placeholder="More structured progress details..."></textarea>
+
+        <button type="submit">Save to SharePoint</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Recent ledger snapshot</h3>
+    {% if recent_ledger %}
+        <ul>
+            {% for entry in recent_ledger %}
+                <li>
+                    <strong>{{ entry.title }}</strong> — {{ entry.summary }}
+                    <div style="font-size:0.85em;color:#555;">{{ ", ".join(entry.tags) }}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ledger entries recorded in this session yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>API usage</h3>
+    <p>Submit entries programmatically:</p>
+    <pre><code>POST /api/entries
+Content-Type: application/json
+
+{
+  "project": "sharepoint-integration",
+  "category": "progress",
+  "content_raw": "Implemented Graph upload.",
+  "tags": ["backend", "graph"],
+  "progress_stage": "implementation",
+  "progress_notes": "First working prototype for upload API."
+}</code></pre>
+
+    <p>Log ledger entries directly:</p>
+    <pre><code>POST /api/ledger
+{
+  "title": "Workflow update",
+  "summary": "Automated ledger logging on entry submissions.",
+  "theme": "Workflow",
+  "lens": "MemoryRouter",
+  "value_tags": ["Growth","Integrity"],
+  "artifact_tags": ["WorkflowDecision"]
+}</code></pre>
+
+    <p>Tasks:</p>
+    <pre><code>POST /api/todos
+{
+  "title": "Ship weekly digest",
+  "details": "Generate summary from ledger entries.",
+  "due_date": "2025-12-01"
+}</code></pre>
+</div>
+{% endblock %}
