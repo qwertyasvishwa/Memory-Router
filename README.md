@@ -46,6 +46,26 @@ There is **no local database** and **no local filesystem writes** – entries go
    - Session browse view: `http://localhost:8000/entries`
    - Health check: `http://localhost:8000/health`
 
+### Keep the server running as a Windows Service
+
+If you want Memory Router to keep running after you close the terminal, one straightforward approach on Windows is to use [NSSM](https://nssm.cc/).
+
+1. Download `nssm-2.24.zip`, extract it (e.g., `C:\tools\nssm-2.24\win64\nssm.exe`).
+2. Install the service from an elevated PowerShell prompt:
+
+   ```powershell
+   $python = (Get-Command python).Source
+   $nssm   = 'C:\tools\nssm-2.24\win64\nssm.exe'          # adjust if needed
+   $wd     = 'C:\Users\<you>\Documents\Project\Memory-Router'
+
+   & $nssm install MemoryRouter $python "$wd\scripts\run_server.py --host 0.0.0.0 --port 8000 --log-level info"
+   & $nssm set MemoryRouter AppDirectory $wd
+   Set-Service MemoryRouter -StartupType Automatic
+   Start-Service MemoryRouter
+   ```
+
+The `scripts/run_server.py` helper ensures the working directory is correct and lets you tweak host/port/log level later. Stop/restart with `Stop-Service MemoryRouter` / `Start-Service MemoryRouter`.
+
 ## API overview
 
 - `GET /` – HTML form for submitting a new entry.
