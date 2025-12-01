@@ -85,6 +85,19 @@ The `scripts/run_server.py` helper ensures the working directory is correct and 
 - `GET /api/todos` / `POST /api/todos` – JSON API for lightweight task tracking.
 - `GET /health` – health and Graph connectivity status.
 
+## Weekly Task Tracker
+
+The new weekly task tracker accepts product updates or notes via `/weekly-tasks` and responds with macro-level action items plus a dedicated "overlooked or missing tasks" section. It deduplicates every generated task and logs the run to `weekly_tasks_log.csv` so nothing is repeated unless the scope evolves.
+
+- Use the form on `/weekly-tasks` or call `POST /api/weekly-tasks` with `{ "project": "...", "context": "...", "update": "..." }`.
+- Review prior tracker outputs via the UI table (now highlighting the latest entry after each submission) or `GET /api/weekly-tasks/history?limit=20`.
+- Tasks are deduplicated per project and ISO week, so reminders can resurface once you move into a new week or project without rewriting previous guidance.
+- The CSV log lives wherever `MR_WEEKLY_LOG_PATH` points (defaults to `weekly_tasks_log.csv` in the repo root) and is ignored by git so you can keep a persistent audit trail of tracked tasks.
+
+## Enhancement log + recommendations
+
+Use `/enhancements` (or `POST /api/enhancements`) to record every change you ship, including the reason and expected impact. The service appends each entry to the CSV pointed to by `MR_ENHANCEMENT_LOG_PATH` (default `enhancements_log.csv`) and surfaces tailored improvement ideas via `/api/enhancements/suggestions`. Suggestions look at recent reasons, untouched areas, and high-signal tags to recommend the next best initiative.
+
 ### Logging
 
 The service logs to stdout/stderr (captured in `/tmp/uvicorn.log` in these instructions) with contextual messages whenever entries are submitted, drives are listed, downloads occur, or health checks run. Adjust the log level by editing the `logging.basicConfig` call in `app/main.py`.

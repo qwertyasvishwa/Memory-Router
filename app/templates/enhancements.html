@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Enhancement log</h2>
+    <p>Capture every change in Memory Router along with the reason/impact so we can recommend the next best improvement automatically.</p>
+    <p style="margin-top:0.25rem;"><a href="/enhancements/report">View single-page enhancement report</a></p>
+    <form action="/enhancements" method="post">
+        <label for="enh_title">Title</label>
+        <input id="enh_title" name="title" type="text" required placeholder="e.g., Added enhancement tracker">
+
+        <label for="enh_description">What changed?</label>
+        <textarea id="enh_description" name="description" required placeholder="Describe the behavior, files, or flows touched."></textarea>
+
+        <label for="enh_reason">Why was this necessary?</label>
+        <textarea id="enh_reason" name="reason" required placeholder="Driver, blocker, or opportunity being addressed."></textarea>
+
+        <label for="enh_area">Area / Capability</label>
+        <input id="enh_area" name="area" type="text" required placeholder="UI, API, automation, telemetry...">
+
+        <label for="enh_impact">Intended impact</label>
+        <input id="enh_impact" name="impact" type="text" required placeholder="Better UX clarity, faster load time, easier automation...">
+
+        <label for="enh_tags">Tags (comma separated)</label>
+        <input id="enh_tags" name="tags" type="text" placeholder="ux, performance, observability">
+
+        <label for="enh_links">References (one per line)</label>
+        <textarea id="enh_links" name="links" placeholder="SharePoint link, PR, ticket..."></textarea>
+
+        <button type="submit">Log enhancement</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Next best improvement ideas</h3>
+    {% if suggestions %}
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>
+                    <strong>{{ suggestion.title }}</strong>
+                    <div>{{ suggestion.rationale }}</div>
+                    {% if suggestion.next_steps %}
+                        <div style="font-size:0.9em;margin-top:0.4rem;">
+                            <em>Next steps:</em>
+                            <ul>
+                                {% for step in suggestion.next_steps %}
+                                    <li>{{ step }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No suggestions yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Logged enhancements</h3>
+    {% if entries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Area</th>
+                    <th>Impact & reason</th>
+                    <th>Tags</th>
+                    <th>Links</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</td>
+                        <td>{{ entry.title }}</td>
+                        <td>{{ entry.area }}</td>
+                        <td>
+                            <div><strong>Impact:</strong> {{ entry.impact }}</div>
+                            <div><strong>Reason:</strong> {{ entry.reason }}</div>
+                            <div>{{ entry.description }}</div>
+                        </td>
+                        <td>{{ ", ".join(entry.tags) if entry.tags else "—" }}</td>
+                        <td>
+                            {% if entry.links %}
+                                <ul>
+                                    {% for link in entry.links %}
+                                        <li><a href="{{ link }}" target="_blank" rel="noreferrer noopener">{{ link }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No enhancements logged yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

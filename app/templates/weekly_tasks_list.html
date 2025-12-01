@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Weekly tracker history</h2>
+    <p>All generated macro tasks and overlooked actions in one place.</p>
+    {% if weekly_history %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Project</th>
+                    <th>Context</th>
+                    <th>Macro tasks</th>
+                    <th>Overlooked</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in weekly_history %}
+                    <tr>
+                        <td>{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</td>
+                        <td>{{ entry.project or "—" }}</td>
+                        <td>{{ entry.context or "—" }}</td>
+                        <td>
+                            <ul>
+                                {% for task in entry.generated_tasks %}
+                                    <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                {% for task in entry.overlooked_tasks %}
+                                    <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No weekly tracker entries yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

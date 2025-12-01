@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Enhancement report</h2>
+    <p>Single-page log of all enhancements with timestamps to support revision history.</p>
+</div>
+{% if entries %}
+    {% for entry in entries %}
+        <div class="card">
+            <h3>{{ entry.title }}</h3>
+            <div style="font-size:0.9em;color:#555;">{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }} | Area: {{ entry.area }} | Impact: {{ entry.impact }}</div>
+            <p><strong>Reason:</strong> {{ entry.reason }}</p>
+            <p>{{ entry.description }}</p>
+            {% if entry.tags %}
+                <div><strong>Tags:</strong> {{ ", ".join(entry.tags) }}</div>
+            {% endif %}
+            {% if entry.links %}
+                <div><strong>References:</strong></div>
+                <ul>
+                    {% for link in entry.links %}
+                        <li><a href="{{ link }}" target="_blank" rel="noreferrer noopener">{{ link }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card"><p>No enhancements logged yet.</p></div>
+{% endif %}
+{% endblock %}

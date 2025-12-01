@@ -2,10 +2,12 @@ import io
 import logging
 from typing import List, Optional
 
-from fastapi import FastAPI, Form, HTTPException, Request, status
+from fastapi import FastAPI, Form, HTTPException, Request, UploadFile, File, status
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
+from .enhancements import EnhancementLogCreate, EnhancementLogEntry, EnhancementLogService, ImprovementSuggestion
+from .config import get_settings
 from .ledger import ledger_service
 from .schemas import (
     ArtifactType,
@@ -22,6 +24,7 @@ from .schemas import (
 )
 from .sharepoint_client import graph_client
 from .todos import todo_service
+from .weekly_tasks import WeeklyTaskSubmission, WeeklyTaskTracker, WeeklyTaskSummary, parse_outlook_email
 
 logging.basicConfig(
     level=logging.INFO,
@@ -89,6 +92,9 @@ templates = Jinja2Templates(directory="app/templates")
 
 # In-memory session view of accepted entries (not a database).
 IN_MEMORY_ENTRIES: List[EntryNormalized] = []
+_settings = get_settings()
+weekly_tracker = WeeklyTaskTracker(log_path=_settings.weekly_log_path)
+enhancement_log_service = EnhancementLogService(log_path=_settings.enhancement_log_path)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -188,6 +194,119 @@ async def create_todo(
             detail=f"Failed to record todo: {exc}",
         ) from exc
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get("/weekly-tasks", response_class=HTMLResponse)
+async def weekly_tasks_view(request: Request, highlight: Optional[str] = None) -> HTMLResponse:
+    history = weekly_tracker.history(limit=25)
+    summary = None
+    if highlight:
+        summary = next((entry for entry in history if entry.id == highlight), None)
+        if summary is None:
+            summary = weekly_tracker.get_summary(highlight)
+    if not summary and history:
+        summary = history[0]
+    highlight_id = highlight or (summary.id if summary else None)
+    return templates.TemplateResponse(
+        "weekly_tasks.html",
+        {
+            "request": request,
+            "weekly_summary": summary,
+            "weekly_history": history,
+            "highlight_id": highlight_id,
+        },
+    )
+
+
+@app.post("/weekly-tasks", response_class=HTMLResponse)
+async def weekly_tasks_submit(
+    request: Request,
+    project: Optional[str] = Form(default=None),
+    context: Optional[str] = Form(default=None),
+    update: Optional[str] = Form(default=None),
+    email_file: Optional[UploadFile] = File(default=None),
+) -> HTMLResponse:
+    submission: WeeklyTaskSubmission
+    if email_file and email_file.filename:
+        contents = await email_file.read()
+        try:
+            parsed_project, parsed_context, parsed_update = parse_outlook_email(email_file.filename, contents)
+            submission = WeeklyTaskSubmission(
+                project=project or parsed_project,
+                context=context or parsed_context,
+                update=parsed_update,
+            )
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Failed to parse email file: {exc}",
+            ) from exc
+    else:
+        if not update:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Update text is required when no email file is provided.",
+            )
+        submission = WeeklyTaskSubmission(
+            project=project or None,
+            context=context or None,
+            update=update,
+    )
+    summary = weekly_tracker.process_update(submission)
+    return RedirectResponse(
+        url=f"/weekly-tasks?highlight={summary.id}",
+        status_code=status.HTTP_303_SEE_OTHER,
+    )
+
+
+@app.get("/weekly-tasks/list", response_class=HTMLResponse)
+async def weekly_tasks_list(request: Request) -> HTMLResponse:
+    history = weekly_tracker.history(limit=200)
+    return templates.TemplateResponse(
+        "weekly_tasks_list.html",
+        {
+            "request": request,
+            "weekly_history": history,
+        },
+    )
+
+
+@app.get("/enhancements", response_class=HTMLResponse)
+async def enhancements_view(request: Request) -> HTMLResponse:
+    entries = enhancement_log_service.list_entries(limit=50)
+    suggestions = enhancement_log_service.generate_suggestions(limit=5)
+    return templates.TemplateResponse(
+        "enhancements.html",
+        {
+            "request": request,
+            "entries": entries,
+            "suggestions": suggestions,
+        },
+    )
+
+
+@app.post("/enhancements", response_class=HTMLResponse)
+async def enhancements_submit(
+    request: Request,
+    title: str = Form(...),
+    description: str = Form(...),
+    reason: str = Form(...),
+    area: str = Form(...),
+    impact: str = Form(...),
+    tags: Optional[str] = Form(default=None),
+    links: Optional[str] = Form(default=None),
+) -> HTMLResponse:
+    payload = EnhancementLogCreate(
+        title=title,
+        description=description,
+        reason=reason,
+        area=area,
+        impact=impact,
+        tags=[t.strip() for t in (tags or "").split(",") if t.strip()],
+        links=[line.strip() for line in (links or "").splitlines() if line.strip()],
+    )
+    enhancement_log_service.record_entry(payload)
+    return RedirectResponse(url="/enhancements", status_code=status.HTTP_303_SEE_OTHER)
 
 
 @app.post("/ledger", response_class=HTMLResponse)
@@ -317,6 +436,43 @@ async def api_create_todo(payload: TodoEntryCreate) -> TodoEntryNormalized:
 @app.get("/api/todos", response_model=List[TodoEntryNormalized])
 async def api_list_todos() -> List[TodoEntryNormalized]:
     return todo_service.list_entries()
+
+
+@app.post("/api/weekly-tasks", response_model=WeeklyTaskSummary)
+async def api_weekly_tasks(payload: WeeklyTaskSubmission) -> WeeklyTaskSummary:
+    return weekly_tracker.process_update(payload)
+
+
+@app.get("/api/weekly-tasks/history", response_model=List[WeeklyTaskSummary])
+async def api_weekly_history(limit: Optional[int] = 20) -> List[WeeklyTaskSummary]:
+    return weekly_tracker.history(limit=limit or 20)
+
+
+@app.post("/api/enhancements", response_model=EnhancementLogEntry)
+async def api_create_enhancement(payload: EnhancementLogCreate) -> EnhancementLogEntry:
+    return enhancement_log_service.record_entry(payload)
+
+
+@app.get("/api/enhancements", response_model=List[EnhancementLogEntry])
+async def api_list_enhancements(limit: Optional[int] = None) -> List[EnhancementLogEntry]:
+    return enhancement_log_service.list_entries(limit=limit)
+
+
+@app.get("/api/enhancements/suggestions", response_model=List[ImprovementSuggestion])
+async def api_enhancement_suggestions(limit: Optional[int] = 5) -> List[ImprovementSuggestion]:
+    return enhancement_log_service.generate_suggestions(limit=limit or 5)
+
+
+@app.get("/enhancements/report", response_class=HTMLResponse)
+async def enhancement_report(request: Request) -> HTMLResponse:
+    entries = enhancement_log_service.list_entries()
+    return templates.TemplateResponse(
+        "enhancements_report.html",
+        {
+            "request": request,
+            "entries": entries,
+        },
+    )
 
 
 @app.get("/entries", response_class=HTMLResponse)

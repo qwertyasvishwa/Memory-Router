@@ -26,6 +26,14 @@ class Settings(BaseSettings):
     site_id: str | None = Field(
         default=None, description="Optional SharePoint site ID (not required for basic drive usage)"
     )
+    weekly_log_path: str = Field(
+        default="weekly_tasks_log.csv",
+        description="Filesystem path for the weekly task tracker CSV log",
+    )
+    enhancement_log_path: str = Field(
+        default="enhancements_log.csv",
+        description="Filesystem path for enhancement change-log entries",
+    )
 
     class Config:
         env_prefix = "MR_"

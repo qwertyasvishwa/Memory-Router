@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Weekly Task Tracker</h2>
+    <p>
+        Submit a weekly update or sync notes and receive macro-level product manager tasks plus any overlooked follow-ups.
+        Every response is logged, deduplicated per project/week, and highlights missing actions so you never repeat the same reminder.
+    </p>
+    <form action="/weekly-tasks" method="post" enctype="multipart/form-data">
+        <label for="wt_project">Project / initiative (optional)</label>
+        <input id="wt_project" name="project" type="text" placeholder="Kalkine Fund Screener">
+
+        <label for="wt_context">Context (optional)</label>
+        <textarea id="wt_context" name="context" placeholder="Weekly product sync, customer update, email digest..."></textarea>
+
+        <label for="wt_update">Update or communication</label>
+        <textarea id="wt_update" name="update" required placeholder="Share major outcomes, decisions, blockers, follow-ups..."></textarea>
+
+        <label for="wt_email">Or upload Outlook email (.msg or .eml)</label>
+        <input id="wt_email" name="email_file" type="file" accept=".msg,.eml">
+        <p style="font-size:0.9em;color:#555;margin-top:0.25rem;">
+            When an email file is provided, the subject/body will auto-populate the project, context, and update fields.
+        </p>
+
+        <button type="submit">Generate weekly tasks</button>
+    </form>
+</div>
+
+{% if weekly_summary %}
+    <div class="card">
+        <h3>Latest tracker output</h3>
+        {% if weekly_summary.project %}
+            <p><strong>Project:</strong> {{ weekly_summary.project }}</p>
+        {% endif %}
+        {% if weekly_summary.context %}
+            <p><strong>Context:</strong> {{ weekly_summary.context }}</p>
+        {% endif %}
+        <p><strong>Generated at:</strong> {{ weekly_summary.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</p>
+
+        <h4>Macro-level tasks</h4>
+        <ul>
+            {% for task in weekly_summary.generated_tasks %}
+                <li>{{ task }}</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Overlooked or missing tasks</h4>
+        <ul>
+            {% for task in weekly_summary.overlooked_tasks %}
+                <li>{{ task }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Excerpt:</strong> {{ weekly_summary.input_excerpt }}</p>
+    </div>
+{% endif %}
+
+<div class="card">
+    <h3>Recent tracker history</h3>
+    <p><a href="/weekly-tasks/list">View full tracker list</a></p>
+    {% if weekly_history %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Project</th>
+                    <th>Context / excerpt</th>
+                    <th>Macro tasks</th>
+                    <th>Overlooked</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in weekly_history %}
+                    <tr class="{% if highlight_id and entry.id == highlight_id %}highlight-row{% endif %}">
+                        <td>{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</td>
+                        <td>{{ entry.project or "—" }}</td>
+                        <td>
+                            {% if entry.context %}
+                                <div><strong>Context:</strong> {{ entry.context }}</div>
+                            {% endif %}
+                            <div><strong>Excerpt:</strong> {{ entry.input_excerpt }}</div>
+                        </td>
+                        <td>
+                            {% set macros = entry.generated_tasks %}
+                            {% if macros %}
+                                <div>{{ macros[0] }}</div>
+                                {% if macros|length > 1 %}
+                                    <details>
+                                        <summary>Show {{ macros|length - 1 }} more</summary>
+                                        <ul>
+                                            {% for task in macros[1:] %}
+                                                <li>{{ task }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </details>
+                                {% endif %}
+                            {% else %}
+                                <em>No tasks captured.</em>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% set overlooked = entry.overlooked_tasks %}
+                            {% if overlooked %}
+                                <div>{{ overlooked[0] }}</div>
+                                {% if overlooked|length > 1 %}
+                                    <details>
+                                        <summary>Show {{ overlooked|length - 1 }} more</summary>
+                                        <ul>
+                                            {% for task in overlooked[1:] %}
+                                                <li>{{ task }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </details>
+                                {% endif %}
+                            {% else %}
+                                <em>No omissions detected.</em>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No weekly task reports recorded yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

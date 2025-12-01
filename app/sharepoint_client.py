@@ -48,11 +48,12 @@ class GraphClient:
         pieces = [segment for segment in [base, subfolder.strip("/ ") if subfolder else None, filename] if segment]
         return "/".join(pieces) if pieces else filename
 
-    async def upload_json_document(
+    async def _upload_bytes(
         self,
-        payload: Dict[str, Any],
         *,
+        content: bytes,
         filename: str,
+        content_type: str,
         subfolder: Optional[str] = None,
         drive_id: Optional[str] = None,
     ) -> str:
@@ -65,23 +66,56 @@ class GraphClient:
             f"/drives/{drive}/root:/{path}:/content"
         )
 
-        logger.info("Uploading JSON document to drive=%s path=%s", drive, path)
+        logger.info("Uploading document to drive=%s path=%s", drive, path)
 
         async with httpx.AsyncClient(timeout=20.0) as client:
             response = await client.put(
                 url,
                 headers={
                     "Authorization": f"Bearer {token}",
-                    "Content-Type": "application/json",
+                    "Content-Type": content_type,
                 },
-                content=json.dumps(payload),
+                content=content,
             )
             response.raise_for_status()
 
         data = response.json()
         item_id = str(data.get("id"))
-        logger.info("Uploaded JSON document path=%s item=%s", path, item_id)
+        logger.info("Uploaded document path=%s item=%s", path, item_id)
         return item_id
+
+    async def upload_json_document(
+        self,
+        payload: Dict[str, Any],
+        *,
+        filename: str,
+        subfolder: Optional[str] = None,
+        drive_id: Optional[str] = None,
+    ) -> str:
+        return await self._upload_bytes(
+            content=json.dumps(payload).encode("utf-8"),
+            filename=filename,
+            content_type="application/json",
+            subfolder=subfolder,
+            drive_id=drive_id,
+        )
+
+    async def upload_text_document(
+        self,
+        content: str,
+        *,
+        filename: str,
+        subfolder: Optional[str] = None,
+        drive_id: Optional[str] = None,
+        content_type: str = "text/markdown",
+    ) -> str:
+        return await self._upload_bytes(
+            content=content.encode("utf-8"),
+            filename=filename,
+            content_type=content_type,
+            subfolder=subfolder,
+            drive_id=drive_id,
+        )
 
     async def upload_entry(self, entry: EntryNormalized) -> str:
         """

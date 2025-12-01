@@ -1,3 +1,5 @@
 .env
 __pycache__/
 *.pyc
+weekly_tasks_log.csv
+enhancements_log.csv
