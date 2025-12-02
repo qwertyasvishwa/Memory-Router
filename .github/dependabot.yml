@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    # Enable security updates so Dependabot will raise PRs for known CVEs
+    allow:
+      - dependency-type: "all"
+    # Target the requirements.txt file
+    # For pip, Dependabot will look for requirements.txt by default in the directory
+    # Set the reviewers or assignees if desired (optional)
+    # reviewers:
+    #   - your-github-username
+
+# Optionally enable versioning & automerged updates for low-risk bumps (disabled by default)
+# automerged_updates:
+#   - match:
+#       update_type: "semver:patch"
+#
+# You can add separate entries for GitHub Actions or other ecosystems if needed.
