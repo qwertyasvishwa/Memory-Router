@@ -3,18 +3,38 @@
 <div class="card">
     <h2>Weekly Task Tracker</h2>
     <p>
-        Submit a weekly update or sync notes and receive macro-level product manager tasks plus any overlooked follow-ups.
-        Every response is logged, deduplicated per project/week, and highlights missing actions so you never repeat the same reminder.
+        Submit a weekly update or sync notes and receive macro-level product manager tasks plus any overlooked
+        follow-ups.
+        Every response is logged, deduplicated per project/week, and highlights missing actions so you never repeat the
+        same reminder.
     </p>
+    {% if export_status %}
+    <div class="notice success">
+        Weekly tracker report exported to SharePoint.
+        {% if export_item_id %}Item ID: {{ export_item_id }}{% endif %}
+    </div>
+    {% endif %}
+    <form action="/weekly-tasks/export" method="post" style="margin-bottom:1rem;">
+        <button type="submit">Export full report to SharePoint</button>
+    </form>
     <form action="/weekly-tasks" method="post" enctype="multipart/form-data">
         <label for="wt_project">Project / initiative (optional)</label>
         <input id="wt_project" name="project" type="text" placeholder="Kalkine Fund Screener">
 
+        <label for="wt_activity">Activity type</label>
+        <select id="wt_activity" name="activity_type">
+            {% for kind in activity_types %}
+            <option value="{{ kind.value }}">{{ kind.value.replace("_", " ").title() }}</option>
+            {% endfor %}
+        </select>
+
         <label for="wt_context">Context (optional)</label>
-        <textarea id="wt_context" name="context" placeholder="Weekly product sync, customer update, email digest..."></textarea>
+        <textarea id="wt_context" name="context"
+            placeholder="Weekly product sync, customer update, email digest..."></textarea>
 
         <label for="wt_update">Update or communication</label>
-        <textarea id="wt_update" name="update" required placeholder="Share major outcomes, decisions, blockers, follow-ups..."></textarea>
+        <textarea id="wt_update" name="update"
+            placeholder="Share major outcomes, decisions, blockers, follow-ups..."></textarea>
 
         <label for="wt_email">Or upload Outlook email (.msg or .eml)</label>
         <input id="wt_email" name="email_file" type="file" accept=".msg,.eml">
@@ -27,101 +47,318 @@
 </div>
 
 {% if weekly_summary %}
-    <div class="card">
-        <h3>Latest tracker output</h3>
-        {% if weekly_summary.project %}
-            <p><strong>Project:</strong> {{ weekly_summary.project }}</p>
-        {% endif %}
-        {% if weekly_summary.context %}
-            <p><strong>Context:</strong> {{ weekly_summary.context }}</p>
-        {% endif %}
-        <p><strong>Generated at:</strong> {{ weekly_summary.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</p>
+<div class="card">
+    <h3>Latest tracker output</h3>
+    {% if weekly_summary.project %}
+    <p><strong>Project:</strong> {{ weekly_summary.project }}</p>
+    {% endif %}
+    {% if weekly_summary.context %}
+    <p><strong>Context:</strong> {{ weekly_summary.context }}</p>
+    {% endif %}
+    <p><strong>Activity type:</strong> {{ weekly_summary.activity_type.value.replace("_", " ").title() }}</p>
+    <p><strong>Generated at:</strong> {{ weekly_summary.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</p>
 
-        <h4>Macro-level tasks</h4>
-        <ul>
-            {% for task in weekly_summary.generated_tasks %}
-                <li>{{ task }}</li>
-            {% endfor %}
-        </ul>
+    <h4>Macro-level tasks</h4>
+    <ul>
+        {% for task in weekly_summary.generated_tasks %}
+        <li>{{ task }}</li>
+        {% endfor %}
+    </ul>
 
-        <h4>Overlooked or missing tasks</h4>
-        <ul>
-            {% for task in weekly_summary.overlooked_tasks %}
-                <li>{{ task }}</li>
-            {% endfor %}
-        </ul>
+    <h4>Overlooked or missing tasks</h4>
+    <ul>
+        {% for task in weekly_summary.overlooked_tasks %}
+        <li>{{ task }}</li>
+        {% endfor %}
+    </ul>
 
-        <p><strong>Excerpt:</strong> {{ weekly_summary.input_excerpt }}</p>
-    </div>
+    <p><strong>Excerpt:</strong> {{ weekly_summary.input_excerpt }}</p>
+</div>
 {% endif %}
 
 <div class="card">
     <h3>Recent tracker history</h3>
     <p><a href="/weekly-tasks/list">View full tracker list</a></p>
-    {% if weekly_history %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Project</th>
-                    <th>Context / excerpt</th>
-                    <th>Macro tasks</th>
-                    <th>Overlooked</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry in weekly_history %}
-                    <tr class="{% if highlight_id and entry.id == highlight_id %}highlight-row{% endif %}">
-                        <td>{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</td>
-                        <td>{{ entry.project or "—" }}</td>
-                        <td>
-                            {% if entry.context %}
-                                <div><strong>Context:</strong> {{ entry.context }}</div>
-                            {% endif %}
-                            <div><strong>Excerpt:</strong> {{ entry.input_excerpt }}</div>
-                        </td>
-                        <td>
-                            {% set macros = entry.generated_tasks %}
-                            {% if macros %}
-                                <div>{{ macros[0] }}</div>
-                                {% if macros|length > 1 %}
-                                    <details>
-                                        <summary>Show {{ macros|length - 1 }} more</summary>
-                                        <ul>
-                                            {% for task in macros[1:] %}
-                                                <li>{{ task }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </details>
-                                {% endif %}
-                            {% else %}
-                                <em>No tasks captured.</em>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% set overlooked = entry.overlooked_tasks %}
-                            {% if overlooked %}
-                                <div>{{ overlooked[0] }}</div>
-                                {% if overlooked|length > 1 %}
-                                    <details>
-                                        <summary>Show {{ overlooked|length - 1 }} more</summary>
-                                        <ul>
-                                            {% for task in overlooked[1:] %}
-                                                <li>{{ task }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </details>
-                                {% endif %}
-                            {% else %}
-                                <em>No omissions detected.</em>
-                            {% endif %}
-                        </td>
-                    </tr>
+    <!-- Enhanced Filter Bar -->
+    <div class="filters-section">
+        <h4>Filters & Overview</h4>
+
+        <!-- Summary Stats -->
+        <div class="summary-bar">
+            <div class="summary-item">
+                <strong>{{ total_entries }}</strong> entries in view
+            </div>
+            {% if activity_summary %}
+            <div class="summary-item">
+                <strong>By activity:</strong>
+                {% for activity, count in activity_summary.items() %}
+                <span class="activity-badge" data-activity="{{ activity }}">
+                    {{ activity.replace("_", " ").title() }} {{ count }}
+                </span>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+            {% endif %}
+            {% if project_summary %}
+            <div class="summary-item">
+                <strong>By project:</strong>
+                {% for project, stats in project_summary.items() %}
+                <span class="project-badge">{{ project }} {{ stats.total }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Filter Form -->
+        <form action="/weekly-tasks" method="get" class="filter-form">
+            <input type="hidden" name="highlight" value="{{ highlight_id or '' }}">
+
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="filter_project">Project</label>
+                    <select id="filter_project" name="project" data-tom-select>
+                        <option value="">All Projects</option>
+                        {% for proj in all_projects %}
+                        <option value="{{ proj }}" {% if project_filter==proj %}selected{% endif %}>
+                            {{ proj }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter_activity_types">Activity Types (multi-select)</label>
+                    <select id="filter_activity_types" name="activity_types" multiple data-tom-select>
+                        {% for kind in activity_types %}
+                        <option value="{{ kind.value }}" {% if kind.value in (activity_types_filter.split(',') if
+                            activity_types_filter else []) %}selected{% endif %}>
+                            {{ kind.icon }} {{ kind.display_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter_keyword">Keyword Search</label>
+                    <input id="filter_keyword" name="keyword" type="text" value="{{ keyword_filter }}"
+                        placeholder="Search in context, tasks, projects...">
+                </div>
+            </div>
+
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="filter_date_from">From Date</label>
+                    <input id="filter_date_from" name="date_from" type="date" value="{{ date_from_filter }}">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter_date_to">To Date</label>
+                    <input id="filter_date_to" name="date_to" type="date" value="{{ date_to_filter }}">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter_group_by">Group By</label>
+                    <select id="filter_group_by" name="group_by">
+                        <option value="">No Grouping</option>
+                        <option value="project" {% if group_by=='project' %}selected{% endif %}>Project</option>
+                        <option value="activity" {% if group_by=='activity' %}selected{% endif %}>Activity Type</option>
+                        <option value="date" {% if group_by=='date' %}selected{% endif %}>Date</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit">Apply Filters</button>
+                <a href="/weekly-tasks" class="btn-secondary">Clear All</a>
+                <div class="quick-filters">
+                    <button type="button" onclick="setDateRange(7)" class="btn-small">Last 7 days</button>
+                    <button type="button" onclick="setDateRange(30)" class="btn-small">Last 30 days</button>
+                    <button type="button" onclick="setDateRange(90)" class="btn-small">Last 90 days</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if weekly_history %}
+    {% if group_by == 'project' %}
+    <!-- Project-grouped view -->
+    {% set grouped_entries = weekly_history | groupby('project') %}
+    {% for project, entries in grouped_entries %}
+    {% set project_id = (project or 'uncategorized') | replace(' ', '_') %}
+    <div class="project-group">
+        <div class="project-header">
+            <h4>{{ project or "Uncategorized" }}</h4>
+            <span class="project-stats">{{ entries|list|length }} entries</span>
+            <button class="toggle-group" onclick="toggleGroup('{{ project_id }}')"
+                id="toggle-{{ project_id }}">−</button>
+        </div>
+        <div class="project-entries" id="group-{{ project_id }}">
+            {% for entry in entries %}
+            <div class="entry-card {% if highlight_id and entry.id == highlight_id %}highlight-entry{% endif %}"
+                onclick="toggleDetails('{{ entry.id }}')">
+                <div class="entry-header">
+                    <div class="entry-meta">
+                        <span class="activity-icon">{{ entry.activity_type.icon }}</span>
+                        <span class="activity-name">{{ entry.activity_type.display_name }}</span>
+                        <span class="entry-date">{{ entry.created_at.strftime("%m/%d %H:%M") }}</span>
+                    </div>
+                    <div class="entry-preview">
+                        {% if entry.context %}{{ entry.context[:100] }}...{% else %}{{ entry.input_excerpt[:100] }}...{%
+                        endif %}
+                    </div>
+                </div>
+                <div class="entry-details" id="details-{{ entry.id }}" style="display: none;">
+                    {% if entry.context %}
+                    <div class="detail-section">
+                        <strong>Context:</strong> {{ entry.context }}
+                    </div>
+                    {% endif %}
+                    <div class="detail-section">
+                        <strong>Excerpt:</strong> {{ entry.input_excerpt }}
+                    </div>
+                    <div class="detail-section">
+                        <strong>Macro Tasks:</strong>
+                        {% if entry.generated_tasks %}
+                        <ul class="task-list">
+                            {% for task in entry.generated_tasks %}
+                            <li>{{ task }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <em>No tasks captured</em>
+                        {% endif %}
+                    </div>
+                    <div class="detail-section">
+                        <strong>Overlooked:</strong>
+                        {% if entry.overlooked_tasks %}
+                        <ul class="task-list overlooked">
+                            {% for task in entry.overlooked_tasks %}
+                            <li>{{ task }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <em>No omissions detected</em>
+                        {% endif %}
+                    </div>
+                    <div class="entry-actions">
+                        <a href="/enhancements?from_entry={{ entry.id }}" class="btn-small">Log as Enhancement</a>
+                        <span class="entry-timestamp">{{ entry.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
     {% else %}
-        <p>No weekly task reports recorded yet.</p>
+    <!-- Traditional table view -->
+    <table class="enhanced-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Project</th>
+                <th>Activity</th>
+                <th>Context / Excerpt</th>
+                <th>Macro Tasks</th>
+                <th>Overlooked</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in weekly_history %}
+            <tr class="{% if highlight_id and entry.id == highlight_id %}highlight-row{% endif %} activity-{{ entry.activity_type.value }}"
+                onclick="toggleRowDetails('{{ entry.id }}')">
+                <td class="date-cell">
+                    <div class="date-primary">{{ entry.created_at.strftime("%m/%d") }}</div>
+                    <div class="date-secondary">{{ entry.created_at.strftime("%H:%M") }}</div>
+                </td>
+                <td class="project-cell">
+                    <span class="project-name">{{ entry.project or "—" }}</span>
+                </td>
+                <td class="activity-cell">
+                    <span class="activity-badge">
+                        {{ entry.activity_type.icon }} {{ entry.activity_type.display_name }}
+                    </span>
+                </td>
+                <td class="content-cell">
+                    {% if entry.context %}
+                    <div class="context-line"><strong>Context:</strong> {{ entry.context[:80] }}{% if
+                        entry.context|length > 80 %}...{% endif %}</div>
+                    {% endif %}
+                    <div class="excerpt-line">{{ entry.input_excerpt[:100] }}{% if entry.input_excerpt|length > 100
+                        %}...{% endif %}</div>
+                </td>
+                <td class="tasks-cell">
+                    {% set macros = entry.generated_tasks %}
+                    {% if macros %}
+                    <div class="task-preview">{{ macros[0][:60] }}{% if macros[0]|length > 60 %}...{% endif %}</div>
+                    {% if macros|length > 1 %}
+                    <small class="task-count">+{{ macros|length - 1 }} more</small>
+                    {% endif %}
+                    {% else %}
+                    <em class="no-tasks">No tasks</em>
+                    {% endif %}
+                </td>
+                <td class="overlooked-cell">
+                    {% set overlooked = entry.overlooked_tasks %}
+                    {% if overlooked %}
+                    <div class="task-preview overlooked">{{ overlooked[0][:60] }}{% if overlooked[0]|length > 60 %}...{%
+                        endif %}</div>
+                    {% if overlooked|length > 1 %}
+                    <small class="task-count">+{{ overlooked|length - 1 }} more</small>
+                    {% endif %}
+                    {% else %}
+                    <em class="no-tasks">None</em>
+                    {% endif %}
+                </td>
+                <td class="actions-cell">
+                    <a href="/enhancements?from_entry={{ entry.id }}" class="action-link">📝</a>
+                    <button class="expand-btn" onclick="event.stopPropagation(); toggleRowDetails('{{ entry.id }}')"
+                        title="Toggle details">⋯</button>
+                </td>
+            </tr>
+            <tr class="row-details" id="row-details-{{ entry.id }}" style="display: none;">
+                <td colspan="7">
+                    <div class="expanded-content">
+                        {% if entry.context %}
+                        <div class="detail-section">
+                            <strong>Full Context:</strong> {{ entry.context }}
+                        </div>
+                        {% endif %}
+                        <div class="detail-section">
+                            <strong>Complete Excerpt:</strong> {{ entry.input_excerpt }}
+                        </div>
+                        <div class="detail-section">
+                            <strong>All Macro Tasks:</strong>
+                            {% if entry.generated_tasks %}
+                            <ul class="full-task-list">
+                                {% for task in entry.generated_tasks %}
+                                <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="detail-section">
+                            <strong>All Overlooked Tasks:</strong>
+                            {% if entry.overlooked_tasks %}
+                            <ul class="full-task-list overlooked">
+                                {% for task in entry.overlooked_tasks %}
+                                <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% else %}
+    <div class="empty-state">
+        <p>No weekly task reports match your current filters.</p>
+        <a href="/weekly-tasks">Clear filters to see all entries</a>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

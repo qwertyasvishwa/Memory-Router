@@ -36,35 +36,89 @@ There is **no local database** and **no local filesystem writes** – entries go
 
 4. Run the service:
 
-   ```bash
-   uvicorn app.main:app --reload
+   **Development mode (with auto-reload):**
+   ```powershell
+   # Using the management wrapper (recommended)
+   .\scripts\manage_service.ps1 start
+
+   # Or directly with uvicorn
+   python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+   ```
+
+   **Production mode:**
+   ```powershell
+   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
 5. Open the UI:
 
    - Web form: `http://localhost:8000/`
    - Session browse view: `http://localhost:8000/entries`
+   - Weekly task tracker: `http://localhost:8000/weekly-tasks`
    - Health check: `http://localhost:8000/health`
+
+## Development Scripts
+
+The `scripts/` folder contains PowerShell utilities for managing the development server:
+
+- **`manage_service.ps1`** - Main wrapper for start/stop/restart/status operations
+- **`start_dev_server.ps1`** - Starts uvicorn with --reload and writes PID to server.pid
+- **`stop_dev_server.ps1`** - Stops the server and cleans up PID file
+
+### Development Commands
+
+```powershell
+# Start server with auto-reload
+.\scripts\manage_service.ps1 start
+
+# Check server status
+.\scripts\manage_service.ps1 status
+
+# Restart server
+.\scripts\manage_service.ps1 restart
+
+# Stop server
+.\scripts\manage_service.ps1 stop
+```
+
+**Note:** If you encounter socket permission errors (WinError 10013) on port 8000, try:
+- Check for conflicting processes: `netstat -ano | Select-String ':8000'`
+- Start on alternate port: `.\scripts\manage_service.ps1 start -Port 8081`
 
 ### Keep the server running as a Windows Service
 
-If you want Memory Router to keep running after you close the terminal, one straightforward approach on Windows is to use [NSSM](https://nssm.cc/).
+For production deployments, use [NSSM](https://nssm.cc/) to run Memory Router as a Windows service:
 
 1. Download `nssm-2.24.zip`, extract it (e.g., `C:\tools\nssm-2.24\win64\nssm.exe`).
-2. Install the service from an elevated PowerShell prompt:
+
+2. Install the service using the management script (from elevated PowerShell):
 
    ```powershell
-   $python = (Get-Command python).Source
-   $nssm   = 'C:\tools\nssm-2.24\win64\nssm.exe'          # adjust if needed
-   $wd     = 'C:\Users\<you>\Documents\Project\Memory-Router'
+   # Install NSSM service
+   .\scripts\manage_service.ps1 install-nssm -NssmPath "C:\tools\nssm-2.24\win64\nssm.exe"
 
-   & $nssm install MemoryRouter $python "$wd\scripts\run_server.py --host 0.0.0.0 --port 8000 --log-level info"
-   & $nssm set MemoryRouter AppDirectory $wd
-   Set-Service MemoryRouter -StartupType Automatic
+   # Start the service
    Start-Service MemoryRouter
+
+   # Set to start automatically
+   Set-Service MemoryRouter -StartupType Automatic
    ```
 
-The `scripts/run_server.py` helper ensures the working directory is correct and lets you tweak host/port/log level later. Stop/restart with `Stop-Service MemoryRouter` / `Start-Service MemoryRouter`.
+3. Service management:
+
+   ```powershell
+   # Start/stop the service
+   Start-Service MemoryRouter
+   Stop-Service MemoryRouter
+
+   # Check service status
+   Get-Service MemoryRouter
+
+   # Uninstall service (if needed)
+   .\scripts\manage_service.ps1 uninstall-nssm -NssmPath "C:\tools\nssm-2.24\win64\nssm.exe"
+   ```
+
+**Important:** The NSSM service runs without `--reload` for stability. Service logs are written to `server-out.log` and `server-err.log` in the project root.
 
 ## API overview
 
@@ -93,10 +147,14 @@ The new weekly task tracker accepts product updates or notes via `/weekly-tasks`
 - Review prior tracker outputs via the UI table (now highlighting the latest entry after each submission) or `GET /api/weekly-tasks/history?limit=20`.
 - Tasks are deduplicated per project and ISO week, so reminders can resurface once you move into a new week or project without rewriting previous guidance.
 - The CSV log lives wherever `MR_WEEKLY_LOG_PATH` points (defaults to `weekly_tasks_log.csv` in the repo root) and is ignored by git so you can keep a persistent audit trail of tracked tasks.
+- Upload `.msg`/`.eml` Outlook updates directly into the tracker UI and click **Export full report to SharePoint** to create a Markdown snapshot under `reports/weekly-tracker/` in your configured drive.
+- Every entry captures an `activity_type` (`campaign_execution`, `product_design`, `engineering_delivery`, `training_enablement`, `ops_compliance`, `performance_reporting`). Filter the weekly list by project or activity type from the UI to zero in on specific workstreams.
 
 ## Enhancement log + recommendations
 
 Use `/enhancements` (or `POST /api/enhancements`) to record every change you ship, including the reason and expected impact. The service appends each entry to the CSV pointed to by `MR_ENHANCEMENT_LOG_PATH` (default `enhancements_log.csv`) and surfaces tailored improvement ideas via `/api/enhancements/suggestions`. Suggestions look at recent reasons, untouched areas, and high-signal tags to recommend the next best initiative.
+
+- Click **Export enhancement report to SharePoint** to publish a Markdown changelog (under `reports/enhancements/`) that captures every logged change with timestamps and references.
 
 ### Logging
 

@@ -1,12 +1,19 @@
 import io
 import logging
+from datetime import datetime, timezone
 from typing import List, Optional
 
-from fastapi import FastAPI, Form, HTTPException, Request, UploadFile, File, status
+from fastapi import FastAPI, Form, HTTPException, Query, Request, UploadFile, File, status
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .enhancements import EnhancementLogCreate, EnhancementLogEntry, EnhancementLogService, ImprovementSuggestion
+from .enhancements import (
+    EnhancementLogCreate,
+    EnhancementLogEntry,
+    EnhancementLogService,
+    ImprovementSuggestion,
+    build_enhancement_report,
+)
 from .config import get_settings
 from .ledger import ledger_service
 from .schemas import (
@@ -24,7 +31,15 @@ from .schemas import (
 )
 from .sharepoint_client import graph_client
 from .todos import todo_service
-from .weekly_tasks import WeeklyTaskSubmission, WeeklyTaskTracker, WeeklyTaskSummary, parse_outlook_email
+from .weekly_tasks import (
+    ActivityType,
+    WeeklyTaskSubmission,
+    WeeklyTaskTracker,
+    WeeklyTaskSummary,
+    build_weekly_report,
+    filter_entries,
+    parse_outlook_email,
+)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -197,33 +212,80 @@ async def create_todo(
 
 
 @app.get("/weekly-tasks", response_class=HTMLResponse)
-async def weekly_tasks_view(request: Request, highlight: Optional[str] = None) -> HTMLResponse:
-    history = weekly_tracker.history(limit=25)
+async def weekly_tasks_view(
+    request: Request,
+    highlight: Optional[str] = None,
+    project: Optional[str] = None,
+    activity_type: Optional[str] = None,
+    activity_types: Optional[List[str]] = Query(default=None),
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+    keyword: Optional[str] = None,
+    group_by: Optional[str] = None,
+) -> HTMLResponse:
+    from .weekly_tasks import get_project_summary, get_activity_summary
+
+    history = weekly_tracker.history(limit=200)
+
+    filtered_history = filter_entries(
+        history,
+        project=project,
+        activity_type=activity_type,
+        activity_types=activity_types,
+        date_from=date_from,
+        date_to=date_to,
+        keyword=keyword
+    )
+
+    # Get all unique projects for dropdown
+    all_projects = sorted(list(set([entry.project for entry in history if entry.project])))
+
+    # Generate summaries
+    project_summary = get_project_summary(filtered_history)
+    activity_summary = get_activity_summary(filtered_history)
+
     summary = None
     if highlight:
         summary = next((entry for entry in history if entry.id == highlight), None)
         if summary is None:
             summary = weekly_tracker.get_summary(highlight)
-    if not summary and history:
-        summary = history[0]
+    if not summary:
+        summary = filtered_history[0] if filtered_history else (history[0] if history else None)
     highlight_id = highlight or (summary.id if summary else None)
+    export_status = request.query_params.get("export")
+    export_item_id = request.query_params.get("item_id")
+
     return templates.TemplateResponse(
         "weekly_tasks.html",
         {
             "request": request,
             "weekly_summary": summary,
-            "weekly_history": history,
+            "weekly_history": filtered_history,
             "highlight_id": highlight_id,
+            "export_status": export_status,
+            "export_item_id": export_item_id,
+            "project_filter": project or "",
+            "activity_filter": activity_type or "",
+            "activity_types_filter": activity_types or [],
+            "date_from_filter": date_from or "",
+            "date_to_filter": date_to or "",
+            "keyword_filter": keyword or "",
+            "group_by": group_by or "",
+            "activity_types": list(ActivityType),
+            "all_projects": all_projects,
+            "project_summary": project_summary,
+            "activity_summary": activity_summary,
+            "total_entries": len(filtered_history),
         },
     )
 
 
 @app.post("/weekly-tasks", response_class=HTMLResponse)
 async def weekly_tasks_submit(
-    request: Request,
     project: Optional[str] = Form(default=None),
     context: Optional[str] = Form(default=None),
     update: Optional[str] = Form(default=None),
+    activity_type: ActivityType = Form(default=ActivityType.CAMPAIGN_EXECUTION),
     email_file: Optional[UploadFile] = File(default=None),
 ) -> HTMLResponse:
     submission: WeeklyTaskSubmission
@@ -234,6 +296,7 @@ async def weekly_tasks_submit(
             submission = WeeklyTaskSubmission(
                 project=project or parsed_project,
                 context=context or parsed_context,
+                activity_type=activity_type,
                 update=parsed_update,
             )
         except Exception as exc:
@@ -250,8 +313,9 @@ async def weekly_tasks_submit(
         submission = WeeklyTaskSubmission(
             project=project or None,
             context=context or None,
+            activity_type=activity_type,
             update=update,
-    )
+        )
     summary = weekly_tracker.process_update(submission)
     return RedirectResponse(
         url=f"/weekly-tasks?highlight={summary.id}",
@@ -259,14 +323,81 @@ async def weekly_tasks_submit(
     )
 
 
+@app.post("/weekly-tasks/export", response_class=HTMLResponse)
+async def weekly_tasks_export() -> HTMLResponse:
+    history = weekly_tracker.history(limit=500)
+    if not history:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No weekly tracker entries to export.")
+    report = build_weekly_report(history)
+    filename = f"weekly-tasks-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}.md"
+    try:
+        item_id = await graph_client.upload_text_document(
+            report,
+            filename=filename,
+            subfolder="reports/weekly-tracker",
+            content_type="text/markdown",
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Failed to upload weekly tracker export: {exc}",
+        ) from exc
+
+    return RedirectResponse(
+        url=f"/weekly-tasks?export=ok&item_id={item_id}",
+        status_code=status.HTTP_303_SEE_OTHER,
+    )
+
+
 @app.get("/weekly-tasks/list", response_class=HTMLResponse)
-async def weekly_tasks_list(request: Request) -> HTMLResponse:
-    history = weekly_tracker.history(limit=200)
+async def weekly_tasks_list(
+    request: Request,
+    project: Optional[str] = None,
+    activity_type: Optional[str] = None,
+    activity_types: Optional[List[str]] = Query(default=None),
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+    keyword: Optional[str] = None,
+    group_by: Optional[str] = None,
+) -> HTMLResponse:
+    from .weekly_tasks import get_project_summary, get_activity_summary
+
+    history = weekly_tracker.history(limit=500)
+
+    filtered_history = filter_entries(
+        history,
+        project=project,
+        activity_type=activity_type,
+        activity_types=activity_types,
+        date_from=date_from,
+        date_to=date_to,
+        keyword=keyword
+    )
+
+    # Get all unique projects for dropdown
+    all_projects = sorted(list(set([entry.project for entry in history if entry.project])))
+
+    # Generate summaries
+    project_summary = get_project_summary(filtered_history)
+    activity_summary = get_activity_summary(filtered_history)
+
     return templates.TemplateResponse(
         "weekly_tasks_list.html",
         {
             "request": request,
-            "weekly_history": history,
+            "weekly_history": filtered_history,
+            "project_filter": project or "",
+            "activity_filter": activity_type or "",
+            "activity_types_filter": activity_types or [],
+            "date_from_filter": date_from or "",
+            "date_to_filter": date_to or "",
+            "keyword_filter": keyword or "",
+            "group_by": group_by or "",
+            "activity_types": list(ActivityType),
+            "all_projects": all_projects,
+            "project_summary": project_summary,
+            "activity_summary": activity_summary,
+            "total_entries": len(filtered_history),
         },
     )
 
@@ -275,12 +406,16 @@ async def weekly_tasks_list(request: Request) -> HTMLResponse:
 async def enhancements_view(request: Request) -> HTMLResponse:
     entries = enhancement_log_service.list_entries(limit=50)
     suggestions = enhancement_log_service.generate_suggestions(limit=5)
+    export_status = request.query_params.get("export")
+    export_item_id = request.query_params.get("item_id")
     return templates.TemplateResponse(
         "enhancements.html",
         {
             "request": request,
             "entries": entries,
             "suggestions": suggestions,
+            "export_status": export_status,
+            "export_item_id": export_item_id,
         },
     )
 
@@ -307,6 +442,31 @@ async def enhancements_submit(
     )
     enhancement_log_service.record_entry(payload)
     return RedirectResponse(url="/enhancements", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.post("/enhancements/export", response_class=HTMLResponse)
+async def enhancements_export() -> HTMLResponse:
+    entries = enhancement_log_service.list_entries()
+    if not entries:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No enhancements to export.")
+    report = build_enhancement_report(entries)
+    filename = f"enhancements-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}.md"
+    try:
+        item_id = await graph_client.upload_text_document(
+            report,
+            filename=filename,
+            subfolder="reports/enhancements",
+            content_type="text/markdown",
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Failed to upload enhancement report: {exc}",
+        ) from exc
+    return RedirectResponse(
+        url=f"/enhancements?export=ok&item_id={item_id}",
+        status_code=status.HTTP_303_SEE_OTHER,
+    )
 
 
 @app.post("/ledger", response_class=HTMLResponse)

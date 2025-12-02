@@ -240,3 +240,31 @@ class EnhancementLogService:
                 break
 
         return suggestions[:limit]
+
+
+enhancement_log_service = EnhancementLogService()
+
+
+def build_enhancement_report(entries: List[EnhancementLogEntry]) -> str:
+    lines: List[str] = [
+        "# Enhancement Log Export",
+        "",
+        f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
+        f"Total enhancements: {len(entries)}",
+        "",
+    ]
+    for entry in reversed(entries):
+        lines.append(f"## {entry.title} ({entry.created_at.strftime('%Y-%m-%d %H:%M UTC')})")
+        lines.append(f"- **Area:** {entry.area}")
+        lines.append(f"- **Impact:** {entry.impact}")
+        lines.append(f"- **Reason:** {entry.reason}")
+        if entry.tags:
+            lines.append(f"- **Tags:** {', '.join(entry.tags)}")
+        if entry.links:
+            lines.append("- **References:**")
+            for link in entry.links:
+                lines.append(f"  - {link}")
+        lines.append("")
+        lines.append(entry.description)
+        lines.append("")
+    return "\n".join(lines)

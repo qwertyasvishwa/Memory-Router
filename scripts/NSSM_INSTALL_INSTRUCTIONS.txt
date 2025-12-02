@@ -1,0 +1,29 @@
+NSSM (Non-Sucking Service Manager) instructions to run Memory Router as a Windows service
+
+1. Download NSSM (https://nssm.cc/) and extract the executable (nssm.exe).
+
+2. Install the service (run in an elevated PowerShell terminal):
+
+   $python = (Get-Command python).Source
+   $nssm = 'C:\tools\nssm-2.24\win64\nssm.exe'   # adjust path where you extracted nssm
+   $wd = 'C:\Users\<you>\Documents\Project\Memory-Router'
+
+   & $nssm install MemoryRouter $python "-m uvicorn app.main:app --host 127.0.0.1 --port 8000 --log-level info"
+   & $nssm set MemoryRouter AppDirectory $wd
+   & $nssm set MemoryRouter AppStdout "$wd\\server-out.log"
+   & $nssm set MemoryRouter AppStderr "$wd\\server-err.log"
+
+3. Configure service to restart on failure (optional):
+
+   & $nssm set MemoryRouter Start SERVICE_AUTO_START
+   & $nssm set MemoryRouter AppRestartDelay 5000
+
+4. Start the service:
+
+   Start-Service MemoryRouter
+
+5. If you need to upgrade or run with --reload during development, it's better to use the dev PowerShell scripts (start_dev_server.ps1 / stop_dev_server.ps1) instead of running via NSSM because --reload spawns child processes and makes service supervision more complex.
+
+Notes:
+- For production, do NOT use --reload. Use NSSM or a Windows service wrapper to manage a single uvicorn process.
+- The start/stop scripts in the `scripts/` directory support safe start/stop during development.

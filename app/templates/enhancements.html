@@ -4,6 +4,15 @@
     <h2>Enhancement log</h2>
     <p>Capture every change in Memory Router along with the reason/impact so we can recommend the next best improvement automatically.</p>
     <p style="margin-top:0.25rem;"><a href="/enhancements/report">View single-page enhancement report</a></p>
+    {% if export_status %}
+        <div class="notice success">
+            Enhancement report exported to SharePoint.
+            {% if export_item_id %}Item ID: {{ export_item_id }}{% endif %}
+        </div>
+    {% endif %}
+    <form action="/enhancements/export" method="post" style="margin-bottom:1rem;">
+        <button type="submit">Export enhancement report to SharePoint</button>
+    </form>
     <form action="/enhancements" method="post">
         <label for="enh_title">Title</label>
         <input id="enh_title" name="title" type="text" required placeholder="e.g., Added enhancement tracker">

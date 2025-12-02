@@ -7,9 +7,10 @@ import tempfile
 from datetime import datetime, timezone
 from email import policy
 from email.parser import BytesParser
+from enum import Enum
 from pathlib import Path
 from threading import Lock
-from typing import Iterable, List, Optional, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Set, Tuple
 from uuid import uuid4
 
 from pydantic import BaseModel, Field, validator
@@ -22,6 +23,31 @@ except Exception:  # pragma: no cover - best-effort import
 logger = logging.getLogger(__name__)
 
 
+class ActivityType(str, Enum):
+    CAMPAIGN_EXECUTION = "campaign_execution"
+    PRODUCT_DESIGN = "product_design"
+    ENGINEERING_DELIVERY = "engineering_delivery"
+    TRAINING_ENABLEMENT = "training_enablement"
+    OPS_COMPLIANCE = "ops_compliance"
+    PERFORMANCE_REPORTING = "performance_reporting"
+
+    @property
+    def display_name(self) -> str:
+        return self.value.replace("_", " ").title()
+
+    @property
+    def icon(self) -> str:
+        icons = {
+            "campaign_execution": "📣",
+            "product_design": "🎨",
+            "engineering_delivery": "⚙️",
+            "training_enablement": "🎓",
+            "ops_compliance": "🛡️",
+            "performance_reporting": "📊"
+        }
+        return icons.get(self.value, "📋")
+
+
 class WeeklyTaskSubmission(BaseModel):
     project: Optional[str] = Field(
         default=None,
@@ -30,6 +56,10 @@ class WeeklyTaskSubmission(BaseModel):
     context: Optional[str] = Field(
         default=None,
         description="Optional context or source label for the update (weekly sync, e-mail, etc.).",
+    )
+    activity_type: ActivityType = Field(
+        default=ActivityType.CAMPAIGN_EXECUTION,
+        description="Categorizes the task for filtering/reporting.",
     )
     update: str = Field(..., description="Raw communication that should produce macro tasks.")
 
@@ -153,6 +183,7 @@ class WeeklyTaskSummary(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     project: Optional[str]
     context: Optional[str]
+    activity_type: ActivityType
     input_excerpt: str
     generated_tasks: List[str]
     overlooked_tasks: List[str]
@@ -164,6 +195,7 @@ class WeeklyTaskTracker:
         "id",
         "project",
         "context",
+        "activity_type",
         "input_excerpt",
         "generated_tasks",
         "overlooked_tasks",
@@ -190,6 +222,7 @@ class WeeklyTaskTracker:
         self._lock = Lock()
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
         self._ensure_log_file()
+        self._upgrade_log_file()
         self._tasks_seen: Set[str] = self._load_seen_tasks()
 
     def _ensure_log_file(self) -> None:
@@ -223,6 +256,24 @@ class WeeklyTaskTracker:
                     for task in tasks:
                         seen.add(self._seen_key(window, task))
         return seen
+
+    def _upgrade_log_file(self) -> None:
+        if not self.log_path.exists():
+            return
+        with self.log_path.open("r", newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            rows = list(reader)
+            fieldnames = reader.fieldnames
+        if fieldnames == self.LOG_COLUMNS:
+            return
+        with self.log_path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=self.LOG_COLUMNS)
+            writer.writeheader()
+            for row in rows:
+                row = row or {}
+                if "activity_type" not in row or not row["activity_type"]:
+                    row["activity_type"] = ActivityType.CAMPAIGN_EXECUTION.value
+                writer.writerow({column: row.get(column, "") for column in self.LOG_COLUMNS})
 
     @staticmethod
     def _normalize(text: str) -> str:
@@ -292,6 +343,7 @@ class WeeklyTaskTracker:
                     summary.id,
                     summary.project or "",
                     summary.context or "",
+                    summary.activity_type.value,
                     summary.input_excerpt,
                     json.dumps(summary.generated_tasks, ensure_ascii=False),
                     json.dumps(summary.overlooked_tasks, ensure_ascii=False),
@@ -332,6 +384,7 @@ class WeeklyTaskTracker:
             summary = WeeklyTaskSummary(
                 project=submission.project,
                 context=submission.context,
+                activity_type=submission.activity_type,
                 input_excerpt=excerpt,
                 generated_tasks=generated,
                 overlooked_tasks=overlooked,
@@ -376,14 +429,132 @@ class WeeklyTaskTracker:
             created = datetime.fromisoformat(row["timestamp"])
             generated = json.loads(row.get("generated_tasks") or "[]")
             overlooked = json.loads(row.get("overlooked_tasks") or "[]")
+            raw_activity = row.get("activity_type")
+            try:
+                activity = ActivityType(raw_activity) if raw_activity else ActivityType.CAMPAIGN_EXECUTION
+            except ValueError:
+                activity = ActivityType.CAMPAIGN_EXECUTION
             return WeeklyTaskSummary(
                 id=row["id"],
                 created_at=created,
-                project=row["project"] or None,
-                context=row["context"] or None,
+                project=row.get("project") or None,
+                context=row.get("context") or None,
+                activity_type=activity,
                 input_excerpt=row.get("input_excerpt", ""),
                 generated_tasks=generated,
                 overlooked_tasks=overlooked,
             )
         except (KeyError, ValueError, json.JSONDecodeError):
             return None
+
+
+def build_weekly_report(entries: List[WeeklyTaskSummary]) -> str:
+    lines: List[str] = [
+        "# Weekly Task Tracker Export",
+        "",
+        f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
+        f"Total entries: {len(entries)}",
+        "",
+    ]
+    for entry in reversed(entries):
+        header = entry.project or "General update"
+        lines.append(f"## {header} ({entry.created_at.strftime('%Y-%m-%d %H:%M UTC')})")
+        lines.append(f"*Activity type:* {entry.activity_type.value.replace('_', ' ').title()}")
+        if entry.context:
+            lines.append(f"**Context:** {entry.context}")
+        lines.append("")
+        lines.append("### Macro tasks")
+        for task in entry.generated_tasks:
+            lines.append(f"- {task}")
+        lines.append("")
+        lines.append("### Overlooked / missing tasks")
+        for task in entry.overlooked_tasks:
+            lines.append(f"- {task}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def filter_entries(
+    entries: List[WeeklyTaskSummary],
+    *,
+    project: Optional[str] = None,
+    activity_type: Optional[str] = None,
+    activity_types: Optional[List[str]] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+    keyword: Optional[str] = None,
+) -> List[WeeklyTaskSummary]:
+    from datetime import datetime
+
+    filtered = entries
+
+    # Project filter
+    if project:
+        term = project.lower()
+        filtered = [entry for entry in filtered if entry.project and term in entry.project.lower()]
+
+    # Activity type filter (single or multiple)
+    if activity_type:
+        try:
+            target = ActivityType(activity_type)
+            filtered = [entry for entry in filtered if entry.activity_type == target]
+        except ValueError:
+            pass
+    elif activity_types:
+        valid_types = []
+        for at in activity_types:
+            try:
+                valid_types.append(ActivityType(at))
+            except ValueError:
+                pass
+        if valid_types:
+            filtered = [entry for entry in filtered if entry.activity_type in valid_types]
+
+    # Date range filter
+    if date_from:
+        try:
+            from_date = datetime.fromisoformat(date_from.replace('Z', '+00:00'))
+            filtered = [entry for entry in filtered if entry.created_at >= from_date]
+        except ValueError:
+            pass
+
+    if date_to:
+        try:
+            to_date = datetime.fromisoformat(date_to.replace('Z', '+00:00'))
+            filtered = [entry for entry in filtered if entry.created_at <= to_date]
+        except ValueError:
+            pass
+
+    # Keyword search
+    if keyword:
+        term = keyword.lower()
+        filtered = [entry for entry in filtered if (
+            (entry.context and term in entry.context.lower()) or
+            (entry.project and term in entry.project.lower()) or
+            (entry.input_excerpt and term in entry.input_excerpt.lower()) or
+            any(term in task.lower() for task in entry.generated_tasks) or
+            any(term in task.lower() for task in entry.overlooked_tasks)
+        )]
+
+    return filtered
+
+
+def get_project_summary(entries: List[WeeklyTaskSummary]) -> Dict[str, Dict[str, int]]:
+    """Generate project-wise activity summary"""
+    from collections import defaultdict
+    summary: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
+
+    for entry in entries:
+        project = entry.project or "Uncategorized"
+        activity = entry.activity_type.value
+        summary[project][activity] += 1
+        summary[project]['total'] += 1
+
+    return dict(summary)
+
+
+def get_activity_summary(entries: List[WeeklyTaskSummary]) -> Dict[str, int]:
+    """Generate activity type summary"""
+    from collections import Counter
+    counter = Counter(entry.activity_type.value for entry in entries)
+    return dict(counter)
