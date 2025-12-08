@@ -28,10 +28,10 @@ function Get-ChildPids($parentPid) {
 }
 
 $toKill = @()
-foreach ($pid in $pids) {
-    if (Get-Process -Id $pid -ErrorAction SilentlyContinue) {
-        $toKill += $pid
-        $toKill += Get-ChildPids -parentPid $pid
+foreach ($rootPid in $pids) {
+    if (Get-Process -Id $rootPid -ErrorAction SilentlyContinue) {
+        $toKill += $rootPid
+        $toKill += Get-ChildPids -parentPid $rootPid
     }
 }
 
@@ -47,7 +47,8 @@ foreach ($k in $toKill) {
         Stop-Process -Id $k -Force -ErrorAction Stop
         Write-Host "Stopped PID $k"
     } catch {
-        Write-Host "Failed to stop PID $k: $($_.Exception.Message)"
+        $msg = $_.Exception.Message
+        Write-Host ("Failed to stop PID {0}: {1}" -f $k, $msg)
     }
 }
 

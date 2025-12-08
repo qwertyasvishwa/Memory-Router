@@ -289,7 +289,67 @@ class WeeklyTaskTracker:
             return ""
         first_word = sentence.split()[0]
         sentence_cased = sentence[0].upper() + sentence[1:]
-        if first_word.lower() in {"lead", "drive", "coordinate", "own", "ensure", "deliver", "ship", "validate", "plan", "oversee", "accelerate"}:
+        kra_verbs = {
+            "lead",
+            "drive",
+            "coordinate",
+            "own",
+            "ensure",
+            "deliver",
+            "ship",
+            "validate",
+            "plan",
+            "oversee",
+            "accelerate",
+            # Product-management style outcome verbs (past tense)
+            "defined",
+            "defining",
+            "reviewed",
+            "reviewing",
+            "refined",
+            "refining",
+            "finalized",
+            "finalised",
+            "finalising",
+            "captured",
+            "capturing",
+            "scoped",
+            "created",
+            "creating",
+            "designed",
+            "designing",
+            "drafted",
+            "drafting",
+            "organized",
+            "organised",
+            "standardized",
+            "standardised",
+            "updated",
+            "updating",
+            "revised",
+            "revising",
+            "prepared",
+            "preparing",
+            "completed",
+            "documented",
+            "prioritized",
+            "prioritised",
+            "initiated",
+            "initiating",
+            "aligned",
+            "aligning",
+            "launched",
+            "launching",
+            "rolled",
+            "rolling",
+            "partnered",
+            "partnering",
+            "collaborated",
+            "collaborating",
+            "clarified",
+            "clarifying",
+        }
+        if first_word.lower() in kra_verbs:
             return f"{sentence_cased}."
 
         return f"Drive {sentence_cased}."
@@ -314,9 +374,6 @@ class WeeklyTaskTracker:
                 if not cleaned:
                     continue
                 overrides.append(f"Ensure follow-up on {cleaned}.")
-        if not overrides:
-            base_target = project or "this initiative"
-            overrides.append(f"Confirm metrics, risks, and stakeholder alignment for {base_target} before the next sync.")
         return overrides
 
     def _record_new_task(self, task: str, *, window: str) -> bool:
@@ -368,17 +425,6 @@ class WeeklyTaskTracker:
                 if self._record_new_task(candidate, window=window):
                     overlooked.append(candidate)
 
-            if not generated:
-                generated = [
-                    "No new macro-level tasks detected beyond the items already tracked in the weekly tracker."
-                ]
-            if not overlooked:
-                fallback = (
-                    f"Reconfirm risks and dependencies for {submission.project or 'the initiative'} "
-                    "if they change in future updates."
-                )
-                overlooked.append(fallback)
-
             excerpt = text[:240]
 
             summary = WeeklyTaskSummary(
@@ -429,6 +475,24 @@ class WeeklyTaskTracker:
             created = datetime.fromisoformat(row["timestamp"])
             generated = json.loads(row.get("generated_tasks") or "[]")
             overlooked = json.loads(row.get("overlooked_tasks") or "[]")
+
+            # Strip generic boilerplate entries so the UI stays focused on meaningful KRAs.
+            generated = [
+                task
+                for task in generated
+                if task.strip()
+                and task.strip()
+                != "No new macro-level tasks detected beyond the items already tracked in the weekly tracker."
+            ]
+            overlooked = [
+                task
+                for task in overlooked
+                if task.strip()
+                and not (
+                    task.startswith("Reconfirm risks and dependencies for ")
+                    and task.endswith("if they change in future updates.")
+                )
+            ]
             raw_activity = row.get("activity_type")
             try:
                 activity = ActivityType(raw_activity) if raw_activity else ActivityType.CAMPAIGN_EXECUTION

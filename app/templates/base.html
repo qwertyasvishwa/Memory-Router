@@ -481,8 +481,18 @@
                 const now = new Date();
                 const fromDate = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
 
-                document.getElementById('filter_date_from').value = fromDate.toISOString().split('T')[0];
-                document.getElementById('filter_date_to').value = now.toISOString().split('T')[0];
+                const fromInput = document.getElementById('filter_date_from') || document.getElementById('list_date_from');
+                const toInput = document.getElementById('filter_date_to') || document.getElementById('list_date_to');
+
+                const fromValue = fromDate.toISOString().split('T')[0];
+                const toValue = now.toISOString().split('T')[0];
+
+                if (fromInput) {
+                    fromInput.value = fromValue;
+                }
+                if (toInput) {
+                    toInput.value = toValue;
+                }
             }
 
             // Auto-submit form when filters change (optional)

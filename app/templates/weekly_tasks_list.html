@@ -3,6 +3,7 @@
 <div class="card">
     <h2>Weekly tracker history</h2>
     <p>All generated macro tasks and overlooked actions in one place.</p>
+
     <!-- Enhanced Filter Bar for List View -->
     <div class="filters-section">
         <h4>Advanced Filters & Analysis</h4>
@@ -29,7 +30,7 @@
             <div class="filter-row">
                 <div class="filter-group">
                     <label for="list_project">Project</label>
-                    <select id="list_project" name="project">
+                    <select id="list_project" name="project" data-tom-select>
                         <option value="">All Projects</option>
                         {% for proj in all_projects %}
                         <option value="{{ proj }}" {% if project_filter==proj %}selected{% endif %}>
@@ -41,7 +42,7 @@
 
                 <div class="filter-group">
                     <label for="list_activity_types">Activity Types</label>
-                    <select id="list_activity_types" name="activity_types" multiple>
+                    <select id="list_activity_types" name="activity_types" multiple data-tom-select>
                         {% set selected_types = activity_types_filter or [] %}
                         {% for kind in activity_types %}
                         <option value="{{ kind.value }}" {% if kind.value in selected_types %}selected{% endif %}>
@@ -90,6 +91,7 @@
             </div>
         </form>
     </div>
+
     {% if weekly_history %}
     <table>
         <thead>
@@ -98,8 +100,8 @@
                 <th>Project</th>
                 <th>Context</th>
                 <th>Activity</th>
-                <th>Macro tasks</th>
-                <th>Overlooked</th>
+                <th>Key outcomes</th>
+                <th>Follow-ups / risks</th>
             </tr>
         </thead>
         <tbody>

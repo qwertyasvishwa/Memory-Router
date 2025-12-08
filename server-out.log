@@ -1,0 +1,39 @@
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60592 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60591 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60591 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60591 - "GET /weekly-tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63092 - "GET /weekly-tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63092 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63095 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63862 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63862 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63932 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63932 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63933 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63933 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64809 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64809 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:65148 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65148 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49390 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49390 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50081 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50081 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50212 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50212 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50218 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50218 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50353 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50353 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50521 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50521 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50524 - "GET /weekly-tasks/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50524 - "GET /favicon.ico HTTP/1.1" 404 Not Found

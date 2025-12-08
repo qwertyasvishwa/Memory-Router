@@ -12,7 +12,7 @@ param(
     [Parameter(Mandatory=$true)][ValidateSet('start','stop','restart','status','install-nssm','uninstall-nssm')] [string]$Action,
     [string]$BindHost = '127.0.0.1',
     [int]$Port = 8000,
-    [switch]$Reload = $true,
+    [bool]$Reload = $true,
     [string]$NssmPath = ''
 )
 
@@ -35,11 +35,8 @@ switch ($Action) {
         }
         $startScript = Join-Path $scriptDir 'start_dev_server.ps1'
         if (-not (Test-Path $startScript)) { Write-Error "Start script not found: $startScript"; break }
-        $args = @()
-        $args += '-BindHost'; $args += $BindHost
-        $args += '-Port'; $args += $Port
-        if ($Reload) { $args += '-Reload' }
-        Start-Process -FilePath powershell -ArgumentList ('-NoProfile','-ExecutionPolicy','Bypass','-File', $startScript) -WorkingDirectory (Get-Location).Path -PassThru | Out-Null
+        $argList = @('-NoProfile','-ExecutionPolicy','Bypass','-File', $startScript,'-BindHost', $BindHost,'-Port', $Port,'-Reload', $Reload)
+        Start-Process -FilePath powershell -ArgumentList $argList -WorkingDirectory (Get-Location).Path -PassThru | Out-Null
         Start-Sleep -Seconds 2
         if (Get-ServerPids) { Write-Host "Started server with PID(s): $(Get-ServerPids -join ',')" } else { Write-Error "Failed to start server - check server-out.log and server-err.log" }
     }
@@ -51,16 +48,16 @@ switch ($Action) {
     'restart' {
         & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir 'stop_dev_server.ps1')
         Start-Sleep -Seconds 1
-        & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir 'start_dev_server.ps1') -BindHost $BindHost -Port $Port -Reload:$Reload
+        & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir 'start_dev_server.ps1') -BindHost $BindHost -Port $Port -Reload $Reload
         Start-Sleep -Seconds 2
         if (Get-ServerPids) { Write-Host "Restarted server with PID(s): $(Get-ServerPids -join ',')" } else { Write-Error "Failed to restart server" }
     }
     'status' {
         $pids = Get-ServerPids
         if ($pids) {
-            foreach ($pid in $pids) {
-                $proc = Get-Process -Id $pid -ErrorAction SilentlyContinue
-                if ($proc) { Write-Host "PID $pid - Running - StartTime: $($proc.StartTime)" } else { Write-Host "PID $pid - Not running" }
+            foreach ($procId in $pids) {
+                $proc = Get-Process -Id $procId -ErrorAction SilentlyContinue
+                if ($proc) { Write-Host "PID $procId - Running - StartTime: $($proc.StartTime)" } else { Write-Host "PID $procId - Not running" }
             }
         } else {
             Write-Host "No server PID file found or server not running (no server.pid)"

@@ -1,2 +1,30 @@
 INFO:     Will watch for changes in these directories: ['C:\\Users\\vishwa.raj\\Documents\\Project\\Memory-Router']
-ERROR:    [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [39224] using WatchFiles
+INFO:     Started server process [49968]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\weekly_tasks.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [49968]
+INFO:     Started server process [39856]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\weekly_tasks.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [39856]
+INFO:     Started server process [23412]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\weekly_tasks.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23412]
+INFO:     Started server process [45716]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

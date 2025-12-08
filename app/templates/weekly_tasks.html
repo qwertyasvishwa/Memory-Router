@@ -58,14 +58,14 @@
     <p><strong>Activity type:</strong> {{ weekly_summary.activity_type.value.replace("_", " ").title() }}</p>
     <p><strong>Generated at:</strong> {{ weekly_summary.created_at.strftime("%Y-%m-%d %H:%M UTC") }}</p>
 
-    <h4>Macro-level tasks</h4>
+    <h4>Key outcomes (macro tasks)</h4>
     <ul>
         {% for task in weekly_summary.generated_tasks %}
         <li>{{ task }}</li>
         {% endfor %}
     </ul>
 
-    <h4>Overlooked or missing tasks</h4>
+    <h4>Follow-ups / at-risk items</h4>
     <ul>
         {% for task in weekly_summary.overlooked_tasks %}
         <li>{{ task }}</li>
@@ -258,8 +258,8 @@
                 <th>Project</th>
                 <th>Activity</th>
                 <th>Context / Excerpt</th>
-                <th>Macro Tasks</th>
-                <th>Overlooked</th>
+                <th>Key Outcomes</th>
+                <th>Follow-ups / Risks</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -328,7 +328,7 @@
                             <strong>Complete Excerpt:</strong> {{ entry.input_excerpt }}
                         </div>
                         <div class="detail-section">
-                            <strong>All Macro Tasks:</strong>
+                            <strong>All Key Outcomes:</strong>
                             {% if entry.generated_tasks %}
                             <ul class="full-task-list">
                                 {% for task in entry.generated_tasks %}
@@ -338,7 +338,7 @@
                             {% endif %}
                         </div>
                         <div class="detail-section">
-                            <strong>All Overlooked Tasks:</strong>
+                            <strong>All Follow-ups / Risks:</strong>
                             {% if entry.overlooked_tasks %}
                             <ul class="full-task-list overlooked">
                                 {% for task in entry.overlooked_tasks %}

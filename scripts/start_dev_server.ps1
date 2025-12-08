@@ -1,8 +1,10 @@
 param(
     [string]$BindHost = "127.0.0.1",
     [int]$Port = 8000,
-    [switch]$Reload = $true
+    [string]$Reload = "true"
 )
+
+$reloadFlag = [System.Convert]::ToBoolean($Reload)
 
 # Start the development uvicorn server with optional --reload and write PID to server.pid.
 # Usage: .\start_dev_server.ps1 -Host 127.0.0.1 -Port 8000 -Reload
@@ -17,7 +19,7 @@ if (-not $python) {
 }
 
  $args = @('-m', 'uvicorn', 'app.main:app', '--host', $BindHost, '--port', $Port.ToString())
-if ($Reload) { $args += '--reload' }
+if ($reloadFlag) { $args += '--reload' }
 
 # Prepare log files
 $stdout = Join-Path $scriptDir "..\server-out.log"
