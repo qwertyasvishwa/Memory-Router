@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    :root {
+        --cream-bg: #f4efe9;
+        --warm-beige: #e8dfd4;
+        --text-dark: #2c2416;
+        --green-primary: #4f8b2c;
+        --orange-accent: #d76c2f;
+    }
+
+    body {
+        background: var(--cream-bg);
+    }
+
+    .assets-hero {
+        background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 2px solid var(--warm-beige);
+    }
+
+    .assets-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 1rem 0;
+        background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .assets-hero p {
+        font-size: 1.2rem;
+        color: #5c5244;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .assets-quick-links {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.8rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .assets-quick-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: white;
+        color: var(--green-primary);
+        padding: 0.75rem 1.2rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 800;
+        border: 2px solid rgba(79, 139, 44, 0.25);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .assets-quick-links a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        background: rgba(79, 139, 44, 0.06);
+    }
+
+    .category-section {
+        margin-bottom: 3rem;
+    }
+
+    .category-header {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border-left: 5px solid var(--green-primary);
+    }
+
+    .category-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .category-icon {
+        font-size: 2rem;
+    }
+
+    .category-description {
+        font-size: 1rem;
+        color: #5c5244;
+        margin: 0;
+    }
+
+    .assets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .asset-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .asset-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border-color: var(--green-primary);
+    }
+
+    .asset-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .asset-format {
+        display: inline-block;
+        background: var(--green-primary);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+    }
+
+    .asset-description {
+        font-size: 0.95rem;
+        color: #5c5244;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .asset-actions {
+        display: flex;
+        gap: 0.8rem;
+    }
+
+    .btn-download {
+        flex: 1;
+        background: var(--green-primary);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        text-align: center;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid var(--green-primary);
+    }
+
+    .btn-download:hover {
+        background: #3d6e23;
+        transform: scale(1.02);
+    }
+
+    .btn-preview {
+        flex: 1;
+        background: transparent;
+        color: var(--green-primary);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        text-align: center;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid var(--green-primary);
+    }
+
+    .btn-preview:hover {
+        background: var(--green-primary);
+        color: white;
+    }
+
+    .sharepoint-cta {
+        background: linear-gradient(135deg, var(--green-primary) 0%, #3d6e23 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        color: white;
+        margin: 3rem 0;
+        box-shadow: 0 8px 24px rgba(79, 139, 44, 0.3);
+    }
+
+    .sharepoint-cta h3 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 1rem 0;
+    }
+
+    .sharepoint-cta p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto 1.5rem;
+    }
+
+    .btn-sharepoint {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: white;
+        color: var(--green-primary);
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-sharepoint:hover {
+        background: transparent;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .back-nav {
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--green-primary);
+        color: white;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(79, 139, 44, 0.3);
+    }
+
+    .btn-back:hover {
+        background: #3d6e23;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 139, 44, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .assets-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .assets-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .asset-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="assets-hero">
+    <h1>📦 Brand Assets Library</h1>
+    <p>
+        Download logos, packaging designs, marketing collateral, and brand guidelines. Everything you need to maintain
+        Happy Eats' visual identity.
+    </p>
+    <div class="assets-quick-links" aria-label="Quick links">
+        <a href="/static/happy-eats/collateral/social-posts/index.html" target="_blank">
+            📱 Social Posts Gallery
+        </a>
+        <a href="/static/happy-eats/collateral/social-posts/new-year-2026-variants.html" target="_blank">
+            🎆 New Year Generator
+        </a>
+        <a href="/static/happy-eats/collateral/index.html" target="_blank">
+            🧩 Collateral Gallery
+        </a>
+    </div>
+    {% if not happy_eats_logo_present %}
+    <div
+        style="margin-top: 1.25rem; display:inline-block; background: rgba(215,108,47,.10); border: 1px solid rgba(215,108,47,.35); color: #8f3f15; padding: .75rem 1rem; border-radius: 12px; font-weight: 700;">
+        Logo is missing/empty. <a href="/happy-eats/brand-logo"
+            style="color:#2c2416; text-decoration: underline;">Upload the real logo</a>
+        so it renders in collateral.
+    </div>
+    {% endif %}
+</div>
+
+{% for category in asset_categories %}
+<div class="category-section">
+    <div class="category-header">
+        <h2 class="category-title">
+            <span class="category-icon">{{ category.icon }}</span>
+            <span>{{ category.name }}</span>
+        </h2>
+        <p class="category-description">{{ category.description }}</p>
+    </div>
+
+    <div class="assets-grid">
+        {% for asset in category.assets %}
+        <div class="asset-card">
+            <h3 class="asset-name">{{ asset.name }}</h3>
+            <span class="asset-format">{{ asset.format }}</span>
+            <p class="asset-description">{{ asset.description }}</p>
+
+            <div class="asset-actions">
+                <a href="{{ asset.download_url }}" class="btn-download" download>
+                    ⬇️ Download
+                </a>
+                <a href="{{ asset.preview_url }}" class="btn-preview" target="_blank">
+                    👁️ Preview
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+
+<div class="sharepoint-cta">
+    <h3>🗂️ Need the Full Asset Library?</h3>
+    <p>
+        Access all brand files, high-res images, design templates, and more in our SharePoint workspace.
+        Browse the "Happy Eats" folder for complete archives.
+    </p>
+    <a href="/drive" class="btn-sharepoint">
+        <span>Open SharePoint Drive</span>
+        <span>→</span>
+    </a>
+</div>
+
+<div class="back-nav">
+    <a href="/happy-eats" class="btn-back">
+        <span>←</span>
+        <span>Back to Happy Eats Home</span>
+    </a>
+</div>
+
+{% endblock %}

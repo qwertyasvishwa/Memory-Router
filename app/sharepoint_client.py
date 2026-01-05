@@ -37,8 +37,10 @@ class GraphClient:
             result = self._app.acquire_token_for_client(
                 scopes=["https://graph.microsoft.com/.default"],
             )
-        if "access_token" not in result:
-            error = result.get("error_description", "unknown error")
+        if not isinstance(result, dict) or "access_token" not in result:
+            error = "unknown error"
+            if isinstance(result, dict):
+                error = str(result.get("error_description") or result.get("error") or error)
             logger.error("Graph token acquisition failed: %s", error)
             raise RuntimeError(f"Could not acquire Graph token: {error}")
         return str(result["access_token"])
@@ -156,10 +158,13 @@ class GraphClient:
         """
         Return drives the service principal can access.
 
-        We query:
-          - the configured drive (so it always shows up)
-          - /me/drives (OneDrive + SharePoint favorites for the signed-in account)
-          - optionally the configured site (if site_id provided)
+                We query:
+                    - the configured drive (so it always shows up)
+                    - optionally the configured site drives (if site_id provided)
+
+                Note: this service uses client credentials (app-only). Endpoints under
+                /me/* require delegated user auth and will return 400/401 in app-only
+                contexts, so we intentionally do NOT call /me/drives here.
         """
         token = self._acquire_token()
         headers = {"Authorization": f"Bearer {token}"}
@@ -178,9 +183,7 @@ class GraphClient:
             except Exception:
                 pass
 
-            endpoints = [
-                "https://graph.microsoft.com/v1.0/me/drives",
-            ]
+            endpoints: List[str] = []
             if self.settings.site_id:
                 endpoints.append(
                     f"https://graph.microsoft.com/v1.0/sites/{self.settings.site_id}/drives"

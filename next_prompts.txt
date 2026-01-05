@@ -1,0 +1,100 @@
+================================================================================
+NEXT IMPLEMENTATION PROMPTS FOR VS CODE COPILOT
+================================================================================
+
+Generated: 2026-01-01 17:08:55
+Progress: 0/14 completed
+
+================================================================================
+PROMPT 1 of 2
+================================================================================
+
+## Task #1: Install React and frontend dependencies
+
+**Category:** setup
+**Priority:** critical
+**Estimated Time:** 15 minutes
+
+Install React frontend dependencies for the AI Tools Creation Application.
+
+Requirements:
+- Create a new React app using Vite in the 'frontend' directory
+- Install required packages: react, react-dom, react-router-dom, axios, tailwindcss
+- Set up Tailwind CSS for premium minimal design system
+- Configure proxy to FastAPI backend (port 8000)
+- Create basic folder structure: src/components, src/pages, src/services, src/styles
+- Add TypeScript support for better type safety
+
+Commands to run:
+npm create vite@latest frontend -- --template react-ts
+cd frontend
+npm install react-router-dom axios
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+Create package.json with proxy configuration to http://localhost:8000
+
+**Acceptance Criteria:**
+
+- frontend/ directory created with Vite + React + TypeScript
+- Tailwind CSS configured
+- npm run dev starts development server
+- Proxy to backend configured
+
+**Files to Create:**
+- frontend/package.json
+- frontend/vite.config.ts
+- frontend/tailwind.config.js
+- frontend/src/App.tsx
+- frontend/src/main.tsx
+
+
+Please implement this task now.
+
+================================================================================
+PROMPT 2 of 2
+================================================================================
+
+## Task #2: Set up Azure OpenAI integration in backend
+
+**Category:** ai_integration
+**Priority:** critical
+**Estimated Time:** 30 minutes
+
+Add Azure OpenAI integration to the FastAPI backend for AI-powered content generation.
+
+Requirements:
+- Install openai Python package (pip install openai)
+- Create app/ai_client.py with AzureOpenAIClient class
+- Add environment variables: AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT
+- Implement methods: generate_social_post(), generate_prd(), generate_image_prompt()
+- Add retry logic and error handling
+- Include token usage tracking
+- Add streaming support for real-time responses
+
+The client should support:
+1. Content generation (GPT-4)
+2. Image generation (DALL-E 3)
+3. Prompt caching for efficiency
+4. Rate limiting and quota management
+
+Update app/config.py to include Azure OpenAI settings.
+Add requirements.txt entry: openai>=1.0.0
+
+**Acceptance Criteria:**
+
+- app/ai_client.py created with AzureOpenAIClient
+- Environment variables configured
+- Test endpoint /api/ai/test returns successful response
+- Error handling and retry logic implemented
+
+**Files to Create:**
+- app/ai_client.py
+
+**Files to Modify:**
+- app/config.py
+- requirements.txt
+
+
+Please implement this task now.
+

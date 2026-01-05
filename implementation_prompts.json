@@ -1,0 +1,412 @@
+{
+  "generated_at": "2026-01-01T17:07:01.723102",
+  "total_prompts": 14,
+  "prompts": [
+    {
+      "id": 1,
+      "title": "Install React and frontend dependencies",
+      "category": "setup",
+      "priority": "critical",
+      "prompt": "Install React frontend dependencies for the AI Tools Creation Application.\n\nRequirements:\n- Create a new React app using Vite in the 'frontend' directory\n- Install required packages: react, react-dom, react-router-dom, axios, tailwindcss\n- Set up Tailwind CSS for premium minimal design system\n- Configure proxy to FastAPI backend (port 8000)\n- Create basic folder structure: src/components, src/pages, src/services, src/styles\n- Add TypeScript support for better type safety\n\nCommands to run:\nnpm create vite@latest frontend -- --template react-ts\ncd frontend\nnpm install react-router-dom axios\nnpm install -D tailwindcss postcss autoprefixer\nnpx tailwindcss init -p\n\nCreate package.json with proxy configuration to http://localhost:8000",
+      "dependencies": [],
+      "estimated_time": "15 minutes",
+      "acceptance_criteria": [
+        "frontend/ directory created with Vite + React + TypeScript",
+        "Tailwind CSS configured",
+        "npm run dev starts development server",
+        "Proxy to backend configured"
+      ],
+      "files_to_create": [
+        "frontend/package.json",
+        "frontend/vite.config.ts",
+        "frontend/tailwind.config.js",
+        "frontend/src/App.tsx",
+        "frontend/src/main.tsx"
+      ],
+      "files_to_modify": []
+    },
+    {
+      "id": 2,
+      "title": "Set up Azure OpenAI integration in backend",
+      "category": "ai_integration",
+      "priority": "critical",
+      "prompt": "Add Azure OpenAI integration to the FastAPI backend for AI-powered content generation.\n\nRequirements:\n- Install openai Python package (pip install openai)\n- Create app/ai_client.py with AzureOpenAIClient class\n- Add environment variables: AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_KEY, AZURE_OPENAI_DEPLOYMENT\n- Implement methods: generate_social_post(), generate_prd(), generate_image_prompt()\n- Add retry logic and error handling\n- Include token usage tracking\n- Add streaming support for real-time responses\n\nThe client should support:\n1. Content generation (GPT-4)\n2. Image generation (DALL-E 3)\n3. Prompt caching for efficiency\n4. Rate limiting and quota management\n\nUpdate app/config.py to include Azure OpenAI settings.\nAdd requirements.txt entry: openai>=1.0.0",
+      "dependencies": [],
+      "estimated_time": "30 minutes",
+      "acceptance_criteria": [
+        "app/ai_client.py created with AzureOpenAIClient",
+        "Environment variables configured",
+        "Test endpoint /api/ai/test returns successful response",
+        "Error handling and retry logic implemented"
+      ],
+      "files_to_create": [
+        "app/ai_client.py"
+      ],
+      "files_to_modify": [
+        "app/config.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Create modular React component architecture",
+      "category": "frontend",
+      "priority": "high",
+      "prompt": "Build the modular component architecture for the AI Tools Creation dashboard.\n\nCreate these React components with TypeScript:\n\n1. **Layout Components:**\n   - src/components/Layout/DashboardLayout.tsx - Main layout with sidebar\n   - src/components/Layout/Header.tsx - Top navigation bar\n   - src/components/Layout/Sidebar.tsx - Modular tool navigation\n\n2. **Dashboard Components:**\n   - src/components/Dashboard/ProjectCard.tsx - Project display card\n   - src/components/Dashboard/ProjectGrid.tsx - Grid layout for projects\n   - src/components/Dashboard/ModuleGrid.tsx - Dynamic module loader\n\n3. **Tool Module Components:**\n   - src/components/Modules/ContentGenerator.tsx - AI content generation\n   - src/components/Modules/DesignPreview.tsx - Visual preview panel\n   - src/components/Modules/ProjectManager.tsx - Project CRUD operations\n\n4. **Shared Components:**\n   - src/components/UI/Card.tsx - Reusable card component\n   - src/components/UI/Button.tsx - Premium button styles\n   - src/components/UI/Input.tsx - Form input components\n\nApply premium minimal design:\n- Clean layouts with generous whitespace\n- Neutral colors: #FFFFFF, #333333, accent #0366d6\n- Modern typography: system-ui font stack\n- Subtle shadows and hover states\n- Responsive design (desktop + tablet)\n\nEach component should be independently importable and follow composition patterns.",
+      "dependencies": [
+        1
+      ],
+      "estimated_time": "90 minutes",
+      "acceptance_criteria": [
+        "All components created with TypeScript interfaces",
+        "Components follow premium minimal design principles",
+        "Each component is independently usable",
+        "Storybook or component preview available"
+      ],
+      "files_to_create": [
+        "frontend/src/components/Layout/DashboardLayout.tsx",
+        "frontend/src/components/Layout/Header.tsx",
+        "frontend/src/components/Layout/Sidebar.tsx",
+        "frontend/src/components/Dashboard/ProjectCard.tsx",
+        "frontend/src/components/Dashboard/ProjectGrid.tsx",
+        "frontend/src/components/Dashboard/ModuleGrid.tsx",
+        "frontend/src/components/Modules/ContentGenerator.tsx",
+        "frontend/src/components/Modules/DesignPreview.tsx",
+        "frontend/src/components/Modules/ProjectManager.tsx",
+        "frontend/src/components/UI/Card.tsx",
+        "frontend/src/components/UI/Button.tsx",
+        "frontend/src/components/UI/Input.tsx"
+      ],
+      "files_to_modify": []
+    },
+    {
+      "id": 4,
+      "title": "Implement template engine for brand consistency",
+      "category": "backend",
+      "priority": "high",
+      "prompt": "Create a template engine system for consistent branding across all generated content.\n\nBuild app/template_engine.py with:\n\n1. **BrandIdentity class:**\n   - Properties: logo_url, primary_color, secondary_color, font_family, accent_color\n   - Load from project configuration\n   - Support multiple brand profiles (e.g., Happy Eats, Vishwa OS)\n\n2. **TemplateEngine class:**\n   - render_social_post(content, brand, layout_type) - Returns HTML/image\n   - render_prd(content, brand) - Returns formatted document\n   - apply_brand_theme(template, brand) - Injects brand variables\n   - generate_preview_html(content, brand) - For real-time preview\n\n3. **Template Types:**\n   - Social media posts (Instagram square, LinkedIn banner, Twitter card)\n   - PRD documents (structured markdown with brand header)\n   - Email templates\n   - Presentation slides\n\n4. **Storage:**\n   - Store brand configs in app/brands/ directory as JSON\n   - Store HTML templates in app/templates/content/ directory\n   - Cache rendered templates for performance\n\nIntegration:\n- Add FastAPI endpoint: POST /api/templates/render\n- Support Jinja2 template syntax with brand variables\n- Return both HTML and downloadable image formats (JPG, PNG)\n\nInstall: Pillow for image generation, jinja2 (already installed)",
+      "dependencies": [],
+      "estimated_time": "60 minutes",
+      "acceptance_criteria": [
+        "app/template_engine.py created with BrandIdentity and TemplateEngine",
+        "Sample brand configs created (Happy Eats, default)",
+        "Templates render with brand colors and logos",
+        "API endpoint /api/templates/render functional"
+      ],
+      "files_to_create": [
+        "app/template_engine.py",
+        "app/brands/happy_eats.json",
+        "app/brands/default.json",
+        "app/templates/content/social_post.html",
+        "app/templates/content/prd.html"
+      ],
+      "files_to_modify": [
+        "requirements.txt",
+        "app/main.py"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Build AI content generation API endpoints",
+      "category": "ai_integration",
+      "priority": "high",
+      "prompt": "Create FastAPI endpoints for AI-powered content generation.\n\nAdd to app/main.py:\n\n1. **POST /api/ai/generate/social-post**\n   - Input: { project_id, theme, platform, brand_guidelines }\n   - Uses Azure OpenAI to generate post series (3-5 posts)\n   - Applies brand template\n   - Returns: { posts: [], preview_urls: [] }\n\n2. **POST /api/ai/generate/prd**\n   - Input: { project_id, feature_description, requirements }\n   - Generates structured PRD document\n   - Includes: overview, user stories, acceptance criteria, technical specs\n   - Returns formatted markdown + PDF download link\n\n3. **POST /api/ai/generate/image**\n   - Input: { prompt, style, brand_id }\n   - Uses DALL-E 3 for image generation\n   - Applies brand colors/style\n   - Returns image URL and downloadable formats\n\n4. **GET /api/ai/suggestions**\n   - Input: project_id\n   - Analyzes project documents\n   - Suggests next content to create\n   - Returns: { suggestions: [{ type, title, reason }] }\n\nError handling:\n- Rate limit protection (429 errors)\n- Token quota management\n- Graceful degradation if AI unavailable\n- Progress tracking for long-running generations\n\nAdd streaming support for real-time generation feedback.\nLog all AI requests to ledger for audit trail.",
+      "dependencies": [
+        2,
+        4
+      ],
+      "estimated_time": "75 minutes",
+      "acceptance_criteria": [
+        "All 4 endpoints implemented and tested",
+        "AI client integration working",
+        "Template engine applied to outputs",
+        "Error handling covers edge cases",
+        "Streaming responses functional"
+      ],
+      "files_to_create": [],
+      "files_to_modify": [
+        "app/main.py",
+        "app/ai_client.py",
+        "app/schemas.py"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Create project management system with folder structure",
+      "category": "backend",
+      "priority": "high",
+      "prompt": "Build comprehensive project management system with SharePoint folder organization.\n\nCreate app/project_manager.py with:\n\n1. **Project class:**\n   - Properties: id, name, description, brand_id, created_at, folder_path\n   - Methods: create_folder_structure(), list_inputs(), list_outputs()\n\n2. **ProjectManager service:**\n   - create_project(name, description, brand_id) - Creates SharePoint folder structure\n   - get_project(project_id) - Retrieves project with all metadata\n   - list_projects() - Returns all projects with stats\n   - delete_project(project_id) - Archives project\n   - upload_input_document(project_id, file) - Stores source materials\n   - get_outputs(project_id, type) - Lists generated content\n\n3. **SharePoint Folder Structure:**\n   ```\n   /Projects/{project_name}/\n     /inputs/              # Brand guidelines, source docs\n     /outputs/\n       /social-posts/      # Generated social media content\n       /prds/              # Product requirement documents\n       /images/            # Generated visuals\n     /config/\n       brand.json          # Project-specific brand config\n     metadata.json         # Project metadata\n   ```\n\n4. **API Endpoints:**\n   - POST /api/projects - Create new project\n   - GET /api/projects - List all projects\n   - GET /api/projects/{id} - Get project details\n   - PUT /api/projects/{id} - Update project\n   - DELETE /api/projects/{id} - Archive project\n   - POST /api/projects/{id}/inputs - Upload input files\n   - GET /api/projects/{id}/outputs - List generated outputs\n\nIntegration with existing SharePoint client (app/sharepoint_client.py).\nAdd project caching for performance.",
+      "dependencies": [],
+      "estimated_time": "90 minutes",
+      "acceptance_criteria": [
+        "app/project_manager.py created with Project and ProjectManager",
+        "SharePoint folder structure auto-created on project creation",
+        "All CRUD endpoints functional",
+        "Project metadata persisted to SharePoint",
+        "Input/output file management working"
+      ],
+      "files_to_create": [
+        "app/project_manager.py"
+      ],
+      "files_to_modify": [
+        "app/main.py",
+        "app/schemas.py",
+        "app/sharepoint_client.py"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Build design preview and download system",
+      "category": "backend",
+      "priority": "medium",
+      "prompt": "Create real-time design preview and export system for generated content.\n\nBuild app/preview_generator.py with:\n\n1. **PreviewGenerator class:**\n   - generate_html_preview(content, template, brand) - Renders HTML preview\n   - generate_image(html, format='png', size=(1080, 1080)) - Converts HTML to image\n   - generate_pdf(content) - Creates PDF from content\n   - create_thumbnail(image, size=(300, 300)) - Generates preview thumbnails\n\n2. **Image Export Formats:**\n   - PNG (lossless, transparent background support)\n   - JPG (compressed, social media ready)\n   - WebP (modern format, smaller files)\n   - PDF (documents and PRDs)\n\n3. **Canvas/HTML Rendering:**\n   - Use Playwright or similar for HTML to image conversion\n   - Support custom dimensions per platform (Instagram: 1080x1080, Twitter: 1200x675)\n   - Apply brand overlays (logos, watermarks)\n   - High-resolution export (2x, 3x for retina displays)\n\n4. **API Endpoints:**\n   - POST /api/preview/generate - Generate preview from content\n   - GET /api/preview/{preview_id} - Get preview HTML\n   - GET /api/preview/{preview_id}/download - Download as image/PDF\n   - POST /api/preview/batch - Generate multiple previews\n\n5. **Caching Strategy:**\n   - Cache generated images in SharePoint /outputs/ folders\n   - Store preview URLs in project metadata\n   - Invalidate cache on content update\n\nRequirements:\n- Install: pillow, playwright (or imgkit, wkhtmltoimage)\n- Support background jobs for slow generation\n- Progress tracking via websockets or polling\n\nReturn structure: { preview_url, download_urls: {png, jpg, pdf}, thumbnail_url }",
+      "dependencies": [
+        4
+      ],
+      "estimated_time": "120 minutes",
+      "acceptance_criteria": [
+        "HTML to image conversion working",
+        "Multiple export formats supported (PNG, JPG, PDF)",
+        "Download endpoints functional",
+        "Preview thumbnails generated",
+        "High-resolution exports available"
+      ],
+      "files_to_create": [
+        "app/preview_generator.py"
+      ],
+      "files_to_modify": [
+        "app/main.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Connect React frontend to backend APIs",
+      "category": "frontend",
+      "priority": "high",
+      "prompt": "Create API service layer and connect React components to FastAPI backend.\n\nBuild frontend/src/services/:\n\n1. **api.ts** - Axios configuration\n   - Base URL: http://localhost:8000\n   - Request/response interceptors\n   - Error handling wrapper\n   - Token management (if auth added later)\n\n2. **projectService.ts:**\n   - createProject(data)\n   - getProjects()\n   - getProject(id)\n   - updateProject(id, data)\n   - deleteProject(id)\n   - uploadInput(projectId, file)\n   - getOutputs(projectId)\n\n3. **aiService.ts:**\n   - generateSocialPost(data)\n   - generatePRD(data)\n   - generateImage(data)\n   - getSuggestions(projectId)\n\n4. **previewService.ts:**\n   - generatePreview(content, template, brand)\n   - downloadAsset(previewId, format)\n   - getPreview(previewId)\n\n5. **React Query Integration:**\n   - Install @tanstack/react-query\n   - Create hooks: useProjects(), useProject(id), useAIGenerate()\n   - Implement caching and optimistic updates\n   - Handle loading and error states\n\n6. **State Management:**\n   - Use Context API or Zustand for global state\n   - Store: current project, active modules, user preferences\n   - Persist state to localStorage\n\nUpdate components to use API hooks:\n- ProjectGrid uses useProjects()\n- ContentGenerator uses useAIGenerate()\n- DesignPreview uses usePreview()\n\nAdd loading spinners and error boundaries for better UX.",
+      "dependencies": [
+        3,
+        5,
+        6
+      ],
+      "estimated_time": "90 minutes",
+      "acceptance_criteria": [
+        "All API services created with TypeScript types",
+        "React Query configured and working",
+        "Components fetch and display data from backend",
+        "Loading and error states handled gracefully",
+        "Optimistic updates for better UX"
+      ],
+      "files_to_create": [
+        "frontend/src/services/api.ts",
+        "frontend/src/services/projectService.ts",
+        "frontend/src/services/aiService.ts",
+        "frontend/src/services/previewService.ts",
+        "frontend/src/hooks/useProjects.ts",
+        "frontend/src/hooks/useAI.ts",
+        "frontend/src/types/index.ts"
+      ],
+      "files_to_modify": [
+        "frontend/src/components/Dashboard/ProjectGrid.tsx",
+        "frontend/src/components/Modules/ContentGenerator.tsx",
+        "frontend/src/components/Modules/DesignPreview.tsx",
+        "frontend/package.json"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Implement premium design system with micro-interactions",
+      "category": "ui_ux",
+      "priority": "medium",
+      "prompt": "Apply premium minimal design principles with emotional design elements.\n\nCreate frontend/src/styles/design-system.ts:\n\n1. **Design Tokens:**\n   ```typescript\n   export const colors = {\n     white: '#FFFFFF',\n     charcoal: '#333333',\n     gray: { 50: '#F9FAFB', 100: '#F3F4F6', ... },\n     accent: '#0366d6',\n     success: '#10B981',\n     error: '#EF4444',\n   };\n\n   export const typography = {\n     fontFamily: 'Inter, system-ui, -apple-system, sans-serif',\n     fontSize: { xs: '12px', sm: '14px', base: '16px', lg: '18px', xl: '24px' },\n     fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },\n   };\n\n   export const spacing = { xs: '4px', sm: '8px', md: '16px', lg: '24px', xl: '32px' };\n   export const borderRadius = { sm: '4px', md: '8px', lg: '12px', full: '9999px' };\n   export const shadows = {\n     sm: '0 1px 3px rgba(0, 0, 0, 0.08)',\n     md: '0 4px 6px rgba(0, 0, 0, 0.1)',\n     lg: '0 10px 15px rgba(0, 0, 0, 0.15)',\n   };\n   ```\n\n2. **Micro-Interactions:**\n   - Hover states: scale(1.02), brightness(1.1)\n   - Button press: scale(0.98)\n   - Card hover: shadow elevation increase\n   - Loading animations: smooth spinner, skeleton screens\n   - Success animations: checkmark fade-in, confetti\n   - Transition timing: cubic-bezier(0.4, 0.0, 0.2, 1)\n\n3. **Component Enhancements:**\n   - Button.tsx: Add ripple effect, loading state, icon support\n   - Card.tsx: Hover lift animation, interactive states\n   - Input.tsx: Focus glow, validation animations\n   - Modal.tsx: Smooth backdrop fade, slide-in content\n\n4. **Emotional Feedback:**\n   - Success messages: \"Your design is ready! 🎉\"\n   - Error messages: \"Oops! Something went wrong. Let's try that again.\"\n   - Empty states: Encouraging illustrations and helpful CTAs\n   - Tooltips: Contextual help on hover\n\n5. **Accessibility:**\n   - ARIA labels on all interactive elements\n   - Keyboard navigation support (Tab, Enter, Escape)\n   - Focus visible indicators\n   - Screen reader announcements for state changes\n\n6. **Responsive Design:**\n   - Breakpoints: mobile (< 640px), tablet (< 1024px), desktop (>= 1024px)\n   - Fluid typography and spacing\n   - Touch-friendly targets (min 44px x 44px)\n\nInstall framer-motion for advanced animations.\nCreate Storybook stories for all components.",
+      "dependencies": [
+        3
+      ],
+      "estimated_time": "120 minutes",
+      "acceptance_criteria": [
+        "Design system tokens created and exported",
+        "All components use design tokens",
+        "Micro-interactions implemented (hover, press, etc.)",
+        "Accessibility requirements met (ARIA, keyboard nav)",
+        "Responsive design working across devices",
+        "Emotional feedback messages in place"
+      ],
+      "files_to_create": [
+        "frontend/src/styles/design-system.ts",
+        "frontend/src/styles/animations.ts",
+        "frontend/src/components/Feedback/SuccessMessage.tsx",
+        "frontend/src/components/Feedback/ErrorMessage.tsx",
+        "frontend/src/components/Feedback/EmptyState.tsx"
+      ],
+      "files_to_modify": [
+        "frontend/src/components/UI/Button.tsx",
+        "frontend/src/components/UI/Card.tsx",
+        "frontend/src/components/UI/Input.tsx",
+        "frontend/tailwind.config.js",
+        "frontend/package.json"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Build content generation workflow with guided steps",
+      "category": "frontend",
+      "priority": "medium",
+      "prompt": "Create guided multi-step workflow for AI content generation with cognitive clarity.\n\nBuild frontend/src/components/Workflows/ContentGenerationWizard.tsx:\n\n1. **Wizard Steps:**\n   - Step 1: Select Project\n     * Display project cards\n     * Option to create new project\n     * Show project stats (inputs uploaded, outputs generated)\n\n   - Step 2: Choose Content Type\n     * Social media posts (Instagram, LinkedIn, Twitter)\n     * PRD document\n     * Marketing email\n     * Custom template\n\n   - Step 3: Provide Inputs\n     * Upload brand guidelines (drag & drop)\n     * Enter content theme/topic\n     * Select tone (professional, casual, enthusiastic)\n     * Target audience specification\n\n   - Step 4: Configure Brand\n     * Select brand profile or create new\n     * Preview brand colors and typography\n     * Upload logo (optional)\n\n   - Step 5: Generate & Review\n     * AI generation progress indicator\n     * Real-time preview as content generates\n     * Edit generated content\n     * Regenerate individual items\n\n   - Step 6: Download & Export\n     * Preview all formats (PNG, JPG, PDF)\n     * Bulk download option\n     * Share to project outputs folder\n     * Copy to clipboard\n\n2. **Progress Tracking:**\n   - Visual stepper component (1 → 2 → 3 → 4 → 5 → 6)\n   - Save draft at each step\n   - \"Back\" and \"Next\" navigation\n   - Skip optional steps\n   - Progress percentage (e.g., \"Step 3 of 6 - 50% complete\")\n\n3. **Smart Defaults:**\n   - Pre-fill from last generation\n   - Suggest content types based on project\n   - Auto-detect brand from uploaded guidelines\n   - Remember user preferences\n\n4. **Validation:**\n   - Required fields clearly marked\n   - Inline error messages\n   - Prevent advancement with incomplete data\n   - Helpful hints: \"Tip: Upload at least one brand guideline for best results\"\n\n5. **Keyboard Shortcuts:**\n   - Ctrl+Enter: Advance to next step\n   - Ctrl+B: Go back\n   - Ctrl+S: Save draft\n   - Escape: Cancel and return to dashboard\n\nBuild supporting components:\n- Stepper.tsx - Visual progress indicator\n- DragDropZone.tsx - File upload area\n- ProgressBar.tsx - Generation progress\n- PreviewPanel.tsx - Real-time content preview\n\nUse React Hook Form for form management and validation.",
+      "dependencies": [
+        3,
+        8
+      ],
+      "estimated_time": "120 minutes",
+      "acceptance_criteria": [
+        "6-step wizard functional with navigation",
+        "All steps have proper validation",
+        "Progress saved at each step",
+        "Keyboard shortcuts working",
+        "Smart defaults and suggestions implemented",
+        "Responsive design for tablet/desktop"
+      ],
+      "files_to_create": [
+        "frontend/src/components/Workflows/ContentGenerationWizard.tsx",
+        "frontend/src/components/Workflows/Stepper.tsx",
+        "frontend/src/components/UI/DragDropZone.tsx",
+        "frontend/src/components/UI/ProgressBar.tsx",
+        "frontend/src/components/Preview/PreviewPanel.tsx"
+      ],
+      "files_to_modify": [
+        "frontend/src/components/Modules/ContentGenerator.tsx",
+        "frontend/package.json"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Add dynamic brand identity system per project",
+      "category": "frontend",
+      "priority": "medium",
+      "prompt": "Implement dynamic brand theming system that adapts UI to each project's brand identity.\n\nCreate frontend/src/contexts/BrandContext.tsx:\n\n1. **Brand Context:**\n   ```typescript\n   interface BrandIdentity {\n     id: string;\n     name: string;\n     logo: string;\n     colors: {\n       primary: string;\n       secondary: string;\n       accent: string;\n       background: string;\n       text: string;\n     };\n     typography: {\n       fontFamily: string;\n       headingFont: string;\n     };\n     assets: {\n       logoUrl: string;\n       iconUrl: string;\n       watermark: string;\n     };\n   }\n\n   const BrandContext = createContext<{\n     activeBrand: BrandIdentity | null;\n     setActiveBrand: (brand: BrandIdentity) => void;\n     brandProfiles: BrandIdentity[];\n   }>();\n   ```\n\n2. **Brand Application:**\n   - Apply brand colors to UI when project selected\n   - Update CSS variables dynamically: `--brand-primary`, `--brand-accent`\n   - Show brand logo in dashboard header\n   - Inject brand fonts via Google Fonts or custom @font-face\n   - Use brand colors in generated previews\n\n3. **Sample Brand Profiles:**\n   - **Happy Eats:**\n     * Primary: #FF6B35 (warm orange)\n     * Secondary: #F7931E (golden)\n     * Accent: #C1403D (red)\n     * Font: Poppins\n     * Logo: Happy Eats icon\n\n   - **Vishwa OS:**\n     * Primary: #0066CC (blue)\n     * Secondary: #5856D6 (purple)\n     * Accent: #34C759 (green)\n     * Font: Inter\n     * Logo: Vishwa icon\n\n   - **Default:**\n     * Primary: #0366d6\n     * Secondary: #6c757d\n     * Font: System UI\n\n4. **Brand Management UI:**\n   - frontend/src/pages/BrandManagement.tsx\n   - Create/edit brand profiles\n   - Upload logos and assets\n   - Color picker for brand colors\n   - Font selection dropdown (Google Fonts integration)\n   - Preview how brand looks across templates\n\n5. **Template Variables:**\n   - Replace hardcoded colors in templates with brand variables\n   - Support brand logo injection in social posts\n   - Apply brand fonts to generated content\n   - Watermark support for images\n\n6. **Persistence:**\n   - Save brand profiles to backend (/api/brands)\n   - Cache active brand in localStorage\n   - Sync brand changes across tabs (BroadcastChannel API)\n\nUpdate all UI components to use brand context colors instead of hardcoded values.",
+      "dependencies": [
+        3,
+        4,
+        8
+      ],
+      "estimated_time": "90 minutes",
+      "acceptance_criteria": [
+        "Brand context created and provides brand data",
+        "UI dynamically applies brand colors when project selected",
+        "Sample brand profiles (Happy Eats, Vishwa OS) created",
+        "Brand management page functional",
+        "Generated content uses brand identity",
+        "Brand persistence working"
+      ],
+      "files_to_create": [
+        "frontend/src/contexts/BrandContext.tsx",
+        "frontend/src/pages/BrandManagement.tsx",
+        "frontend/src/components/Brand/BrandSelector.tsx",
+        "frontend/src/components/Brand/ColorPicker.tsx",
+        "frontend/src/hooks/useBrand.ts"
+      ],
+      "files_to_modify": [
+        "frontend/src/components/Layout/DashboardLayout.tsx",
+        "frontend/src/styles/design-system.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Create plugin system for extensible modules",
+      "category": "backend",
+      "priority": "low",
+      "prompt": "Enhance the existing tool registry into a full plugin system for modular dashboard extensibility.\n\nExtend app/tools_registry.py:\n\n1. **Plugin Manifest Structure:**\n   ```python\n   class PluginManifest(BaseModel):\n       id: str\n       name: str\n       version: str\n       description: str\n       author: str\n       icon: str  # URL or emoji\n       category: str  # \"content\", \"design\", \"analytics\", \"integration\"\n\n       # UI integration\n       component_path: Optional[str]  # React component for UI\n       dashboard_card: bool  # Show in module grid\n       sidebar_link: bool  # Add to sidebar navigation\n\n       # Backend integration\n       api_endpoints: List[str]  # Exposed API routes\n       hooks: Dict[str, str]  # Event hooks (on_project_create, etc.)\n\n       # Dependencies\n       requires: List[str]  # Required plugins\n       permissions: List[str]  # SharePoint, OpenAI, etc.\n   ```\n\n2. **Plugin Lifecycle:**\n   - register(manifest) - Add plugin to registry\n   - activate(plugin_id) - Enable plugin\n   - deactivate(plugin_id) - Disable plugin\n   - unregister(plugin_id) - Remove plugin\n   - get_plugins(category) - List plugins by category\n\n3. **Sample Plugins:**\n   - **Social Media Scheduler:**\n     * Schedules posts to Buffer/Hootsuite\n     * API: POST /api/plugins/scheduler/schedule\n\n   - **Analytics Dashboard:**\n     * Tracks generation metrics\n     * Component: AnalyticsDashboard.tsx\n\n   - **Canva Integration:**\n     * Exports to Canva for further editing\n     * OAuth flow for authentication\n\n4. **Plugin Discovery:**\n   - POST /api/plugins/install - Install from URL or upload\n   - GET /api/plugins/marketplace - List available plugins\n   - GET /api/plugins/installed - List installed plugins\n   - PUT /api/plugins/{id}/config - Configure plugin settings\n\n5. **Security:**\n   - Sandboxed execution for third-party plugins\n   - Permission system (require user approval for SharePoint access)\n   - Code signing for verified plugins\n   - Rate limiting per plugin\n\n6. **Frontend Plugin Loader:**\n   - Dynamically load React components from plugins\n   - Render plugin cards in ModuleGrid\n   - Add plugin routes to React Router\n   - Inject plugin sidebar items\n\nCreate sample plugin package:\n- app/plugins/hello_plugin/ with manifest.json and main.py\n- Show how plugins extend the dashboard\n\nUpdate tools.html to show plugin management UI.",
+      "dependencies": [],
+      "estimated_time": "120 minutes",
+      "acceptance_criteria": [
+        "Plugin manifest system created",
+        "Plugin lifecycle methods implemented",
+        "Sample plugin created and working",
+        "Plugin discovery and installation functional",
+        "Security permissions enforced",
+        "Frontend can load and render plugin components"
+      ],
+      "files_to_create": [
+        "app/plugin_system.py",
+        "app/plugins/hello_plugin/manifest.json",
+        "app/plugins/hello_plugin/main.py",
+        "frontend/src/components/Plugins/PluginLoader.tsx",
+        "frontend/src/pages/PluginMarketplace.tsx"
+      ],
+      "files_to_modify": [
+        "app/tools_registry.py",
+        "app/main.py",
+        "frontend/src/components/Dashboard/ModuleGrid.tsx"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Add comprehensive testing suite",
+      "category": "testing",
+      "priority": "medium",
+      "prompt": "Create comprehensive testing suite for backend and frontend.\n\nBackend Tests (pytest):\n\n1. **Unit Tests:**\n   - tests/test_ai_client.py - Mock Azure OpenAI responses\n   - tests/test_template_engine.py - Template rendering\n   - tests/test_project_manager.py - CRUD operations\n   - tests/test_preview_generator.py - Image generation\n\n2. **Integration Tests:**\n   - tests/test_api_endpoints.py - Full API flow\n   - tests/test_sharepoint_integration.py - Graph API calls\n   - tests/test_content_generation_workflow.py - End-to-end generation\n\n3. **Test Fixtures:**\n   - Sample brand configurations\n   - Mock AI responses\n   - Test projects with inputs/outputs\n\nFrontend Tests (Vitest + React Testing Library):\n\n1. **Component Tests:**\n   - Button.test.tsx - Interactions and states\n   - ProjectCard.test.tsx - Rendering and events\n   - ContentGenerationWizard.test.tsx - Step navigation\n\n2. **Integration Tests:**\n   - useProjects.test.ts - API hooks\n   - BrandContext.test.tsx - Theme switching\n   - ContentGenerationFlow.test.tsx - Full wizard flow\n\n3. **E2E Tests (Playwright):**\n   - Create project → Upload inputs → Generate content → Download\n\nSetup:\n```bash\n# Backend\npip install pytest pytest-asyncio pytest-cov httpx\n\n# Frontend\ncd frontend\nnpm install -D vitest @testing-library/react @testing-library/jest-dom\nnpm install -D @playwright/test\n```\n\nCreate test commands:\n- Backend: `pytest tests/ --cov=app --cov-report=html`\n- Frontend: `npm run test` (vitest), `npm run test:e2e` (playwright)\n\nAdd CI/CD configuration (.github/workflows/test.yml) for automated testing.",
+      "dependencies": [
+        5,
+        8
+      ],
+      "estimated_time": "90 minutes",
+      "acceptance_criteria": [
+        "Backend unit tests created with >70% coverage",
+        "Frontend component tests created",
+        "E2E test suite functional",
+        "CI/CD pipeline runs tests on push",
+        "Test commands documented in README"
+      ],
+      "files_to_create": [
+        "tests/test_ai_client.py",
+        "tests/test_template_engine.py",
+        "tests/test_project_manager.py",
+        "tests/test_api_endpoints.py",
+        "tests/conftest.py",
+        "frontend/src/components/UI/Button.test.tsx",
+        "frontend/src/components/Dashboard/ProjectCard.test.tsx",
+        "frontend/src/hooks/useProjects.test.ts",
+        "frontend/tests/e2e/content-generation.spec.ts",
+        ".github/workflows/test.yml"
+      ],
+      "files_to_modify": [
+        "requirements.txt",
+        "frontend/package.json",
+        "frontend/vite.config.ts"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Update documentation and create user guide",
+      "category": "setup",
+      "priority": "low",
+      "prompt": "Create comprehensive documentation for the AI Tools Creation Application.\n\nUpdate README.md:\n\n1. **Overview Section:**\n   - Project description aligned with Taste OS/Vishwa OS principles\n   - Key features (modular dashboard, AI generation, brand consistency)\n   - Architecture diagram (update with React frontend)\n   - Screenshots of dashboard and content generation\n\n2. **Getting Started:**\n   - Prerequisites (Node.js 18+, Python 3.11+, Azure OpenAI API key)\n   - Installation steps (backend + frontend)\n   - Environment variable configuration\n   - First-time setup wizard\n\n3. **User Guide:**\n   - Creating your first project\n   - Setting up brand identity\n   - Generating social media posts\n   - Generating PRD documents\n   - Downloading and exporting content\n   - Managing plugins\n\n4. **Developer Guide:**\n   - Project structure explanation\n   - Adding new modules\n   - Creating custom templates\n   - Building plugins\n   - API reference (OpenAPI/Swagger)\n   - Contributing guidelines\n\n5. **Deployment:**\n   - Production build steps\n   - Environment configuration\n   - Hosting options (Azure, AWS, self-hosted)\n   - Windows Service setup (NSSM)\n   - Docker containerization\n\nCreate additional docs:\n- docs/API.md - Complete API reference\n- docs/ARCHITECTURE.md - System design details\n- docs/PLUGINS.md - Plugin development guide\n- docs/DESIGN_SYSTEM.md - UI/UX guidelines\n- docs/TROUBLESHOOTING.md - Common issues and solutions\n\nAdd inline code documentation:\n- Docstrings for all Python functions\n- JSDoc comments for TypeScript functions\n- Component props documentation\n\nGenerate API documentation:\n- Use FastAPI's built-in Swagger UI (/docs)\n- Create Postman collection for API testing\n\nRecord video tutorial (optional):\n- Dashboard walkthrough\n- Content generation demo\n- Brand customization",
+      "dependencies": [
+        1,
+        3,
+        5,
+        6
+      ],
+      "estimated_time": "60 minutes",
+      "acceptance_criteria": [
+        "README.md updated with complete setup instructions",
+        "User guide covers all major features",
+        "Developer guide explains architecture",
+        "API documentation generated",
+        "Troubleshooting guide created",
+        "Screenshots and diagrams included"
+      ],
+      "files_to_create": [
+        "docs/API.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PLUGINS.md",
+        "docs/DESIGN_SYSTEM.md",
+        "docs/TROUBLESHOOTING.md"
+      ],
+      "files_to_modify": [
+        "README.md"
+      ]
+    }
+  ]
+}

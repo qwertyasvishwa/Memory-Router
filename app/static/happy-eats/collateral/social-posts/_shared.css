@@ -1,0 +1,203 @@
+@page {
+    size: 1080px 1080px;
+    margin: 0;
+}
+
+:root {
+    --cream: #f4efe9;
+    --beige: #e8dfd4;
+    --ink: #2c2416;
+    --muted: rgba(92, 82, 68, 0.86);
+    --green: #4f8b2c;
+    --orange: #d76c2f;
+    --purple: #6e4ac8;
+
+    --safe: 86px;
+    --radius-lg: 22px;
+    --radius-xl: 30px;
+    --border: rgba(232, 223, 212, 0.9);
+    --shadow: 0 18px 48px rgba(0, 0, 0, 0.10);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 1080px;
+    height: 1080px;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: transparent;
+    color: var(--ink);
+}
+
+.post {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg0, #f9f5f0) 0%, var(--bg1, #ece5dc) 100%);
+    isolation: isolate;
+}
+
+.post::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(860px 520px at 16% 18%, rgba(79, 139, 44, 0.10), transparent 60%),
+        radial-gradient(760px 520px at 88% 20%, rgba(215, 108, 47, 0.09), transparent 62%),
+        repeating-linear-gradient(90deg, rgba(44, 36, 22, 0.030) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(0deg, rgba(44, 36, 22, 0.018) 0 1px, transparent 1px 44px);
+    opacity: 0.95;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.safe {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: var(--safe);
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.logo {
+    height: 64px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 10px 18px rgba(44, 36, 22, 0.12));
+}
+
+.kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border);
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: rgba(44, 36, 22, 0.82);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    margin: 22px 0 0;
+    font-size: 86px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: var(--ink);
+}
+
+.subtitle {
+    margin: 12px 0 0;
+    font-size: 28px;
+    font-weight: 750;
+    color: var(--muted);
+    line-height: 1.25;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.86);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+}
+
+.chipRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(44, 36, 22, 0.14);
+    font-weight: 850;
+    font-size: 14px;
+    color: rgba(44, 36, 22, 0.92);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.06);
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.icon--lg {
+    width: 28px;
+    height: 28px;
+}
+
+.bottomStrip {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 26px;
+    background: linear-gradient(90deg, var(--green) 0%, var(--orange) 55%, var(--purple) 100%);
+    opacity: 0.88;
+}
+
+.website {
+    margin-top: auto;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: rgba(79, 139, 44, 0.95);
+    letter-spacing: 0.02em;
+}
+
+/* Preview mode (gallery iframe) */
+html.preview,
+html.preview body {
+    width: 100%;
+    height: 100%;
+}
+
+html.preview body {
+    overflow: hidden;
+}
+
+html.preview .post {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--preview-scale, 0.4));
+    transform-origin: center;
+}
+

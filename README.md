@@ -9,10 +9,28 @@ This project is a minimal FastAPI service that:
 - exposes a health endpoint (including a Graph connectivity check)
 - provides a built-in convention for project progress logging
 - includes a SharePoint drive browser so you can explore any accessible drive, download files, and switch drives dynamically
+- includes a minimal Tool Registry for tool-driven workflows (MVP: builtin python entrypoints)
+- includes safe Git sync endpoints (status/fetch/pull-rebase/push + conflict helpers)
 
 There is **no local database** and **no local filesystem writes** – entries go straight to Microsoft Graph.
 
 > AI note: this service does **not** call any external LLM / GPT APIs. You can freely use VS Code Copilot or other built-in AI tooling while working on the code; they are editor-side helpers only.
+
+## Documentation index
+
+- **Project (this file):** `README.md`
+- **Happy Eats collateral docs (served as static files):**
+  - `app/static/happy-eats/collateral/README.md`
+  - `app/static/happy-eats/collateral/BRAND_GUIDELINES.md`
+- **Happy Eats social posts gallery (static):** `app/static/happy-eats/collateral/social-posts/index.html`
+- **New Year generator (5 styles + PNG export):** `app/static/happy-eats/collateral/social-posts/new-year-2026-variants.html`
+- **Auto-prompt runner (Copilot workflow):** see “Auto-Implementation” below
+
+## Important: Copilot credits vs in-app AI
+
+VS Code Copilot credits are **editor-side** and can’t be consumed by this FastAPI service at runtime.
+
+If you want an in-app assistant later, you’ll need a separate model provider (commonly Azure OpenAI). For now, this repo focuses on tool scaffolding + execution (developer tools) and UI-driven tools (end-user tools) without adding LLM runtime complexity.
 
 ## Quick start
 
@@ -40,11 +58,41 @@ There is **no local database** and **no local filesystem writes** – entries go
    uvicorn app.main:app --reload
    ```
 
+   Or (recommended on Windows / services):
+
+   ```powershell
+   python .\scripts\run_server.py --host 127.0.0.1 --port 8000 --log-level info --no-reload
+   ```
+
 5. Open the UI:
 
    - Web form: `http://localhost:8000/`
-   - Session browse view: `http://localhost:8000/entries`
-   - Health check: `http://localhost:8000/health`
+    - Session browse view: `http://localhost:8000/entries`
+    - Health check: `http://localhost:8000/health`
+
+## Happy Eats: where to see the New Year generator
+
+Once the server is running, open:
+
+- Social posts gallery: `http://localhost:8000/static/happy-eats/collateral/social-posts/index.html`
+- New Year generator (5 styles): `http://localhost:8000/static/happy-eats/collateral/social-posts/new-year-2026-variants.html`
+
+The generator uses `html2canvas` (loaded via CDN) to export PNGs.
+
+## Auto-Implementation (Copilot prompt runner)
+
+This repo also includes an optional “auto-prompt runner” workflow that prints pre-generated implementation prompts you can paste into VS Code Copilot Chat.
+
+- Run interactive mode: `python run_prompts.py`
+- Show progress: `python run_prompts.py progress`
+- Export next prompts: `python run_prompts.py next 3`
+
+Files used by the runner:
+
+- `implementation_prompts.json` (all prompts)
+- `execution_state.json` (progress)
+- `next_prompts.txt` (exported batch)
+- `docs/auto-implementation/IMPLEMENTATION_PLAN.md` (generated plan; can be regenerated anytime)
 
 ### Keep the server running as a Windows Service
 
@@ -66,6 +114,10 @@ If you want Memory Router to keep running after you close the terminal, one stra
 
 The `scripts/run_server.py` helper ensures the working directory is correct and lets you tweak host/port/log level later. Stop/restart with `Stop-Service MemoryRouter` / `Start-Service MemoryRouter`.
 
+### Note on app-only auth and drive enumeration
+
+This service uses **client credentials (app-only)** authentication. Graph endpoints under `/me/*` require delegated user auth, so the service does not call `/me/drives` when listing available drives. Use the configured `MR_DRIVE_ID` and (optionally) `MR_SITE_ID` to enumerate site drives.
+
 ## API overview
 
 - `GET /` – HTML form for submitting a new entry.
@@ -84,6 +136,33 @@ The `scripts/run_server.py` helper ensures the working directory is correct and 
 - `POST /todos` – HTML form for next-action logging (tasks/milestones).
 - `GET /api/todos` / `POST /api/todos` – JSON API for lightweight task tracking.
 - `GET /health` – health and Graph connectivity status.
+
+### Tool Registry (MVP)
+
+- `GET /api/tools` – list tools.
+- `PUT /api/tools/{tool_id}` – create/update a tool (MVP supports `kind="builtin"` with `entrypoint="module:callable"`).
+- `DELETE /api/tools/{tool_id}` – delete tool.
+- `POST /api/tools/{tool_id}/run` – run a tool with a JSON input payload.
+
+An example builtin tool is pre-seeded:
+
+- id: `hello`
+- entrypoint: `app.tools_sample:hello`
+
+Tools are persisted locally to:
+
+- `.memory_router/tools.json`
+
+This keeps the MVP simple (no extra Graph writes for tool metadata yet). You can safely delete the file if you want to reset your tool catalog.
+
+### Git sync (safe-by-default)
+
+- `GET /api/git/status` – branch, clean/dirty, ahead/behind.
+- `POST /api/git/fetch` – fetch from origin.
+- `POST /api/git/pull` – pull using rebase; returns HTTP 409 with conflict list if conflicts occur.
+- `POST /api/git/push` – push to origin.
+- `GET /api/git/conflicts` – list conflict files.
+- `GET /api/git/conflicts/preview?path=...` – preview first ~200 lines of a file (for manual resolution).
 
 ### Logging
 

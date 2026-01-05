@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Customer Testimonial</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #f5ede3;
+                --bg1: #e8dfd4;
+            }
+
+            .title {
+                font-size: 78px;
+                color: rgba(215, 108, 47, 0.98);
+            }
+
+            .testimonialCard {
+                margin-top: 34px;
+                padding: 44px 44px;
+                border-radius: 36px;
+                position: relative;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            .testimonialCard::after {
+                content: "";
+                position: absolute;
+                right: 22px;
+                bottom: 22px;
+                width: 180px;
+                height: 90px;
+                border: 2px solid rgba(215, 108, 47, 0.14);
+                border-radius: 180px 180px 0 0;
+                border-bottom: none;
+                opacity: 0.9;
+                pointer-events: none;
+            }
+
+            .watermark {
+                position: absolute;
+                right: 24px;
+                top: 24px;
+                width: 180px;
+                height: 180px;
+                opacity: 0.06;
+                pointer-events: none;
+                color: rgba(44, 36, 22, 0.92);
+            }
+
+            .stars {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(215, 108, 47, 0.92);
+                margin-bottom: 16px;
+            }
+
+            .stars .icon {
+                width: 18px;
+                height: 18px;
+                stroke-width: 1.6;
+            }
+
+            .quote {
+                font-size: 30px;
+                font-weight: 780;
+                line-height: 1.35;
+                color: rgba(44, 36, 22, 0.96);
+                max-width: 760px;
+            }
+
+            .authorRow {
+                margin-top: 28px;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .avatar {
+                width: 56px;
+                height: 56px;
+                border-radius: 18px;
+                display: grid;
+                place-items: center;
+                font-weight: 950;
+                letter-spacing: 0.06em;
+                color: rgba(44, 36, 22, 0.92);
+                background: rgba(255, 255, 255, 0.70);
+                border: 1px solid rgba(44, 36, 22, 0.14);
+            }
+
+            .authorMeta {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .authorName {
+                font-size: 20px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                color: rgba(44, 36, 22, 0.96);
+            }
+
+            .authorDetail {
+                font-size: 14px;
+                font-weight: 720;
+                color: var(--muted);
+            }
+
+            .chips {
+                margin-top: 22px;
+                justify-content: flex-start;
+            }
+
+            .website {
+                margin-top: 32px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <span>Social Proof</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Customer Love</h1>
+                <p class="subtitle">A five‑star review from a happy home.</p>
+
+                <div class="card testimonialCard" aria-label="Customer testimonial">
+                    <svg class="watermark" aria-hidden="true" viewBox="0 0 24 24">
+                        <use href="./_icons.svg#icon-chat"></use>
+                    </svg>
+
+                    <div class="stars" aria-label="5 out of 5 stars">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                    </div>
+
+                    <div class="quote">“The authentic taste reminds me of home. Crisp, clean, and genuinely
+                        delicious.”</div>
+
+                    <div class="authorRow">
+                        <div class="avatar" aria-hidden="true">PS</div>
+                        <div class="authorMeta">
+                            <div class="authorName">Priya Sharma</div>
+                            <div class="authorDetail">Verified customer • Mumbai</div>
+                        </div>
+                    </div>
+
+                    <div class="chipRow chips" aria-label="Attribution">
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-check"></use>
+                            </svg>
+                            <span>Verified</span>
+                        </div>
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-star"></use>
+                            </svg>
+                            <span>5‑Star</span>
+                        </div>
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-heart"></use>
+                            </svg>
+                            <span>Repeat Buy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>
+

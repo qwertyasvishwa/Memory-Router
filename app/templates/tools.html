@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Tools</h2>
+    <p style="color:#555;">Create and run simple tools. MVP supports <code>kind=builtin</code> with
+        <code>entrypoint=module:callable</code>.</p>
+</div>
+
+<div class="card">
+    <h3>Create / update tool</h3>
+    <form action="/tools" method="post">
+        <label for="tool_id">Tool id</label>
+        <input id="tool_id" name="tool_id" type="text" required placeholder="hello">
+
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required placeholder="Hello tool">
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="What does this tool do?"></textarea>
+
+        <label for="kind">Kind</label>
+        <select id="kind" name="kind">
+            <option value="builtin">builtin</option>
+        </select>
+
+        <label for="entrypoint">Entrypoint (module:callable)</label>
+        <input id="entrypoint" name="entrypoint" type="text" placeholder="app.tools_sample:hello">
+
+        <button type="submit">Save tool</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Run a tool</h3>
+    <form action="/tools/run" method="post">
+        <label for="run_tool_id">Tool id</label>
+        <input id="run_tool_id" name="tool_id" type="text" required placeholder="hello">
+
+        <label for="run_input">Input JSON</label>
+        <textarea id="run_input" name="input_json" placeholder='{"name":"Vishwa"}'></textarea>
+
+        <button type="submit">Run</button>
+    </form>
+
+    {% if run_result %}
+    <h4 style="margin-top:1rem;">Last result</h4>
+    <pre><code>{{ run_result | tojson(indent=2) }}</code></pre>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Registered tools</h3>
+    {% if tools %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Kind</th>
+                <th>Entrypoint</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tools %}
+            <tr>
+                <td><code>{{ t.id }}</code></td>
+                <td>{{ t.name }}</td>
+                <td><code>{{ t.kind }}</code></td>
+                <td><code>{{ t.entrypoint or "" }}</code></td>
+                <td>{{ t.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tools yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

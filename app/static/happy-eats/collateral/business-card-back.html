@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Business Card Back</title>
+        <style>
+            @page {
+                size: 3.5in 2in;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 3.5in;
+                height: 2in;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+                background: #ffffff;
+                position: relative;
+                padding: 0.18in;
+                box-sizing: border-box;
+            }
+
+            /* Packaging pattern */
+            .card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.05) 1px, transparent 1px);
+                background-size: 16px 16px;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .safe {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                border-radius: 0.12in;
+                padding: 0.22in;
+                box-sizing: border-box;
+                background: rgba(255, 255, 255, 0.88);
+                border: 1px solid rgba(232, 223, 212, 0.9);
+                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+                backdrop-filter: blur(2px);
+            }
+
+            .brand-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.12in;
+                margin-bottom: 0.18in;
+                padding-bottom: 0.12in;
+                border-bottom: 1px solid rgba(79, 139, 44, 0.15);
+            }
+
+            .brand-row img {
+                width: 0.65in;
+                height: auto;
+                display: block;
+                opacity: 0.95;
+                filter: drop-shadow(0 4px 8px rgba(44, 36, 22, 0.08));
+            }
+
+            .arch {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 1.25in;
+                height: 0.85in;
+                border: 4px solid rgba(79, 139, 44, 0.28);
+                border-radius: 1.25in 1.25in 0 0;
+                border-bottom: none;
+            }
+
+            .stripe {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 0.12in;
+                height: 100%;
+                background: linear-gradient(180deg, #4f8b2c 0%, #d76c2f 55%, #6e4ac8 100%);
+                opacity: 0.9;
+            }
+
+            .name {
+                font-size: 15pt;
+                font-weight: 800;
+                color: #2c2416;
+                margin-bottom: 0.04in;
+                line-height: 1.1;
+            }
+
+            .title {
+                font-size: 9pt;
+                color: #4f8b2c;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
+
+            .contact-info {
+                font-size: 8.5pt;
+                color: #5c5244;
+                line-height: 1.65;
+            }
+
+            .contact-line {
+                display: flex;
+                align-items: center;
+                gap: 0.1in;
+                margin-bottom: 0.06in;
+            }
+
+            .icon {
+                color: #4f8b2c;
+                font-weight: 700;
+                font-size: 9.5pt;
+                width: 0.15in;
+                flex-shrink: 0;
+            }
+
+            .bottom-stripe {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 0.14in;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 55%, #6e4ac8 100%);
+                opacity: 0.85;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <div class="safe">
+                <div class="brand-row">
+                    <div>
+                        <div class="name">Your Name</div>
+                        <div class="title">Founder & CEO</div>
+                    </div>
+                    <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-line">
+                        <span class="icon">📧</span>
+                        <span>contact@happyeats.in</span>
+                    </div>
+                    <div class="contact-line">
+                        <span class="icon">📱</span>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="contact-line">
+                        <span class="icon">🌐</span>
+                        <span>www.happyeats.in</span>
+                    </div>
+                    <div class="contact-line">
+                        <span class="icon">📍</span>
+                        <span>Gujarat, India</span>
+                    </div>
+                </div>
+
+                <div class="arch"></div>
+            </div>
+            <div class="stripe"></div>
+            <div class="bottom-stripe"></div>
+        </div>
+    </body>
+
+</html>

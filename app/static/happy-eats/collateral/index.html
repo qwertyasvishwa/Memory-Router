@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Collateral Preview Gallery</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f4efe9;
+                padding: 2rem;
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 3rem;
+                background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+                padding: 2rem;
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .brand-lockup {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .brand-lockup img {
+                width: 180px;
+                height: auto;
+                display: block;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                color: #2c2416;
+                margin-bottom: 0.5rem;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                color: #5c5244;
+            }
+
+            .gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .collateral-item {
+                background: white;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .collateral-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            }
+
+            .item-header {
+                background: #4f8b2c;
+                color: white;
+                padding: 1rem 1.5rem;
+            }
+
+            .item-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 0.3rem;
+            }
+
+            .item-subtitle {
+                font-size: 0.9rem;
+                opacity: 0.9;
+            }
+
+            .item-preview {
+                position: relative;
+                padding-bottom: 75%;
+                overflow: hidden;
+                background: #f9f7f4;
+            }
+
+            .item-preview iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                transform: scale(0.5);
+                transform-origin: 0 0;
+                width: 200%;
+                height: 200%;
+            }
+
+            .item-actions {
+                padding: 1rem 1.5rem;
+                display: flex;
+                gap: 1rem;
+            }
+
+            .btn {
+                flex: 1;
+                padding: 0.7rem 1.5rem;
+                border-radius: 8px;
+                text-decoration: none;
+                text-align: center;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .btn-open {
+                background: #4f8b2c;
+                color: white;
+                border: 2px solid #4f8b2c;
+            }
+
+            .btn-open:hover {
+                background: #3d6e23;
+            }
+
+            .btn-download {
+                background: transparent;
+                color: #4f8b2c;
+                border: 2px solid #4f8b2c;
+            }
+
+            .btn-download:hover {
+                background: #4f8b2c;
+                color: white;
+            }
+
+            .instructions {
+                max-width: 1400px;
+                margin: 3rem auto 0;
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .instructions h2 {
+                color: #4f8b2c;
+                margin-bottom: 1rem;
+            }
+
+            .instructions ul {
+                padding-left: 2rem;
+                line-height: 1.8;
+                color: #5c5244;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="header">
+            <div class="brand-lockup">
+                <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                <h1>🎨 Happy Eats Collateral Gallery</h1>
+            </div>
+            <p class="subtitle">Preview and download all brand collateral files</p>
+        </div>
+
+        <div class="gallery">
+            <!-- Business Card Front -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Business Card - Front</div>
+                    <div class="item-subtitle">3.5" × 2" • Print Ready</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="business-card-front.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="business-card-front.html" target="_blank" class="btn btn-open">Open Full</a>
+                    <a href="business-card-front.html" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+
+            <!-- Business Card Back -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Business Card - Back</div>
+                    <div class="item-subtitle">3.5" × 2" • Contact Info</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="business-card-back.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="business-card-back.html" target="_blank" class="btn btn-open">Open Full</a>
+                    <a href="business-card-back.html" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+
+            <!-- Letterhead -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Letterhead</div>
+                    <div class="item-subtitle">A4 • Professional Template</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="letterhead.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="letterhead.html" target="_blank" class="btn btn-open">Open Full</a>
+                    <a href="letterhead.html" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+
+            <!-- Email Signature -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Email Signature</div>
+                    <div class="item-subtitle">HTML • Copy & Paste</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="email-signature.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="email-signature.html" target="_blank" class="btn btn-open">Open Full</a>
+                    <a href="email-signature.html" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+
+            <!-- Brochure -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Tri-fold Brochure</div>
+                    <div class="item-subtitle">A4 Landscape • 3 Panels</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="brochure.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="brochure.html" target="_blank" class="btn btn-open">Open Full</a>
+                    <a href="brochure.html" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+
+            <!-- Social Media Post -->
+            <div class="collateral-item">
+                <div class="item-header">
+                    <div class="item-title">Social Media Posts Gallery</div>
+                    <div class="item-subtitle">Multiple post variants (New Year, Products, Values)</div>
+                </div>
+                <div class="item-preview">
+                    <iframe src="social-posts/index.html"></iframe>
+                </div>
+                <div class="item-actions">
+                    <a href="social-posts/index.html" target="_blank" class="btn btn-open">View All Posts</a>
+                    <a href="social-posts/index.html" download class="btn btn-download">Gallery Page</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>📋 How to Use These Files</h2>
+            <ul>
+                <li><strong>Print Business Cards & Letterhead:</strong> Open file in Chrome/Edge → Press Ctrl+P → Select
+                    "Save as PDF" → Print from PDF at actual size</li>
+                <li><strong>Use Email Signature:</strong> Open file → Select all (Ctrl+A) → Copy → Paste into your email
+                    client's signature settings</li>
+                <li><strong>Print Brochure:</strong> Save as PDF → Print A4 landscape → Fold into tri-fold</li>
+                <li><strong>Social Media Posts:</strong> Open file → Take screenshot or use browser dev tools to export
+                    as image</li>
+                <li><strong>Customize:</strong> All files are HTML - open in VS Code or any text editor to customize
+                    text, colors, or content</li>
+            </ul>
+        </div>
+    </body>
+
+</html>

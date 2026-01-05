@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Business Card Back (Enhanced)</title>
+        <style>
+            @page {
+                size: 3.5in 2in;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 3.5in;
+                height: 2in;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #fbf9f5 0%, #f5f0ea 50%, #efe8df 100%);
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Packaging radial pattern */
+            .card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.08) 1.5px, transparent 1.5px);
+                background-size: 18px 18px;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            /* Arch decoration */
+            .arch-decoration {
+                position: absolute;
+                top: -0.08in;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 1.4in;
+                height: 0.7in;
+                border: 3px solid rgba(79, 139, 44, 0.18);
+                border-radius: 1.4in 1.4in 0 0;
+                border-bottom: none;
+            }
+
+            .safe {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                padding: 0.28in 0.25in 0.22in;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .mini-logo {
+                width: 0.65in;
+                height: auto;
+                margin-bottom: 0.12in;
+                filter: drop-shadow(0 3px 6px rgba(44, 36, 22, 0.1));
+            }
+
+            .brand-text {
+                font-size: 16pt;
+                font-weight: 900;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 0.14in;
+                letter-spacing: -0.3px;
+            }
+
+            .divider {
+                width: 1.2in;
+                height: 2px;
+                background: linear-gradient(90deg, transparent 0%, #4f8b2c 50%, transparent 100%);
+                margin-bottom: 0.12in;
+                opacity: 0.4;
+            }
+
+            .contact-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.08in 0.15in;
+                width: 100%;
+                max-width: 2.8in;
+            }
+
+            .contact-item {
+                display: flex;
+                align-items: center;
+                gap: 0.05in;
+                font-size: 7.5pt;
+                color: #4a3c28;
+                font-weight: 600;
+                justify-content: flex-start;
+            }
+
+            .contact-item .icon {
+                font-size: 9pt;
+                min-width: 14px;
+                text-align: center;
+            }
+
+            .contact-item .text {
+                flex: 1;
+                text-align: left;
+            }
+
+            /* Badge row */
+            .features {
+                display: flex;
+                gap: 0.08in;
+                margin-top: 0.12in;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .feature-badge {
+                background: rgba(79, 139, 44, 0.1);
+                border: 1.5px solid rgba(79, 139, 44, 0.25);
+                padding: 0.035in 0.08in;
+                border-radius: 0.12in;
+                font-size: 6.5pt;
+                font-weight: 700;
+                color: #3d6124;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+            }
+
+            /* Bottom stripe */
+            .bottom-stripe {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 0.16in;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 50%, #6e4ac8 100%);
+                opacity: 0.85;
+            }
+
+            /* Side accent */
+            .side-accent {
+                position: absolute;
+                left: 0;
+                top: 0.3in;
+                bottom: 0.3in;
+                width: 0.12in;
+                background: linear-gradient(180deg, #4f8b2c 0%, #d76c2f 50%, #6e4ac8 100%);
+                opacity: 0.3;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <div class="arch-decoration"></div>
+            <div class="side-accent"></div>
+
+            <div class="safe">
+                <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" class="mini-logo" />
+                <div class="brand-text">Happy Eats</div>
+                <div class="divider"></div>
+
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <span class="icon">📧</span>
+                        <span class="text">hello@happyeats.in</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📞</span>
+                        <span class="text">+91 98765 43210</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">🌐</span>
+                        <span class="text">happyeats.in</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📍</span>
+                        <span class="text">Mumbai, India</span>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="feature-badge">🍃 Organic</div>
+                    <div class="feature-badge">🌾 Handmade</div>
+                    <div class="feature-badge">❤️ Healthy</div>
+                </div>
+            </div>
+
+            <div class="bottom-stripe"></div>
+        </div>
+    </body>
+
+</html>

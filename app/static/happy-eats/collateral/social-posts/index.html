@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Social Posts</title>
+        <style>
+            :root {
+                --cream: #f4efe9;
+                --beige: #e8dfd4;
+                --ink: #2c2416;
+                --muted: rgba(92, 82, 68, 0.86);
+                --green: #4f8b2c;
+                --orange: #d76c2f;
+                --purple: #6e4ac8;
+                --card: rgba(255, 255, 255, 0.92);
+                --border: rgba(232, 223, 212, 0.92);
+                --shadow: 0 18px 48px rgba(0, 0, 0, 0.10);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+                color: var(--ink);
+                background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+                padding: 42px 22px 64px;
+            }
+
+            .container {
+                max-width: 1560px;
+                margin: 0 auto;
+            }
+
+            .header {
+                background: var(--card);
+                border: 2px solid var(--border);
+                border-radius: 22px;
+                box-shadow: var(--shadow);
+                padding: 28px 28px;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-bottom: 26px;
+            }
+
+            .brandRow {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                flex-direction: column;
+            }
+
+            .brandRow img {
+                width: 170px;
+                height: auto;
+                display: block;
+                filter: drop-shadow(0 12px 22px rgba(44, 36, 22, 0.12));
+            }
+
+            .title {
+                margin: 0;
+                font-size: 22px;
+                font-weight: 900;
+                letter-spacing: 0.02em;
+            }
+
+            .subtitle {
+                margin: 0;
+                color: var(--muted);
+                font-weight: 650;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .stats {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .stat {
+                background: rgba(79, 139, 44, 0.08);
+                border: 1px solid rgba(79, 139, 44, 0.16);
+                border-radius: 999px;
+                padding: 10px 14px;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 850;
+                color: rgba(44, 36, 22, 0.92);
+            }
+
+            .icon {
+                width: 18px;
+                height: 18px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.8;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                flex: 0 0 auto;
+                display: block;
+            }
+
+            .section {
+                margin-top: 26px;
+            }
+
+            .sectionHead {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 0 6px;
+                margin-bottom: 14px;
+            }
+
+            .sectionTitle {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 16px;
+                font-weight: 950;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: rgba(44, 36, 22, 0.88);
+            }
+
+            .sectionHint {
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 650;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+                gap: 22px;
+            }
+
+            .card {
+                background: var(--card);
+                border: 2px solid var(--border);
+                border-radius: 22px;
+                overflow: hidden;
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+            }
+
+            .cardHead {
+                padding: 18px 18px 14px;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .cardTitleRow {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .cardTitle {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                color: rgba(44, 36, 22, 0.96);
+            }
+
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 10px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.78);
+                border: 1px solid rgba(44, 36, 22, 0.14);
+                font-weight: 850;
+                font-size: 12px;
+                color: rgba(44, 36, 22, 0.86);
+                letter-spacing: 0.10em;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .cardSub {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 650;
+                color: var(--muted);
+                line-height: 1.4;
+            }
+
+            .preview {
+                position: relative;
+                aspect-ratio: 1 / 1;
+                background: rgba(249, 245, 240, 0.6);
+                border-top: 1px solid rgba(232, 223, 212, 0.85);
+            }
+
+            .preview iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: transparent;
+            }
+
+            .actions {
+                padding: 16px 18px 18px;
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn {
+                flex: 1;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                padding: 12px 14px;
+                border-radius: 14px;
+                text-decoration: none;
+                font-weight: 900;
+                font-size: 13px;
+                letter-spacing: 0.02em;
+                border: 2px solid transparent;
+                transition: transform 140ms ease, filter 140ms ease, background 140ms ease, color 140ms ease;
+            }
+
+            .btn:hover {
+                transform: translateY(-1px);
+                filter: brightness(0.98);
+            }
+
+            .btnPrimary {
+                background: var(--green);
+                color: #fff;
+                border-color: var(--green);
+            }
+
+            .btnGhost {
+                background: transparent;
+                color: rgba(44, 36, 22, 0.92);
+                border-color: rgba(44, 36, 22, 0.14);
+            }
+
+            .footer {
+                margin-top: 28px;
+                color: rgba(92, 82, 68, 0.82);
+                font-size: 13px;
+                font-weight: 650;
+                text-align: center;
+                line-height: 1.6;
+            }
+
+            .footer a {
+                color: rgba(44, 36, 22, 0.92);
+                text-decoration: underline;
+            }
+
+            @media (max-width: 560px) {
+                body {
+                    padding: 26px 14px 56px;
+                }
+
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <header class="header">
+                <div class="brandRow">
+                    <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <h1 class="title">Social Posts</h1>
+                    <p class="subtitle">1080×1080 templates • preview, open, and export</p>
+                </div>
+
+                <div class="stats" aria-label="Library summary">
+                    <div class="stat">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-package"></use>
+                        </svg>
+                        <span>11 templates</span>
+                    </div>
+                    <div class="stat">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-spark"></use>
+                        </svg>
+                        <span>5 campaigns</span>
+                    </div>
+                    <div class="stat">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-check"></use>
+                        </svg>
+                        <span>Editable</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="section" aria-label="Seasonal campaigns">
+                <div class="sectionHead">
+                    <div class="sectionTitle">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-spark"></use>
+                        </svg>
+                        <span>Seasonal Campaigns</span>
+                    </div>
+                    <div class="sectionHint">Greetings and timely promos</div>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">New Year 2026</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-spark"></use>
+                                    </svg>
+                                    <span>Greeting</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Clean, premium seasonal post with highlights.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="new-year-2026.html?preview=1" loading="lazy" title="New Year 2026 preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="new-year-2026.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-spark"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="new-year-2026.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">New Year Generator</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-package"></use>
+                                    </svg>
+                                    <span>5 styles</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Switch styles and export PNG directly from the browser.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="new-year-2026-variants.html?preview=1" loading="lazy" title="New Year generator preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="new-year-2026-variants.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-spark"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="new-year-2026-variants.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-check"></use>
+                                </svg>
+                                <span>Export PNG</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Product campaigns">
+                <div class="sectionHead">
+                    <div class="sectionTitle">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-package"></use>
+                        </svg>
+                        <span>Product Campaigns</span>
+                    </div>
+                    <div class="sectionHint">Spotlights and collections</div>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Khakhra Methi Spotlight</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-leaf"></use>
+                                    </svg>
+                                    <span>Variant</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Single flavor spotlight with clean claim chips.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="product-khakhra-methi.html?preview=1" loading="lazy" title="Khakhra Methi preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="product-khakhra-methi.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="product-khakhra-methi.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Khakhra Collection</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-package"></use>
+                                    </svg>
+                                    <span>4 picks</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">A balanced grid of bestsellers with minimal copy.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="product-collection.html?preview=1" loading="lazy" title="Khakhra collection preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="product-collection.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="product-collection.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Brand campaigns">
+                <div class="sectionHead">
+                    <div class="sectionTitle">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-hand"></use>
+                        </svg>
+                        <span>Brand Campaigns</span>
+                    </div>
+                    <div class="sectionHint">Values, story, and process</div>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Brand Values</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-check"></use>
+                                    </svg>
+                                    <span>Pillars</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Four‑pillar grid with icons and short lines.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="brand-values.html?preview=1" loading="lazy" title="Brand values preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="brand-values.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-check"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="brand-values.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Taste the Tradition</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-spark"></use>
+                                    </svg>
+                                    <span>Story</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">A premium story card with brand highlights.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="taste-tradition.html?preview=1" loading="lazy" title="Taste the tradition preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="taste-tradition.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-spark"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="taste-tradition.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Behind the Scenes</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-hand"></use>
+                                    </svg>
+                                    <span>Process</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Three-step process in a balanced grid.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="behind-the-scenes.html?preview=1" loading="lazy" title="Behind the scenes preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="behind-the-scenes.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-hand"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="behind-the-scenes.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Education campaigns">
+                <div class="sectionHead">
+                    <div class="sectionTitle">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-heart"></use>
+                        </svg>
+                        <span>Education Campaigns</span>
+                    </div>
+                    <div class="sectionHint">Benefits and serving ideas</div>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Health Benefits</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-heart"></use>
+                                    </svg>
+                                    <span>Benefits</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">A clean 2×2 grid of key benefits.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="health-benefits.html?preview=1" loading="lazy" title="Health benefits preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="health-benefits.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-heart"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="health-benefits.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Serve Ideas</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-bowl"></use>
+                                    </svg>
+                                    <span>Recipes</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Five serving ideas in a compact, premium layout.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="recipe-ideas.html?preview=1" loading="lazy" title="Serve ideas preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="recipe-ideas.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-bowl"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="recipe-ideas.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Social proof campaigns">
+                <div class="sectionHead">
+                    <div class="sectionTitle">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-star"></use>
+                        </svg>
+                        <span>Social Proof Campaigns</span>
+                    </div>
+                    <div class="sectionHint">Reviews and testimonials</div>
+                </div>
+
+                <div class="grid">
+                    <article class="card">
+                        <div class="cardHead">
+                            <div class="cardTitleRow">
+                                <h2 class="cardTitle">Customer Testimonial</h2>
+                                <span class="pill">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use href="./_icons.svg#icon-star"></use>
+                                    </svg>
+                                    <span>Review</span>
+                                </span>
+                            </div>
+                            <p class="cardSub">Premium testimonial card with icon rating.</p>
+                        </div>
+                        <div class="preview">
+                            <iframe src="testimonial.html?preview=1" loading="lazy" title="Customer testimonial preview"></iframe>
+                        </div>
+                        <div class="actions">
+                            <a class="btn btnPrimary" href="testimonial.html" target="_blank" rel="noreferrer">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-star"></use>
+                                </svg>
+                                <span>Open</span>
+                            </a>
+                            <a class="btn btnGhost" href="testimonial.html" download>
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                                <span>Download HTML</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <div class="footer">
+                Open any post for the full 1080×1080 canvas. For PNG export, use the New Year generator or take a
+                screenshot in the browser. If you’re viewing this inside Memory Router, start from <a
+                    href="/happy-eats">/happy-eats</a>.
+            </div>
+        </div>
+    </body>
+
+</html>
+

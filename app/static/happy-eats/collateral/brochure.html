@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Product Brochure</title>
+        <style>
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 297mm;
+                height: 210mm;
+                background: #f4efe9;
+            }
+
+            .brochure {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0;
+            }
+
+            /* Panel 1 - Cover */
+            .panel-1 {
+                background: linear-gradient(135deg, #4f8b2c 0%, #3d6e23 100%);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 15mm;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .panel-1::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 150mm;
+                height: 150mm;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .cover-content {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+            }
+
+            .cover-logo {
+                font-size: 48pt;
+                font-weight: 900;
+                margin-bottom: 5mm;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            .cover-logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5mm;
+                margin-bottom: 5mm;
+                opacity: 0.95;
+
+                .cover-logo img {
+                    width: 42mm;
+                    height: auto;
+                    display: block;
+                    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+                }
+
+                .cover-logo .word {
+                    font-size: 44pt;
+                    font-weight: 900;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+                    line-height: 1;
+                }
+
+                .cover-badges {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3mm;
+                }
+
+                .cover-badge {
+                    background: white;
+                    <div class="cover-logo"><img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" /><div class="word">Happy Eats</div></div>padding: 3mm 6mm;
+                    border-radius: 20mm;
+                    font-size: 10pt;
+                    font-weight: 700;
+                }
+
+                /* Panel 2 - Story */
+                .panel-2 {
+                    background: white;
+                    padding: 15mm;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                .panel-title {
+                    font-size: 24pt;
+                    font-weight: 800;
+                    color: #2c2416;
+                    margin-bottom: 5mm;
+                    background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+
+                .panel-text {
+                    font-size: 10pt;
+                    color: #5c5244;
+                    line-height: 1.7;
+                    margin-bottom: 5mm;
+                }
+
+                .quality-icons {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 3mm;
+                    margin-top: 5mm;
+                }
+
+                .quality-item {
+                    background: #f9f7f4;
+                    padding: 3mm;
+                    border-radius: 2mm;
+                    display: flex;
+                    align-items: center;
+                    gap: 2mm;
+                    border-left: 3px solid #4f8b2c;
+                }
+
+                .quality-icon {
+                    font-size: 16pt;
+                }
+
+                .quality-text {
+                    font-size: 9pt;
+                    font-weight: 700;
+                    color: #2c2416;
+                }
+
+                /* Panel 3 - Products */
+                .panel-3 {
+                    background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 100%);
+                    padding: 15mm;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .products-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 4mm;
+                    margin-top: 5mm;
+                }
+
+                .product-item {
+                    background: white;
+                    padding: 4mm;
+                    border-radius: 3mm;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                    border-left: 4px solid #4f8b2c;
+                }
+
+                .product-name {
+                    font-size: 12pt;
+                    font-weight: 800;
+                    color: #2c2416;
+                    margin-bottom: 2mm;
+                }
+
+                .product-variants {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 2mm;
+                }
+
+                .variant {
+                    font-size: 8pt;
+                    font-weight: 600;
+                    color: white;
+                    padding: 1.5mm 3mm;
+                    border-radius: 10mm;
+                }
+
+                .variant-green {
+                    background: #4f8b2c;
+                }
+
+                .variant-purple {
+                    background: #6e4ac8;
+                }
+
+                .variant-orange {
+                    background: #d76c2f;
+                }
+
+                .variant-brown {
+                    background: #6b5244;
+                }
+
+                .contact-footer {
+                    margin-top: auto;
+                    padding-top: 5mm;
+                    border-top: 2px solid #e8dfd4;
+                    text-align: center;
+                    font-size: 9pt;
+                    color: #5c5244;
+                }
+
+                .contact-footer strong {
+                    color: #4f8b2c;
+                    display: block;
+                    margin-bottom: 2mm;
+                }
+        </style>
+    </head>
+
+    <body>
+        <div class="brochure">
+
+            <!-- Panel 1: Cover -->
+            <div class="panel-1">
+                <div class="cover-content">
+                    <div class="cover-logo">Happy Eats</div>
+                    <div class="cover-tagline">Organic. Fresh. Healthy.</div>
+
+                    <div class="cover-badges">
+                        <div class="cover-badge">🌿 100% NATURAL INGREDIENTS</div>
+                        <div class="cover-badge">🍽️ READY TO EAT</div>
+                        <div class="cover-badge">❤️ CHOLESTEROL FREE</div>
+                        <div class="cover-badge">💧 ZERO TRANS FAT</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 2: Story & Quality -->
+            <div class="panel-2">
+                <h2 class="panel-title">Our Story</h2>
+
+                <div class="panel-text">
+                    <p>Born from the warmth of Indian kitchens, Happy Eats brings you authentic flavors rooted in
+                        tradition. Every product is handcrafted with care, using only the finest organic ingredients.
+                    </p>
+
+                    <p>We believe in preserving the rich culinary heritage of India while meeting modern wellness
+                        standards. No shortcuts. No compromises. Just pure, honest food.</p>
+                </div>
+
+                <h3 style="font-size: 14pt; font-weight: 800; color: #4f8b2c; margin-bottom: 3mm;">Why Happy Eats?</h3>
+
+                <div class="quality-icons">
+                    <div class="quality-item">
+                        <span class="quality-icon">🚫</span>
+                        <span class="quality-text">No Maida</span>
+                    </div>
+                    <div class="quality-item">
+                        <span class="quality-icon">👐</span>
+                        <span class="quality-text">100% Handmade</span>
+                    </div>
+                    <div class="quality-item">
+                        <span class="quality-icon">🌾</span>
+                        <span class="quality-text">Whole Wheat</span>
+                    </div>
+                    <div class="quality-item">
+                        <span class="quality-icon">♻️</span>
+                        <span class="quality-text">Eco Packaging</span>
+                    </div>
+                    <div class="quality-item">
+                        <span class="quality-icon">🇮🇳</span>
+                        <span class="quality-text">Made in India</span>
+                    </div>
+                    <div class="quality-item">
+                        <span class="quality-icon">✨</span>
+                        <span class="quality-text">Premium Quality</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Products -->
+            <div class="panel-3">
+                <h2 class="panel-title">Our Products</h2>
+
+                <div class="products-grid">
+                    <div class="product-item">
+                        <div class="product-name">🌾 Khakhra Collection</div>
+                        <div class="product-variants">
+                            <span class="variant variant-green">Methi</span>
+                            <span class="variant variant-purple">Chatpata</span>
+                            <span class="variant variant-orange">Masala</span>
+                            <span class="variant variant-brown">Jeera</span>
+                            <span class="variant variant-orange">Farali</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-name">🍌 Banana Chips</div>
+                        <div class="product-variants">
+                            <span class="variant variant-green">Original</span>
+                            <span class="variant variant-orange">Spicy</span>
+                            <span class="variant variant-purple">Pepper</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-name">🌰 Roasted Nuts</div>
+                        <div class="product-variants">
+                            <span class="variant variant-brown">Cashews</span>
+                            <span class="variant variant-brown">Almonds</span>
+                            <span class="variant variant-brown">Peanuts</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-name">🥜 Mixed Namkeen</div>
+                        <div class="product-variants">
+                            <span class="variant variant-orange">Classic</span>
+                            <span class="variant variant-purple">Spicy</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-name">🍪 Cookies & More</div>
+                        <div class="product-variants">
+                            <span class="variant variant-green">Multigrain</span>
+                            <span class="variant variant-orange">Jeera</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-footer">
+                    <strong>Get in Touch</strong>
+                    📧 contact@happyeats.in | 📱 +91 98765 43210<br>
+                    🌐 www.happyeats.in | 📍 Gujarat, India
+                </div>
+            </div>
+
+        </div>
+    </body>
+
+</html>

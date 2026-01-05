@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    :root {
+        --cream-bg: #f4efe9;
+        --warm-beige: #e8dfd4;
+        --text-dark: #2c2416;
+        --green-primary: #4f8b2c;
+        --orange-accent: #d76c2f;
+        --purple-accent: #6e4ac8;
+    }
+
+    body {
+        background: var(--cream-bg);
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 2px solid var(--warm-beige);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(79, 139, 44, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        border: 2px solid var(--green-primary);
+        font-weight: 700;
+        color: var(--green-primary);
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(79, 139, 44, 0.15);
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 1rem 0;
+        line-height: 1.2;
+        background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: #5c5244;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        line-height: 1.6;
+    }
+
+    .key-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .feature-pill {
+        background: white;
+        padding: 0.8rem 1.2rem;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--warm-beige);
+        transition: all 0.3s ease;
+    }
+
+    .feature-pill:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .feature-icon {
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .feature-text {
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    /* Product Grid */
+    .products-section {
+        margin: 2rem 0;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #6b5d4f;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.8rem;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        border-color: var(--green-primary);
+    }
+
+    .product-header {
+        background: linear-gradient(135deg, var(--warm-beige) 0%, #f4efe9 100%);
+        padding: 1.8rem 1.5rem;
+        text-align: center;
+        position: relative;
+    }
+
+    .product-name {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .product-tagline {
+        font-size: 0.95rem;
+        color: #6b5d4f;
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .flavor-count {
+        display: inline-block;
+        background: var(--green-primary);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .product-body {
+        padding: 1.5rem;
+    }
+
+    .variants-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .variant-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: white;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .variant-badge:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+
+    .packaging-info {
+        background: #f9f7f4;
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        color: #5c5244;
+        border-left: 3px solid var(--green-primary);
+    }
+
+    /* Story Section */
+    .story-section {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        margin: 3rem 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 2px solid var(--warm-beige);
+    }
+
+    .story-content {
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.9;
+        color: #3d3529;
+        font-size: 1.05rem;
+    }
+
+    .story-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--green-primary) 0%, #3d6e23 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        color: white;
+        margin: 3rem 0;
+        box-shadow: 0 8px 24px rgba(79, 139, 44, 0.3);
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+    }
+
+    .btn-primary {
+        background: white;
+        color: var(--green-primary);
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: 2px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:hover {
+        background: transparent;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: white;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+        background: white;
+        color: var(--green-primary);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .key-features {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="brand-badge">
+            <span style="font-size:1.5rem;">🌿</span>
+            <span>100% HANDMADE · MADE WITH LOVE</span>
+        </div>
+
+        <h1 class="hero-title">Happy Eats</h1>
+        <p class="hero-subtitle">
+            Organic. Fresh. Rooted in tradition. Where every bite tells the story of India's rich culinary heritage,
+            crafted with care for modern wellness.
+        </p>
+
+        <div class="key-features">
+            <div class="feature-pill">
+                <span class="feature-icon">🚫</span>
+                <span class="feature-text">No Maida</span>
+            </div>
+            <div class="feature-pill">
+                <span class="feature-icon">🍽️</span>
+                <span class="feature-text">Ready to Eat</span>
+            </div>
+            <div class="feature-pill">
+                <span class="feature-icon">❤️</span>
+                <span class="feature-text">Cholesterol Free</span>
+            </div>
+            <div class="feature-pill">
+                <span class="feature-icon">💧</span>
+                <span class="feature-text">Zero Trans Fat</span>
+            </div>
+            <div class="feature-pill">
+                <span class="feature-icon">🌾</span>
+                <span class="feature-text">100% Wheat Flour</span>
+            </div>
+            <div class="feature-pill">
+                <span class="feature-icon">♻️</span>
+                <span class="feature-text">Eco Packaging</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products Section -->
+<div class="products-section">
+    <div class="section-header">
+        <h2 class="section-title">Our Collections</h2>
+        <p class="section-subtitle">From Gujarat's khakhra to Kerala's banana chips—authentic flavors, modern
+            wellness</p>
+    </div>
+
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-header">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-tagline">{{ product.description }}</p>
+                <span class="flavor-count">{{ product.total_flavors }}</span>
+            </div>
+            <div class="product-body">
+                {% if product.variants %}
+                <div class="variants-list">
+                    {% for variant in product.variants %}
+                    <span class="variant-badge" style="background: {{ variant.color }};">
+                        {{ variant.flavor }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="packaging-info">
+                    <strong>Packaging:</strong> {{ product.packaging }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Story Section -->
+<div class="story-section">
+    <div class="section-header">
+        <h2 class="section-title">Our Story</h2>
+        <p class="section-subtitle">A journey from village kitchens to your table</p>
+    </div>
+
+    <div class="story-content">
+        {% for paragraph in story.split('\n\n') %}
+        <p>{{ paragraph }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section">
+    <h2 class="cta-title">Explore the Happy Eats Universe</h2>
+    <p style="font-size:1.1rem; max-width:700px; margin:0 auto 1.5rem;">
+        Discover our brand pillars, download assets, or explore our SharePoint workspace
+    </p>
+
+    <div class="cta-buttons">
+        <a href="/happy-eats/brand-pillars" class="btn-primary">
+            🏛️ Brand Pillars
+        </a>
+        <a href="/happy-eats/brand-assets" class="btn-primary">
+            📦 Brand Assets
+        </a>
+        <a href="/static/happy-eats/collateral/social-posts/index.html" class="btn-primary" target="_blank">
+            📱 Social Posts
+        </a>
+        <a href="/static/happy-eats/collateral/social-posts/new-year-2026-variants.html" class="btn-primary"
+            target="_blank">
+            🎆 New Year Generator
+        </a>
+        <a href="/drive" class="btn-secondary">
+            🗂️ SharePoint Drive
+        </a>
+    </div>
+</div>
+
+{% endblock %}

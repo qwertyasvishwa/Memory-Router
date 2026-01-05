@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Social Media Posts</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f4efe9;
+                color: #2c2416;
+            }
+
+            .wrap {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 28px 18px 60px;
+            }
+
+            .hero {
+                background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+                border: 2px solid #e8dfd4;
+                border-radius: 18px;
+                padding: 22px 20px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 18px;
+            }
+
+            .hero::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.06) 1px, transparent 1px);
+                background-size: 18px 18px;
+                opacity: 0.55;
+                pointer-events: none;
+            }
+
+            h1 {
+                margin: 0 0 8px 0;
+                font-size: 28px;
+                font-weight: 900;
+                letter-spacing: 0.2px;
+            }
+
+            p {
+                margin: 0;
+                color: #5c5244;
+                line-height: 1.6;
+                max-width: 900px;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 16px;
+                margin-top: 16px;
+            }
+
+            .card {
+                background: white;
+                border: 2px solid #e8dfd4;
+                border-radius: 16px;
+                padding: 14px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .meta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .title {
+                font-weight: 900;
+                font-size: 16px;
+            }
+
+            .pill {
+                font-size: 12px;
+                font-weight: 800;
+                padding: 6px 10px;
+                border-radius: 999px;
+                background: rgba(79, 139, 44, 0.12);
+                border: 1px solid rgba(79, 139, 44, 0.22);
+                color: #2c2416;
+                white-space: nowrap;
+            }
+
+            .actions {
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn {
+                flex: 1;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+                font-weight: 800;
+                border-radius: 10px;
+                padding: 10px 12px;
+                border: 2px solid #4f8b2c;
+                color: #4f8b2c;
+                background: transparent;
+            }
+
+            .btn.primary {
+                background: #4f8b2c;
+                color: white;
+            }
+
+            .btn:hover {
+                filter: brightness(0.98);
+                transform: translateY(-1px);
+            }
+
+            .thumb {
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid rgba(232, 223, 212, 0.9);
+                background: #faf7f2;
+            }
+
+            iframe {
+                width: 100%;
+                height: 420px;
+                border: 0;
+                background: white;
+            }
+
+            .note {
+                margin-top: 18px;
+                font-size: 13px;
+                color: #5c5244;
+            }
+
+            .note code {
+                background: rgba(232, 223, 212, 0.6);
+                padding: 2px 6px;
+                border-radius: 6px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <div class="hero">
+                <h1>📣 Social Media Posts (Variants)</h1>
+                <p>
+                    Multiple post variants that keep the packaging essence: warm paper background, green-forward
+                    accents, and subtle
+                    patterns. Use these as templates and tweak the copy per campaign.
+                </p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="meta">
+                        <div class="title">Brand Story / Awareness</div>
+                        <div class="pill">1080×1080</div>
+                    </div>
+                    <div class="thumb"><iframe src="/static/happy-eats/collateral/social-media-post.html"></iframe>
+                    </div>
+                    <div class="actions">
+                        <a class="btn primary" href="/static/happy-eats/collateral/social-media-post.html"
+                            target="_blank">Open</a>
+                        <a class="btn" href="/static/happy-eats/collateral/social-media-post.html" download>Download</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="meta">
+                        <div class="title">New Year 2026 (Hello 2026)</div>
+                        <div class="pill">1080×1080</div>
+                    </div>
+                    <div class="thumb"><iframe
+                            src="/static/happy-eats/collateral/social-media-post-new-year-2026.html"></iframe></div>
+                    <div class="actions">
+                        <a class="btn primary" href="/static/happy-eats/collateral/social-media-post-new-year-2026.html"
+                            target="_blank">Open</a>
+                        <a class="btn" href="/static/happy-eats/collateral/social-media-post-new-year-2026.html"
+                            download>Download</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="meta">
+                        <div class="title">Product Highlight (Methi Khakhra)</div>
+                        <div class="pill">1080×1080</div>
+                    </div>
+                    <div class="thumb"><iframe
+                            src="/static/happy-eats/collateral/social-media-post-product-methi.html"></iframe></div>
+                    <div class="actions">
+                        <a class="btn primary" href="/static/happy-eats/collateral/social-media-post-product-methi.html"
+                            target="_blank">Open</a>
+                        <a class="btn" href="/static/happy-eats/collateral/social-media-post-product-methi.html"
+                            download>Download</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="meta">
+                        <div class="title">Offer / CTA (Combo Pack)</div>
+                        <div class="pill">1080×1080</div>
+                    </div>
+                    <div class="thumb"><iframe
+                            src="/static/happy-eats/collateral/social-media-post-offer-combo.html"></iframe></div>
+                    <div class="actions">
+                        <a class="btn primary" href="/static/happy-eats/collateral/social-media-post-offer-combo.html"
+                            target="_blank">Open</a>
+                        <a class="btn" href="/static/happy-eats/collateral/social-media-post-offer-combo.html"
+                            download>Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note">
+                Tip: To export as image, open any variant in a browser and take a screenshot at 100% zoom (or use a
+                screenshot tool).
+                For the cleanest export, hide browser UI and capture only the canvas.
+                The logo is loaded from <code>/static/happy-eats/brand/logo.png</code>.
+            </div>
+        </div>
+    </body>
+
+</html>

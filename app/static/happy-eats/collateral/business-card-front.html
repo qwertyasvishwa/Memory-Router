@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Business Card Front</title>
+        <style>
+            @page {
+                size: 3.5in 2in;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 3.5in;
+                height: 2in;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #fbf8f3 0%, #f4efe9 55%, #eee6dd 100%);
+                position: relative;
+                padding: 0.18in;
+                box-sizing: border-box;
+            }
+
+            /* Subtle packaging pattern */
+            .card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.07) 1px, transparent 1px);
+                background-size: 16px 16px;
+                opacity: 0.5;
+                pointer-events: none;
+                mix-blend-mode: multiply;
+            }
+
+            .card::after {
+                content: "";
+                position: absolute;
+                top: -55%;
+                right: -35%;
+                width: 2.8in;
+                height: 2.8in;
+                background: radial-gradient(circle, rgba(79, 139, 44, 0.12) 0%, transparent 68%);
+                border-radius: 50%;
+            }
+
+            /* Safe area for print */
+            .safe {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                border-radius: 0.12in;
+                overflow: hidden;
+                display: grid;
+                grid-template-columns: 1fr 1.05in;
+                gap: 0.12in;
+                padding: 0.22in 0.22in 0.18in 0.22in;
+                box-sizing: border-box;
+                background: rgba(255, 255, 255, 0.55);
+                border: 1px solid rgba(232, 223, 212, 0.9);
+                box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+                backdrop-filter: blur(2px);
+            }
+
+            /* Arch label echoing the packaging */
+            .arch {
+                position: absolute;
+                right: -0.15in;
+                top: -0.05in;
+                width: 1.45in;
+                height: 1.65in;
+                border: 3px solid rgba(79, 139, 44, 0.5);
+                border-bottom: none;
+                border-radius: 1.2in 1.2in 0.18in 0.18in;
+                opacity: 0.55;
+                pointer-events: none;
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 0.1in;
+                position: relative;
+                z-index: 1;
+            }
+
+            .logo img {
+                width: 0.85in;
+                height: auto;
+                display: block;
+                filter: drop-shadow(0 6px 10px rgba(44, 36, 22, 0.10));
+            }
+
+            .logo-text {
+                font-size: 20pt;
+                font-weight: 900;
+                color: #2c2416;
+                line-height: 1;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                white-space: nowrap;
+                letter-spacing: 0.2px;
+            }
+
+            .tagline {
+                font-size: 9.5pt;
+                color: #5c5244;
+                font-weight: 600;
+                margin: 0.07in 0 0.12in 0;
+                position: relative;
+                z-index: 1;
+            }
+
+            .tagline strong {
+                color: #4f8b2c;
+                font-weight: 800;
+            }
+
+            .badges {
+                display: flex;
+                gap: 0.08in;
+                flex-wrap: wrap;
+                position: relative;
+                z-index: 1;
+            }
+
+            .badge {
+                background: #4f8b2c;
+                color: white;
+                padding: 0.04in 0.12in;
+                border-radius: 0.2in;
+                font-size: 7pt;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .badge.light {
+                background: rgba(79, 139, 44, 0.12);
+                color: #2c2416;
+                border: 1px solid rgba(79, 139, 44, 0.22);
+            }
+
+            .meta {
+                font-size: 7.5pt;
+                color: rgba(92, 82, 68, 0.95);
+                font-weight: 650;
+                line-height: 1.35;
+            }
+
+            .meta strong {
+                color: #4f8b2c;
+                font-weight: 900;
+                letter-spacing: 0.3px;
+            }
+
+            .right {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+                padding-top: 0.02in;
+            }
+
+            .flavor {
+                width: 0.8in;
+                height: 0.8in;
+                border-radius: 999px;
+                display: grid;
+                place-items: center;
+                background: rgba(79, 139, 44, 0.1);
+                border: 2px solid rgba(79, 139, 44, 0.5);
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+            }
+
+            .flavor span {
+                font-size: 7.5pt;
+                font-weight: 900;
+                color: #2c2416;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                text-align: center;
+                line-height: 1.1;
+            }
+
+            .stripe {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 0.14in;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 55%, #6e4ac8 100%);
+                opacity: 0.85;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <div class="safe">
+                <div>
+                    <div class="logo">
+                        <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                        <div class="logo-text">Happy Eats</div>
+                    </div>
+                    <div class="tagline"><strong>Organic</strong>. Fresh. Healthy.</div>
+
+                    <div class="badges">
+                        <span class="badge">100% HANDMADE</span>
+                        <span class="badge light">NO MAIDA</span>
+                        <span class="badge light">ZERO TRANS FAT</span>
+                    </div>
+
+                    <div style="margin-top:0.12in" class="meta">
+                        <div><strong>Ready-to-eat</strong> snacks • Sustainable packs</div>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <div class="flavor"><span>Fresh<br>Batch</span></div>
+                    <div class="meta" style="text-align:right;">
+                        www.happyeats.in
+                    </div>
+                </div>
+
+                <div class="arch"></div>
+            </div>
+            <div class="stripe"></div>
+        </div>
+    </body>
+
+</html>

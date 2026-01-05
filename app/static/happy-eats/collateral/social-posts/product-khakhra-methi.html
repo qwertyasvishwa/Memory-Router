@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Product Spotlight: Khakhra (Methi)</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #eaf6e6;
+                --bg1: #f4efe9;
+            }
+
+            .title {
+                font-size: 96px;
+                color: var(--green);
+            }
+
+            .subtitle {
+                max-width: 760px;
+            }
+
+            .center {
+                margin-top: 34px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .productCard {
+                width: 100%;
+                max-width: 820px;
+                padding: 44px 46px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .productCard::after {
+                content: "";
+                position: absolute;
+                inset: 22px;
+                border-radius: 28px;
+                border: 1px solid rgba(79, 139, 44, 0.18);
+                pointer-events: none;
+            }
+
+            .variantPill {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 16px;
+                border-radius: 999px;
+                border: 1px solid rgba(79, 139, 44, 0.22);
+                background: rgba(79, 139, 44, 0.08);
+                font-weight: 900;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                font-size: 12px;
+                color: rgba(44, 36, 22, 0.86);
+            }
+
+            .variantName {
+                margin-top: 18px;
+                font-size: 56px;
+                font-weight: 950;
+                letter-spacing: -0.03em;
+                color: var(--ink);
+            }
+
+            .variantSub {
+                margin-top: 10px;
+                font-size: 20px;
+                font-weight: 750;
+                color: var(--muted);
+            }
+
+            .chips {
+                margin-top: 26px;
+                justify-content: center;
+            }
+
+            .website {
+                margin-top: 36px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-package"></use>
+                        </svg>
+                        <span>Product Spotlight</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Khakhra</h1>
+                <p class="subtitle">Whole-wheat, roasted, and handmade — crafted for clean everyday crunch.</p>
+
+                <div class="center">
+                    <div class="card productCard">
+                        <div class="variantPill">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-leaf"></use>
+                            </svg>
+                            <span>Variant</span>
+                        </div>
+
+                        <div class="variantName">Methi</div>
+                        <div class="variantSub">Fenugreek • warm, earthy finish</div>
+
+                        <div class="chipRow chips" aria-label="Product attributes">
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-no"></use>
+                                </svg>
+                                <span>No Maida</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-hand"></use>
+                                </svg>
+                                <span>Handmade</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-heart"></use>
+                                </svg>
+                                <span>Cholesterol-Free</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-check"></use>
+                                </svg>
+                                <span>Zero Trans Fat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>

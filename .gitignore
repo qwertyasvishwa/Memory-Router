@@ -1,3 +1,18 @@
 .env
 __pycache__/
 *.pyc
+
+# Virtual environments
+.venv/
+
+# VS Code
+.vscode/
+
+# Runtime artifacts
+server.pid
+server-out.log
+server-err.log
+*.log
+
+# Local tool registry persistence
+.memory_router/

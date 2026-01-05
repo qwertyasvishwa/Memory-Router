@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    :root {
+        --cream-bg: #f4efe9;
+        --warm-beige: #e8dfd4;
+        --text-dark: #2c2416;
+        --green-primary: #4f8b2c;
+    }
+
+    body {
+        background: var(--cream-bg);
+    }
+
+    .pillars-hero {
+        background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 2px solid var(--warm-beige);
+    }
+
+    .pillars-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 1rem 0;
+        background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .pillars-hero p {
+        font-size: 1.2rem;
+        color: #5c5244;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .pillars-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .pillar-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pillar-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--green-primary), #3d6e23);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .pillar-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        border-color: var(--green-primary);
+    }
+
+    .pillar-card:hover::before {
+        opacity: 1;
+    }
+
+    .pillar-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+
+    .pillar-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 0.8rem 0;
+    }
+
+    .pillar-description {
+        font-size: 1rem;
+        color: #5c5244;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+    .pillar-details {
+        background: #f9f7f4;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1.2rem;
+        border-left: 3px solid var(--green-primary);
+    }
+
+    .pillar-details strong {
+        color: var(--green-primary);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .pillar-details ul {
+        margin: 0;
+        padding-left: 1.5rem;
+        color: #3d3529;
+    }
+
+    .pillar-details li {
+        margin-bottom: 0.4rem;
+    }
+
+    .back-nav {
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--green-primary);
+        color: white;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(79, 139, 44, 0.3);
+    }
+
+    .btn-back:hover {
+        background: #3d6e23;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 139, 44, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .pillars-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .pillars-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="pillars-hero">
+    <h1>🏛️ Our Brand Pillars</h1>
+    <p>
+        The foundation of Happy Eats—ten principles that guide every recipe, every package, and every promise we make to
+        you.
+    </p>
+</div>
+
+<div class="pillars-grid">
+    {% for pillar in pillars %}
+    <div class="pillar-card">
+        <div class="pillar-icon">{{ pillar.icon }}</div>
+        <h3 class="pillar-title">{{ pillar.title }}</h3>
+        <p class="pillar-description">{{ pillar.description }}</p>
+
+        {% if pillar.details %}
+        <div class="pillar-details">
+            <strong>How we deliver:</strong>
+            <ul>
+                {% for detail in pillar.details %}
+                <li>{{ detail }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="back-nav">
+    <a href="/happy-eats" class="btn-back">
+        <span>←</span>
+        <span>Back to Happy Eats Home</span>
+    </a>
+</div>
+
+{% endblock %}

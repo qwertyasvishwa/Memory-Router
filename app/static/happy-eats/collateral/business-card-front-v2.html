@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Business Card Front (Enhanced)</title>
+        <style>
+            @page {
+                size: 3.5in 2in;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 3.5in;
+                height: 2in;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #fbf9f5 0%, #f5f0ea 50%, #efe8df 100%);
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Packaging-inspired radial dots pattern */
+            .card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.08) 1.5px, transparent 1.5px);
+                background-size: 18px 18px;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            /* Decorative arch shape */
+            .arch-decoration {
+                position: absolute;
+                top: -0.08in;
+                right: 0.85in;
+                width: 1.2in;
+                height: 0.6in;
+                border: 3px solid rgba(79, 139, 44, 0.2);
+                border-radius: 1.2in 1.2in 0 0;
+                border-bottom: none;
+            }
+
+            /* Safe print area */
+            .safe {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                padding: 0.25in;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .top-section {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+
+            .logo-area {
+                flex: 1;
+            }
+
+            .logo {
+                width: 0.95in;
+                height: auto;
+                filter: drop-shadow(0 4px 8px rgba(44, 36, 22, 0.12));
+                margin-bottom: 0.08in;
+            }
+
+            .tagline {
+                font-size: 7.5pt;
+                color: #5c5244;
+                font-weight: 600;
+                letter-spacing: 0.3px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .tagline::before {
+                content: "🌱";
+                font-size: 9pt;
+            }
+
+            .badge-cluster {
+                display: flex;
+                flex-direction: column;
+                gap: 0.06in;
+                align-items: flex-end;
+            }
+
+            .badge {
+                background: rgba(79, 139, 44, 0.12);
+                border: 1.5px solid rgba(79, 139, 44, 0.3);
+                padding: 0.04in 0.1in;
+                border-radius: 0.15in;
+                font-size: 7pt;
+                font-weight: 700;
+                color: #3d6124;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                white-space: nowrap;
+            }
+
+            .badge.organic::before {
+                content: "🍃";
+                font-size: 8pt;
+            }
+
+            .badge.fresh::before {
+                content: "✨";
+                font-size: 7pt;
+            }
+
+            .brand-name {
+                font-size: 22pt;
+                font-weight: 900;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                line-height: 1;
+                margin-bottom: 0.05in;
+                letter-spacing: -0.5px;
+            }
+
+            .subtitle {
+                font-size: 8pt;
+                color: #6b5d4f;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-bottom: 0.12in;
+            }
+
+            .subtitle::before {
+                content: "🥘";
+                font-size: 9pt;
+            }
+
+            .quick-info {
+                display: flex;
+                gap: 0.15in;
+                flex-wrap: wrap;
+            }
+
+            .info-item {
+                font-size: 7pt;
+                color: #5c5244;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 0.04in 0.08in;
+                border-radius: 0.08in;
+                border: 1px solid rgba(232, 223, 212, 0.8);
+            }
+
+            .info-item.web::before {
+                content: "🌐";
+                font-size: 8pt;
+            }
+
+            .info-item.phone::before {
+                content: "📞";
+                font-size: 7pt;
+            }
+
+            /* Bottom color stripe */
+            .bottom-stripe {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 0.16in;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 50%, #6e4ac8 100%);
+                opacity: 0.85;
+            }
+
+            /* Micro ingredient icons */
+            .micro-icons {
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .micro-icons.top-right {
+                top: 0.15in;
+                right: 0.12in;
+                font-size: 11pt;
+                opacity: 0.3;
+            }
+
+            .micro-icons.bottom-left {
+                bottom: 0.28in;
+                left: 0.12in;
+                font-size: 10pt;
+                opacity: 0.25;
+                display: flex;
+                gap: 3px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <div class="arch-decoration"></div>
+            <div class="micro-icons top-right">🌿</div>
+            <div class="micro-icons bottom-left">
+                <span>🌾</span>
+                <span>🌶️</span>
+            </div>
+
+            <div class="safe">
+                <div class="top-section">
+                    <div class="logo-area">
+                        <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" class="logo" />
+                        <div class="tagline">Pure & Authentic</div>
+                    </div>
+                    <div class="badge-cluster">
+                        <div class="badge organic">100% Organic</div>
+                        <div class="badge fresh">Farm Fresh</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="brand-name">Happy Eats</div>
+                    <div class="subtitle">Traditional Indian Snacks</div>
+                    <div class="quick-info">
+                        <div class="info-item web">happyeats.in</div>
+                        <div class="info-item phone">+91 98765 43210</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-stripe"></div>
+        </div>
+    </body>
+
+</html>

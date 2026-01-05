@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Serve Ideas</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #f5f0ff;
+                --bg1: #e5dbf3;
+            }
+
+            .title {
+                font-size: 78px;
+                color: rgba(110, 74, 200, 0.98);
+            }
+
+            .ideas {
+                margin-top: 34px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .ideaCard {
+                padding: 22px 22px;
+                border-radius: 28px;
+                position: relative;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            .ideaCard::after {
+                content: "";
+                position: absolute;
+                right: 18px;
+                bottom: 18px;
+                width: 140px;
+                height: 70px;
+                border: 2px solid rgba(110, 74, 200, 0.14);
+                border-radius: 140px 140px 0 0;
+                border-bottom: none;
+                opacity: 0.9;
+                pointer-events: none;
+            }
+
+            .ideaHead {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 12px;
+            }
+
+            .ideaIcon {
+                width: 48px;
+                height: 48px;
+                border-radius: 18px;
+                display: grid;
+                place-items: center;
+                border: 1px solid rgba(44, 36, 22, 0.12);
+                background: rgba(255, 255, 255, 0.78);
+                color: rgba(44, 36, 22, 0.92);
+            }
+
+            .ideaTitle {
+                font-size: 20px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                color: rgba(44, 36, 22, 0.96);
+                line-height: 1.1;
+            }
+
+            .ideaDesc {
+                font-size: 14px;
+                font-weight: 720;
+                color: var(--muted);
+                line-height: 1.35;
+                max-width: 360px;
+            }
+
+            .ideaCard--wide {
+                grid-column: 1 / -1;
+            }
+
+            .cta {
+                margin-top: 18px;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 16px;
+                border-radius: 999px;
+                border: 1px solid rgba(110, 74, 200, 0.18);
+                background: rgba(110, 74, 200, 0.08);
+                color: rgba(44, 36, 22, 0.92);
+                font-weight: 900;
+                font-size: 15px;
+                width: fit-content;
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+            }
+
+            .website {
+                margin-top: 28px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-bowl"></use>
+                        </svg>
+                        <span>Serve Ideas</span>
+                    </div>
+                </div>
+
+                <h1 class="title">5 Ways to Enjoy</h1>
+                <p class="subtitle">Simple pairings that make every khakhra feel new.</p>
+
+                <div class="ideas" aria-label="Serve ideas">
+                    <div class="card ideaCard">
+                        <div class="ideaHead">
+                            <div class="ideaIcon" style="color: rgba(110,74,200,0.98); border-color: rgba(110,74,200,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-bowl"></use>
+                                </svg>
+                            </div>
+                            <div class="ideaTitle">With Spreads</div>
+                        </div>
+                        <div class="ideaDesc">Hummus, chutney, or hung curd — quick and satisfying.</div>
+                    </div>
+
+                    <div class="card ideaCard">
+                        <div class="ideaHead">
+                            <div class="ideaIcon" style="color: rgba(79,139,44,0.98); border-color: rgba(79,139,44,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-leaf"></use>
+                                </svg>
+                            </div>
+                            <div class="ideaTitle">Salad Crunch</div>
+                        </div>
+                        <div class="ideaDesc">Crush and sprinkle over salads for texture.</div>
+                    </div>
+
+                    <div class="card ideaCard">
+                        <div class="ideaHead">
+                            <div class="ideaIcon" style="color: rgba(44,36,22,0.92); border-color: rgba(44,36,22,0.14);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-cup"></use>
+                                </svg>
+                            </div>
+                            <div class="ideaTitle">Tea‑Time</div>
+                        </div>
+                        <div class="ideaDesc">A clean, roasted companion to chai or coffee.</div>
+                    </div>
+
+                    <div class="card ideaCard">
+                        <div class="ideaHead">
+                            <div class="ideaIcon" style="color: rgba(215,108,47,0.96); border-color: rgba(215,108,47,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-spark"></use>
+                                </svg>
+                            </div>
+                            <div class="ideaTitle">Chaat‑Style</div>
+                        </div>
+                        <div class="ideaDesc">Top with diced veggies, spices, and a squeeze of lime.</div>
+                    </div>
+
+                    <div class="card ideaCard ideaCard--wide">
+                        <div class="ideaHead">
+                            <div class="ideaIcon" style="color: rgba(79,139,44,0.98); border-color: rgba(79,139,44,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-package"></use>
+                                </svg>
+                            </div>
+                            <div class="ideaTitle">On‑the‑go Snack</div>
+                        </div>
+                        <div class="ideaDesc">Travel‑friendly crunch — keep a pack in your bag.</div>
+                    </div>
+                </div>
+
+                <div class="cta" aria-label="Call to action">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="./_icons.svg#icon-spark"></use>
+                    </svg>
+                    <span>Mix, match, repeat.</span>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>

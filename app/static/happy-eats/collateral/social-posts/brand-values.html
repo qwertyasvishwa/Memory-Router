@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Brand Values</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #f9f5f0;
+                --bg1: #ece5dc;
+            }
+
+            .title {
+                font-size: 78px;
+            }
+
+            .values {
+                margin-top: 34px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .valueCard {
+                padding: 28px 28px;
+                border-radius: 28px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .valueCard::after {
+                content: "";
+                position: absolute;
+                right: 18px;
+                bottom: 18px;
+                width: 140px;
+                height: 70px;
+                border: 2px solid rgba(79, 139, 44, 0.16);
+                border-radius: 140px 140px 0 0;
+                border-bottom: none;
+                opacity: 0.9;
+                pointer-events: none;
+            }
+
+            .valueHead {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 14px;
+            }
+
+            .valueIcon {
+                width: 52px;
+                height: 52px;
+                border-radius: 18px;
+                display: grid;
+                place-items: center;
+                border: 1px solid rgba(44, 36, 22, 0.12);
+                background: rgba(255, 255, 255, 0.75);
+                color: rgba(44, 36, 22, 0.92);
+            }
+
+            .valueTitle {
+                font-size: 22px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                line-height: 1.1;
+                color: var(--ink);
+            }
+
+            .valueText {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--muted);
+                line-height: 1.45;
+                max-width: 360px;
+            }
+
+            .website {
+                margin-top: 32px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-check"></use>
+                        </svg>
+                        <span>Brand</span>
+                    </div>
+                </div>
+
+                <h1 class="title">What We Stand For</h1>
+                <p class="subtitle">Four pillars that guide every ingredient, batch, and pack.</p>
+
+                <div class="values" aria-label="Brand pillars">
+                    <div class="card valueCard">
+                        <div class="valueHead">
+                            <div class="valueIcon" style="color: var(--green); border-color: rgba(79,139,44,0.18);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-hand"></use>
+                                </svg>
+                            </div>
+                            <div class="valueTitle">Handmade</div>
+                        </div>
+                        <div class="valueText">Traditional recipes crafted in small batches.</div>
+                    </div>
+
+                    <div class="card valueCard">
+                        <div class="valueHead">
+                            <div class="valueIcon" style="color: var(--green); border-color: rgba(79,139,44,0.18);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-leaf"></use>
+                                </svg>
+                            </div>
+                            <div class="valueTitle">Organic</div>
+                        </div>
+                        <div class="valueText">Clean ingredients — no maida, no shortcuts.</div>
+                    </div>
+
+                    <div class="card valueCard">
+                        <div class="valueHead">
+                            <div class="valueIcon" style="color: var(--orange); border-color: rgba(215,108,47,0.18);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-spark"></use>
+                                </svg>
+                            </div>
+                            <div class="valueTitle">Fresh</div>
+                        </div>
+                        <div class="valueText">Roasted and packed to lock in crunch.</div>
+                    </div>
+
+                    <div class="card valueCard">
+                        <div class="valueHead">
+                            <div class="valueIcon" style="color: rgba(44,36,22,0.92); border-color: rgba(44,36,22,0.14);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-heart"></use>
+                                </svg>
+                            </div>
+                            <div class="valueTitle">Heart-Healthy</div>
+                        </div>
+                        <div class="valueText">Cholesterol-free with zero trans fat.</div>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>

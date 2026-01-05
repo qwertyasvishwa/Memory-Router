@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Eats - Letterhead</title>
+        <style>
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 210mm;
+                height: 297mm;
+                position: relative;
+                background: white;
+            }
+
+            .letterhead {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                padding: 20mm;
+                box-sizing: border-box;
+            }
+
+            /* Header */
+            .header {
+                background: linear-gradient(135deg, #f9f5f0 0%, #f4efe9 50%, #ece5dc 100%);
+                padding: 15mm 20mm;
+                margin: -20mm -20mm 15mm -20mm;
+                border-bottom: 3px solid #4f8b2c;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Packaging-inspired pattern layer */
+            .header::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.06) 1px, transparent 1px);
+                background-size: 6mm 6mm;
+                opacity: 0.55;
+                pointer-events: none;
+            }
+
+            .header::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                right: -10%;
+                width: 150mm;
+                height: 150mm;
+                background: radial-gradient(circle, rgba(79, 139, 44, 0.08) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .header-content {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo-section {
+                flex: 1;
+            }
+
+            .brand-lockup {
+                display: flex;
+                align-items: center;
+                gap: 8mm;
+            }
+
+            .brand-lockup img {
+                width: 22mm;
+                height: auto;
+                display: block;
+                filter: drop-shadow(0 6px 10px rgba(44, 36, 22, 0.10));
+            }
+
+            .logo {
+                font-size: 32pt;
+                font-weight: 900;
+                color: #2c2416;
+                margin-bottom: 3mm;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .logo small {
+                display: block;
+                font-size: 10pt;
+                font-weight: 800;
+                letter-spacing: 0.8mm;
+                color: rgba(44, 36, 22, 0.55);
+                -webkit-text-fill-color: rgba(44, 36, 22, 0.55);
+                margin-top: 1mm;
+            }
+
+            .tagline {
+                font-size: 11pt;
+                color: #5c5244;
+                font-weight: 600;
+            }
+
+            .badges {
+                display: flex;
+                gap: 3mm;
+                margin-top: 3mm;
+            }
+
+            .badge {
+                background: #4f8b2c;
+                color: white;
+                padding: 1.5mm 4mm;
+                border-radius: 10mm;
+                font-size: 8pt;
+                font-weight: 700;
+            }
+
+            .contact-section {
+                text-align: right;
+                font-size: 9pt;
+                color: #5c5244;
+                line-height: 1.6;
+            }
+
+            .contact-section strong {
+                color: #4f8b2c;
+            }
+
+            /* Content Area */
+            .content {
+                min-height: 180mm;
+                padding: 10mm 0;
+            }
+
+            .date {
+                font-size: 10pt;
+                color: #5c5244;
+                margin-bottom: 8mm;
+            }
+
+            .body-text {
+                font-size: 11pt;
+                color: #2c2416;
+                line-height: 1.8;
+            }
+
+            /* Footer */
+            .footer {
+                position: absolute;
+                bottom: 15mm;
+                left: 20mm;
+                right: 20mm;
+                padding-top: 5mm;
+                border-top: 2px solid #f4efe9;
+                text-align: center;
+                font-size: 8pt;
+                color: #5c5244;
+            }
+
+            .footer::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: -2px;
+                width: 100%;
+                height: 2mm;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 55%, #6e4ac8 100%);
+                opacity: 0.6;
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                gap: 10mm;
+                flex-wrap: wrap;
+            }
+
+            .footer-item {
+                display: flex;
+                align-items: center;
+                gap: 2mm;
+            }
+
+            .footer-icon {
+                color: #4f8b2c;
+                font-weight: 700;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="letterhead">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <div class="brand-lockup">
+                            <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                            <div>
+                                <div class="logo">Happy Eats</div>
+                                <div class="tagline">Organic. Fresh. Healthy.</div>
+                            </div>
+                        </div>
+                        <div class="badges">
+                            <span class="badge">100% HANDMADE</span>
+                            <span class="badge">NO MAIDA</span>
+                            <span class="badge">ZERO TRANS FAT</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <div><strong>Happy Eats Private Limited</strong></div>
+                        <div>Gujarat, India</div>
+                        <div style="margin-top: 3mm;">
+                            <div>📧 contact@happyeats.in</div>
+                            <div>📱 +91 98765 43210</div>
+                            <div>🌐 www.happyeats.in</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <div class="date">[Date]</div>
+
+                <div class="body-text">
+                    <p>Dear [Recipient Name],</p>
+
+                    <p>[Your letter content goes here. This letterhead template features the Happy Eats brand identity
+                        with warm colors, professional styling, and all contact information clearly displayed.]</p>
+
+                    <p>[Continue your message with multiple paragraphs as needed. The design maintains readability while
+                        showcasing the brand's organic, trustworthy character.]</p>
+
+                    <p>Warm regards,</p>
+
+                    <p style="margin-top: 15mm;">
+                        <strong>[Your Name]</strong><br>
+                        [Your Title]<br>
+                        Happy Eats
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-content">
+                    <div class="footer-item">
+                        <span class="footer-icon">🌿</span>
+                        <span>100% Natural Ingredients</span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="footer-icon">❤️</span>
+                        <span>Made with Love in India</span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="footer-icon">♻️</span>
+                        <span>Sustainable Packaging</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

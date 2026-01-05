@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 from pathlib import Path
 
 import uvicorn
@@ -45,8 +46,20 @@ def main() -> None:
     project_root = Path(__file__).resolve().parents[1]
     os.chdir(project_root)
 
+    # Ensure the repo root is importable even when this script is launched
+    # from process managers / services that don't set PYTHONPATH.
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+
+    # Import the app object directly so uvicorn doesn't need to resolve
+    # the import string in a potentially different import context.
+    from app.main import app  # noqa: WPS433
+
+    # On Windows + some environments (and especially with file watching), reload can
+    # cause confusing behavior or unexpected exits. Default to a stable single-process
+    # dev server; use --reload explicitly if you need it.
     uvicorn.run(
-        "app.main:app",
+        app,
         host=args.host,
         port=args.port,
         log_level=args.log_level,

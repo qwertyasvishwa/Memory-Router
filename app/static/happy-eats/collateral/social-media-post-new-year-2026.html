@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Social Media Post (New Year 2026)</title>
+        <style>
+            @page {
+                size: 1080px 1080px;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 1080px;
+                height: 1080px;
+                overflow: hidden;
+                background: #f4efe9;
+            }
+
+            .post {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                background: radial-gradient(circle at 20% 0%, rgba(215, 108, 47, 0.08), transparent 55%),
+                    radial-gradient(circle at 90% 15%, rgba(79, 139, 44, 0.10), transparent 55%),
+                    linear-gradient(135deg, #f9f5f0 0%, #f4efe9 55%, #ece5dc 100%);
+                box-sizing: border-box;
+                padding: 78px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            /* Packaging-inspired pattern overlay */
+            .pattern {
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(rgba(79, 139, 44, 0.06) 1px, transparent 1px);
+                background-size: 22px 22px;
+                opacity: 0.55;
+                pointer-events: none;
+                mix-blend-mode: multiply;
+            }
+
+            .top {
+                width: 100%;
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
+            .year {
+                font-size: 140px;
+                font-weight: 900;
+                letter-spacing: 0.02em;
+                color: #2c2416;
+                line-height: 0.92;
+            }
+
+            .spark {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background: #d9b54a;
+                transform: rotate(45deg);
+                border-radius: 2px;
+                margin-left: 12px;
+                margin-top: 18px;
+                box-shadow: 0 8px 18px rgba(217, 181, 74, 0.45);
+            }
+
+            .subtitle {
+                margin-top: 18px;
+                font-size: 44px;
+                font-weight: 800;
+                color: #2c2416;
+            }
+
+            .subtitle small {
+                display: block;
+                margin-top: 12px;
+                font-size: 28px;
+                font-weight: 700;
+                color: #5c5244;
+            }
+
+            .logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+                position: relative;
+                z-index: 1;
+                margin-top: 6px;
+            }
+
+            .logo img {
+                width: 190px;
+                height: auto;
+                display: block;
+                filter: drop-shadow(0 10px 18px rgba(44, 36, 22, 0.12));
+            }
+
+            .logo .word {
+                font-size: 54px;
+                font-weight: 900;
+                background: linear-gradient(135deg, #2c2416 0%, #4f8b2c 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                line-height: 1;
+            }
+
+            .center {
+                width: 100%;
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .pack {
+                width: 420px;
+                height: 420px;
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.68);
+                border: 2px solid rgba(232, 223, 212, 0.95);
+                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .pack::before {
+                content: "";
+                position: absolute;
+                top: -30%;
+                right: -30%;
+                width: 360px;
+                height: 360px;
+                background: radial-gradient(circle, rgba(79, 139, 44, 0.12) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .pack .label {
+                position: relative;
+                z-index: 1;
+                font-weight: 900;
+                font-size: 54px;
+                letter-spacing: 0.02em;
+                color: #2c2416;
+            }
+
+            .pack .hint {
+                position: relative;
+                z-index: 1;
+                margin-top: 12px;
+                font-size: 22px;
+                color: #5c5244;
+                font-weight: 700;
+            }
+
+            .spice {
+                position: absolute;
+                z-index: 1;
+                width: 130px;
+                height: 22px;
+                border-radius: 999px;
+                background: linear-gradient(90deg, rgba(215, 108, 47, 0.95), rgba(215, 108, 47, 0.55));
+                transform: rotate(-24deg);
+                filter: blur(0.1px);
+                opacity: 0.95;
+            }
+
+            .spice.left {
+                left: 96px;
+                top: 600px;
+            }
+
+            .spice.right {
+                right: 96px;
+                top: 612px;
+                transform: rotate(24deg);
+            }
+
+            .leaf {
+                position: absolute;
+                z-index: 1;
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                border: 2px solid rgba(79, 139, 44, 0.55);
+                background: rgba(79, 139, 44, 0.08);
+                transform: rotate(18deg);
+                right: 160px;
+                top: 700px;
+            }
+
+            .bottom {
+                width: 100%;
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 16px;
+            }
+
+            .badges {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .badge {
+                background: rgba(255, 255, 255, 0.82);
+                border: 2px solid rgba(232, 223, 212, 0.95);
+                border-radius: 999px;
+                padding: 10px 16px;
+                font-weight: 900;
+                font-size: 16px;
+                color: #2c2416;
+            }
+
+            .badge strong {
+                color: #4f8b2c;
+            }
+
+            .site {
+                font-size: 22px;
+                font-weight: 900;
+                color: #4f8b2c;
+            }
+
+            .strip {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 28px;
+                background: linear-gradient(90deg, #4f8b2c 0%, #d76c2f 55%, #6e4ac8 100%);
+                opacity: 0.85;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="pattern"></div>
+
+            <div class="top">
+                <div>
+                    <div class="year">2026<span class="spark"></span></div>
+                    <div class="subtitle">
+                        Hello 2026
+                        <small>New flavors coming soon!</small>
+                    </div>
+                </div>
+                <div class="logo">
+                    <img src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="word">Happy Eats</div>
+                </div>
+            </div>
+
+            <div class="center">
+                <div class="pack">
+                    <div class="label">Happy Eats</div>
+                    <div class="hint">2026 • New launches • Same love</div>
+                </div>
+                <div class="spice left"></div>
+                <div class="spice right"></div>
+                <div class="leaf"></div>
+            </div>
+
+            <div class="bottom">
+                <div class="badges">
+                    <div class="badge"><strong>100%</strong> Handmade</div>
+                    <div class="badge">No Maida</div>
+                    <div class="badge">Zero Trans Fat</div>
+                </div>
+                <div class="site">www.happyeats.in</div>
+            </div>
+
+            <div class="strip"></div>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Brand Story: Taste the Tradition</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #fbf8f3;
+                --bg1: #ece5dc;
+            }
+
+            .title {
+                font-size: 84px;
+            }
+
+            .messageCard {
+                margin-top: 34px;
+                padding: 44px 44px;
+                border-radius: 32px;
+                position: relative;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            .messageCard::after {
+                content: "";
+                position: absolute;
+                right: 26px;
+                top: 26px;
+                width: 220px;
+                height: 110px;
+                border: 2px solid rgba(79, 139, 44, 0.14);
+                border-radius: 220px 220px 0 0;
+                border-bottom: none;
+                pointer-events: none;
+                opacity: 0.95;
+            }
+
+            .messageLead {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-weight: 900;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                font-size: 12px;
+                color: rgba(79, 139, 44, 0.92);
+                margin-bottom: 18px;
+            }
+
+            .messageText {
+                font-size: 28px;
+                line-height: 1.35;
+                font-weight: 780;
+                color: rgba(44, 36, 22, 0.94);
+                max-width: 740px;
+            }
+
+            .chips {
+                margin-top: 22px;
+                justify-content: flex-start;
+            }
+
+            .website {
+                margin-top: 34px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-spark"></use>
+                        </svg>
+                        <span>Brand Story</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Taste the Tradition</h1>
+                <p class="subtitle">Authentic Indian snacks — crafted with care for modern wellness.</p>
+
+                <div class="card messageCard">
+                    <div class="messageLead">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-hand"></use>
+                        </svg>
+                        <span>Handmade • Organic • Honest</span>
+                    </div>
+                    <div class="messageText">
+                        From Gujarat’s golden khakhras to Kerala’s crispy banana chips — heritage flavors, clean
+                        ingredients, and a crunch that feels like home.
+                    </div>
+
+                    <div class="chipRow chips" aria-label="Brand highlights">
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-hand"></use>
+                            </svg>
+                            <span>Handmade</span>
+                        </div>
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-no"></use>
+                            </svg>
+                            <span>No Maida</span>
+                        </div>
+                        <div class="chip">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-check"></use>
+                            </svg>
+                            <span>Zero Trans Fat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Product Campaign: Khakhra Collection</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #f0f8ec;
+                --bg1: #dfebd4;
+            }
+
+            .title {
+                font-size: 86px;
+            }
+
+            .subtitle {
+                max-width: 780px;
+            }
+
+            .variants {
+                margin-top: 34px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .variantCard {
+                padding: 26px 26px;
+                border-radius: 26px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                border: 2px solid rgba(44, 36, 22, 0.10);
+                background: rgba(255, 255, 255, 0.84);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+            }
+
+            .variantMark {
+                width: 54px;
+                height: 54px;
+                border-radius: 18px;
+                display: grid;
+                place-items: center;
+                background: rgba(79, 139, 44, 0.10);
+                border: 1px solid rgba(79, 139, 44, 0.18);
+                color: var(--green);
+            }
+
+            .variantText {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .variantName {
+                font-size: 22px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                color: var(--ink);
+                line-height: 1.1;
+            }
+
+            .variantNote {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--muted);
+                line-height: 1.25;
+            }
+
+            .chips {
+                margin-top: 24px;
+            }
+
+            .website {
+                margin-top: 34px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-package"></use>
+                        </svg>
+                        <span>Product Campaign</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Khakhra Collection</h1>
+                <p class="subtitle">Four bestsellers — balanced flavors, clean ingredients, and a crisp roast.</p>
+
+                <div class="variants" aria-label="Featured variants">
+                    <div class="variantCard">
+                        <div class="variantMark" style="color: var(--green); background: rgba(79,139,44,0.10);">
+                            <svg class="icon icon--lg" aria-hidden="true">
+                                <use href="./_icons.svg#icon-leaf"></use>
+                            </svg>
+                        </div>
+                        <div class="variantText">
+                            <div class="variantName">Methi</div>
+                            <div class="variantNote">Fenugreek • earthy finish</div>
+                        </div>
+                    </div>
+                    <div class="variantCard">
+                        <div class="variantMark" style="color: var(--orange); background: rgba(215,108,47,0.10); border-color: rgba(215,108,47,0.18);">
+                            <svg class="icon icon--lg" aria-hidden="true">
+                                <use href="./_icons.svg#icon-flame"></use>
+                            </svg>
+                        </div>
+                        <div class="variantText">
+                            <div class="variantName">Masala</div>
+                            <div class="variantNote">Spiced • bold aroma</div>
+                        </div>
+                    </div>
+                    <div class="variantCard">
+                        <div class="variantMark" style="color: rgba(44,36,22,0.92); background: rgba(44,36,22,0.06); border-color: rgba(44,36,22,0.12);">
+                            <svg class="icon icon--lg" aria-hidden="true">
+                                <use href="./_icons.svg#icon-seed"></use>
+                            </svg>
+                        </div>
+                        <div class="variantText">
+                            <div class="variantName">Jeera</div>
+                            <div class="variantNote">Cumin • classic crunch</div>
+                        </div>
+                    </div>
+                    <div class="variantCard">
+                        <div class="variantMark" style="color: var(--purple); background: rgba(110,74,200,0.10); border-color: rgba(110,74,200,0.18);">
+                            <svg class="icon icon--lg" aria-hidden="true">
+                                <use href="./_icons.svg#icon-leaf"></use>
+                            </svg>
+                        </div>
+                        <div class="variantText">
+                            <div class="variantName">Pudina</div>
+                            <div class="variantNote">Mint • fresh lift</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chipRow chips" aria-label="Collection highlights">
+                    <div class="chip">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-leaf"></use>
+                        </svg>
+                        <span>Organic</span>
+                    </div>
+                    <div class="chip">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-hand"></use>
+                        </svg>
+                        <span>Handmade</span>
+                    </div>
+                    <div class="chip">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-heart"></use>
+                        </svg>
+                        <span>Heart-Healthy</span>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>

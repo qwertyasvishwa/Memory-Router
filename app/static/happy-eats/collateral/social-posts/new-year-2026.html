@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - New Year 2026</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #f5ede3;
+                --bg1: #e8dfd4;
+            }
+
+            .title {
+                font-size: 84px;
+                letter-spacing: -0.05em;
+            }
+
+            .subtitle {
+                max-width: 820px;
+            }
+
+            .heroGrid {
+                margin-top: 34px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                align-items: stretch;
+            }
+
+            .leftCard,
+            .rightCard {
+                padding: 34px 34px;
+                border-radius: 32px;
+                position: relative;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            .leftCard::after {
+                content: "";
+                position: absolute;
+                inset: 22px;
+                border-radius: 28px;
+                border: 1px solid rgba(44, 36, 22, 0.10);
+                pointer-events: none;
+            }
+
+            .yearMark {
+                font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+                font-size: 142px;
+                font-weight: 450;
+                letter-spacing: -0.06em;
+                opacity: 0.12;
+                line-height: 0.9;
+            }
+
+            .greeting {
+                margin-top: 6px;
+                font-size: 44px;
+                font-weight: 950;
+                letter-spacing: -0.03em;
+                color: rgba(44, 36, 22, 0.96);
+            }
+
+            .message {
+                margin-top: 12px;
+                font-size: 20px;
+                font-weight: 720;
+                color: var(--muted);
+                line-height: 1.35;
+                max-width: 360px;
+            }
+
+            .rightCard::after {
+                content: "";
+                position: absolute;
+                right: 22px;
+                top: 22px;
+                width: 190px;
+                height: 95px;
+                border: 2px solid rgba(79, 139, 44, 0.14);
+                border-radius: 190px 190px 0 0;
+                border-bottom: none;
+                opacity: 0.95;
+                pointer-events: none;
+            }
+
+            .rightHead {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 10px 12px;
+                border-radius: 999px;
+                border: 1px solid rgba(79, 139, 44, 0.18);
+                background: rgba(79, 139, 44, 0.08);
+                font-weight: 950;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                font-size: 12px;
+                color: rgba(44, 36, 22, 0.86);
+                width: fit-content;
+            }
+
+            .rightTitle {
+                margin-top: 18px;
+                font-size: 32px;
+                font-weight: 950;
+                letter-spacing: -0.03em;
+                color: rgba(44, 36, 22, 0.96);
+            }
+
+            .rightText {
+                margin-top: 10px;
+                font-size: 16px;
+                font-weight: 720;
+                color: var(--muted);
+                line-height: 1.35;
+                max-width: 360px;
+            }
+
+            .chips {
+                margin-top: 18px;
+                justify-content: flex-start;
+            }
+
+            .website {
+                margin-top: 34px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-spark"></use>
+                        </svg>
+                        <span>Seasonal</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Hello 2026</h1>
+                <p class="subtitle">New flavors coming soon — clean ingredients, careful craft.</p>
+
+                <div class="heroGrid" aria-label="New Year campaign content">
+                    <div class="card leftCard">
+                        <div class="yearMark" aria-hidden="true">2026</div>
+                        <div class="greeting">Happy New Year</div>
+                        <div class="message">Here’s to a year of healthier snacking and stronger everyday choices.</div>
+                    </div>
+
+                    <div class="card rightCard">
+                        <div class="rightHead">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="./_icons.svg#icon-package"></use>
+                            </svg>
+                            <span>New Launches</span>
+                        </div>
+
+                        <div class="rightTitle">Same love. Fresh ideas.</div>
+                        <div class="rightText">Small‑batch, handmade snacks — with more to discover through 2026.</div>
+
+                        <div class="chipRow chips" aria-label="Highlights">
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-hand"></use>
+                                </svg>
+                                <span>Handmade</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-no"></use>
+                                </svg>
+                                <span>No Maida</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-heart"></use>
+                                </svg>
+                                <span>Heart‑Healthy</span>
+                            </div>
+                            <div class="chip">
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-check"></use>
+                                </svg>
+                                <span>Zero Trans Fat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>
+

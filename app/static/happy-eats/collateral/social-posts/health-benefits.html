@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Eats - Health Benefits</title>
+        <link rel="stylesheet" href="./_shared.css" />
+        <style>
+            :root {
+                --bg0: #fff8f0;
+                --bg1: #fdeede;
+            }
+
+            .title {
+                font-size: 78px;
+                color: rgba(215, 108, 47, 0.98);
+            }
+
+            .benefits {
+                margin-top: 34px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+
+            .benefitCard {
+                padding: 28px 26px;
+                border-radius: 28px;
+                position: relative;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            .benefitCard::after {
+                content: "";
+                position: absolute;
+                right: 18px;
+                top: 18px;
+                width: 160px;
+                height: 80px;
+                border: 2px solid rgba(215, 108, 47, 0.14);
+                border-radius: 160px 160px 0 0;
+                border-bottom: none;
+                opacity: 0.95;
+                pointer-events: none;
+            }
+
+            .benefitHead {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 14px;
+            }
+
+            .benefitIcon {
+                width: 52px;
+                height: 52px;
+                border-radius: 18px;
+                display: grid;
+                place-items: center;
+                border: 1px solid rgba(44, 36, 22, 0.12);
+                background: rgba(255, 255, 255, 0.78);
+                color: rgba(44, 36, 22, 0.92);
+            }
+
+            .benefitTitle {
+                font-size: 22px;
+                font-weight: 950;
+                letter-spacing: -0.02em;
+                line-height: 1.15;
+                color: rgba(44, 36, 22, 0.96);
+            }
+
+            .benefitDesc {
+                font-size: 14px;
+                font-weight: 720;
+                color: var(--muted);
+                line-height: 1.35;
+                max-width: 360px;
+            }
+
+            .cta {
+                margin-top: 22px;
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 18px;
+                border-radius: 999px;
+                background: rgba(215, 108, 47, 0.10);
+                border: 1px solid rgba(215, 108, 47, 0.22);
+                color: rgba(44, 36, 22, 0.92);
+                font-weight: 900;
+                font-size: 16px;
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+            }
+
+            .website {
+                margin-top: 32px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="post">
+            <div class="safe">
+                <div class="topbar">
+                    <img class="logo" src="/static/happy-eats/brand/logo.png" alt="Happy Eats logo" />
+                    <div class="kicker">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="./_icons.svg#icon-heart"></use>
+                        </svg>
+                        <span>Benefits</span>
+                    </div>
+                </div>
+
+                <h1 class="title">Health Benefits</h1>
+                <p class="subtitle">Clean ingredients, careful roasting, and guilt‑free crunch.</p>
+
+                <div class="benefits" aria-label="Health benefits">
+                    <div class="card benefitCard">
+                        <div class="benefitHead">
+                            <div class="benefitIcon" style="color: rgba(215,108,47,0.96); border-color: rgba(215,108,47,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-heart"></use>
+                                </svg>
+                            </div>
+                            <div class="benefitTitle">Heart‑Healthy</div>
+                        </div>
+                        <div class="benefitDesc">Cholesterol‑free with zero trans fat.</div>
+                    </div>
+
+                    <div class="card benefitCard">
+                        <div class="benefitHead">
+                            <div class="benefitIcon" style="color: rgba(79,139,44,0.98); border-color: rgba(79,139,44,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-bolt"></use>
+                                </svg>
+                            </div>
+                            <div class="benefitTitle">High Protein</div>
+                        </div>
+                        <div class="benefitDesc">Plant‑based nutrition that keeps you going.</div>
+                    </div>
+
+                    <div class="card benefitCard">
+                        <div class="benefitHead">
+                            <div class="benefitIcon" style="color: rgba(44,36,22,0.92); border-color: rgba(44,36,22,0.14);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-wheat"></use>
+                                </svg>
+                            </div>
+                            <div class="benefitTitle">Rich in Fiber</div>
+                        </div>
+                        <div class="benefitDesc">Whole‑grain goodness that supports digestion.</div>
+                    </div>
+
+                    <div class="card benefitCard">
+                        <div class="benefitHead">
+                            <div class="benefitIcon" style="color: rgba(79,139,44,0.98); border-color: rgba(79,139,44,0.16);">
+                                <svg class="icon icon--lg" aria-hidden="true">
+                                    <use href="./_icons.svg#icon-leaf"></use>
+                                </svg>
+                            </div>
+                            <div class="benefitTitle">100% Natural</div>
+                        </div>
+                        <div class="benefitDesc">No maida, no preservatives, no additives.</div>
+                    </div>
+                </div>
+
+                <div class="cta" aria-label="Call to action">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="./_icons.svg#icon-spark"></use>
+                    </svg>
+                    <span>Snack clean. Feel good.</span>
+                </div>
+
+                <div class="website">www.happyeats.in</div>
+            </div>
+
+            <div class="bottomStrip"></div>
+        </div>
+
+        <script src="./_preview.js"></script>
+    </body>
+
+</html>
