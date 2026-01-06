@@ -1,7 +1,9 @@
 import io
 import os
 import logging
+import datetime
 from typing import List, Optional
+from urllib.parse import quote
 
 import json
 
@@ -27,6 +29,13 @@ from .schemas import (
 from .sharepoint_client import graph_client
 from .todos import todo_service
 from .git_sync import GitError, conflict_files, conflict_markers_preview, fetch, get_status, pull_rebase, push
+from .brands import BrandSpec, list_brands
+from .brand_guidelines_samples import (
+    list_brand_guidelines_samples,
+    load_brand_guidelines_sample,
+    resolve_static_paths,
+)
+from .collateral_pack import generate_collateral_pack
 from .tools_registry import ToolCreate, ToolRunRequest, ToolRunResult, ToolSpec, tool_registry
 from .tool_store import load_tools, save_tools
 
@@ -509,6 +518,7 @@ async def tools_view(request: Request) -> HTMLResponse:
         {
             "request": request,
             "tools": tool_registry.list_tools(),
+            "brands": list_brands(),
             "run_result": None,
         },
     )
@@ -550,14 +560,111 @@ async def tools_run_form(
         run_result = {"ok": False, "tool_id": tool_id, "error": f"Invalid JSON: {exc}"}
         return templates.TemplateResponse(
             "tools.html",
-            {"request": request, "tools": tool_registry.list_tools(), "run_result": run_result},
+            {"request": request, "tools": tool_registry.list_tools(), "brands": list_brands(), "run_result": run_result},
         )
 
     result = tool_registry.run(tool_id, ToolRunRequest(input=parsed))
     return templates.TemplateResponse(
         "tools.html",
-        {"request": request, "tools": tool_registry.list_tools(), "run_result": result.model_dump()},
+        {"request": request, "tools": tool_registry.list_tools(), "brands": list_brands(), "run_result": result.model_dump()},
     )
+
+
+@app.get("/tools/social-posts/new-year", response_class=HTMLResponse)
+async def tools_new_year_generator(
+    request: Request,
+    brand: str | None = None,
+    year: str | None = None,
+) -> HTMLResponse:
+    brands = list_brands()
+    selected_brand = (brand or "").strip()
+    if not selected_brand or not any(b.id == selected_brand for b in brands):
+        selected_brand = brands[0].id if brands else "happy-eats"
+
+    resolved_year = (year or "").strip() or str(datetime.date.today().year + 1)
+    generator_src = (
+        "/static/tools/social-posts/new-year/index.html"
+        f"?brand={quote(selected_brand)}&year={quote(resolved_year)}"
+    )
+
+    return templates.TemplateResponse(
+        "tools_new_year.html",
+        {
+            "request": request,
+            "brands": brands or [BrandSpec(id="happy-eats", name="Happy Eats")],
+            "selected_brand": selected_brand,
+            "year": resolved_year,
+            "generator_src": generator_src,
+        },
+    )
+
+
+@app.get("/tools/collaterals", response_class=HTMLResponse)
+async def tools_collaterals_view(
+    request: Request,
+    brand: str | None = None,
+) -> HTMLResponse:
+    brands = list_brands()
+    selected_brand = (brand or "").strip()
+    if not selected_brand or not any(b.id == selected_brand for b in brands):
+        selected_brand = brands[0].id if brands else "happy-eats"
+
+    generated_index_url = f"/static/generated/{selected_brand}/collateral/index.html"
+    # Only show preview link if the file exists on disk.
+    generated_exists = os.path.exists(os.path.join("app", "static", "generated", selected_brand, "collateral", "index.html"))
+
+    return templates.TemplateResponse(
+        "tools_collaterals.html",
+        {
+            "request": request,
+            "brands": brands or [BrandSpec(id="happy-eats", name="Happy Eats")],
+            "selected_brand": selected_brand,
+            "generated_index_url": generated_index_url if generated_exists else None,
+        },
+    )
+
+
+@app.get("/tools/brand-guidelines", response_class=HTMLResponse)
+async def tools_brand_guidelines_view(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse(
+        "tools_brand_guidelines.html",
+        {"request": request, "samples": list_brand_guidelines_samples()},
+    )
+
+
+@app.get("/tools/brand-guidelines/samples/{sample_id}", response_class=HTMLResponse)
+async def tools_brand_guidelines_sample_view(request: Request, sample_id: str) -> HTMLResponse:
+    try:
+        sample = load_brand_guidelines_sample(sample_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sample not found",
+        ) from exc
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to load sample: {exc}",
+        ) from exc
+
+    sample = resolve_static_paths(sample)
+    return templates.TemplateResponse(
+        "tools_brand_guidelines_sample.html",
+        {"request": request, "sample": sample},
+    )
+
+
+@app.post("/tools/collaterals/generate", response_class=RedirectResponse)
+async def tools_collaterals_generate(
+    brand: str = Form(...),
+) -> RedirectResponse:
+    brands = list_brands()
+    selected_brand = (brand or "").strip()
+    if not selected_brand or not any(b.id == selected_brand for b in brands):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unknown brand")
+
+    urls = generate_collateral_pack(selected_brand)
+    return RedirectResponse(url=urls["index"], status_code=status.HTTP_303_SEE_OTHER)
 
 
 @app.get("/drive", response_class=HTMLResponse)

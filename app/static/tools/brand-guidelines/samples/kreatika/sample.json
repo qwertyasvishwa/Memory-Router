@@ -1,0 +1,76 @@
+{
+  "id": "kreatika",
+  "name": "Kreatika",
+  "description": "Sample brand guideline structure focusing on early logo exploration directions for Kreatika.",
+  "identity": {
+    "tagline": "Unleashing Creativity, Thread by Thread",
+    "essence": "Creative craftsmanship inspired by textile-making—built detail-by-detail, thread-by-thread."
+  },
+  "principles": [
+    { "title": "Symmetry", "value": "Perfect vertical axis" },
+    { "title": "Geometry", "value": "Equilateral triangles (60° angles)" }
+  ],
+  "logo_exploration": {
+    "concepts": [
+      {
+        "name": "Thread Mark",
+        "description": "Flowing strokes evoke textile threads, connecting the K letterform with the brand's “Thread by Thread” essence. Rounded terminals suggest creativity and craftsmanship.",
+        "style": "Artistic",
+        "feel": "Flowing",
+        "impact": "Creative"
+      },
+      {
+        "name": "Artisan Mark",
+        "description": "Clean geometric K paired with a plus-symbol accent, representing the addition of creativity to everyday items. A broken baseline hints at breaking creative boundaries.",
+        "style": "Modern",
+        "feel": "Bold",
+        "impact": "Strong"
+      },
+      {
+        "name": "Woven Mark",
+        "description": "Interlaced strokes create a weaving pattern to directly reference textile craft. A layered effect adds depth while maintaining premium simplicity.",
+        "style": "Layered",
+        "feel": "Crafted",
+        "impact": "Unique"
+      },
+      {
+        "name": "ASCEND",
+        "description": "Three perfect triangles ascending—representing growth, ambition, and the journey from idea to masterpiece. The K is abstracted into upward momentum with mathematically precise geometry.",
+        "style": "Geometric",
+        "feel": "Precise",
+        "impact": "Aspirational",
+        "geometry": "Equilateral triangles · 60° angles · perfect vertical symmetry"
+      }
+    ]
+  },
+  "assets": {
+    "images": [
+      {
+        "name": "ASCEND triangles (draft)",
+        "src": "/static/tools/brand-guidelines/samples/kreatika/ascend-triangles.png",
+        "note": "Place the draft triangle-mark image here."
+      },
+      {
+        "name": "K blocks (draft)",
+        "src": "/static/tools/brand-guidelines/samples/kreatika/k-blocks.png",
+        "note": "Place the geometric K + blocks draft here."
+      },
+      {
+        "name": "K diamond frame (draft)",
+        "src": "/static/tools/brand-guidelines/samples/kreatika/k-diamond.png",
+        "note": "Place the framed K draft here."
+      },
+      {
+        "name": "Wordmark + tagline (draft)",
+        "src": "/static/tools/brand-guidelines/samples/kreatika/wordmark.png",
+        "note": "Place the wordmark composition draft here."
+      },
+      {
+        "name": "Line K (draft)",
+        "src": "/static/tools/brand-guidelines/samples/kreatika/line-k.png",
+        "note": "Place the line-based K draft here."
+      }
+    ]
+  }
+}
+

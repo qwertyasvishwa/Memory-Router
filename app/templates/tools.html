@@ -7,6 +7,49 @@
 </div>
 
 <div class="card">
+    <h3>Brand generators</h3>
+    <p style="color:#555; margin-top:0.25rem;">Open brand-aware generators (campaigns, posts, etc.). Add brands via
+        <code>app/static/brands/&lt;brand&gt;/brand.json</code>.</p>
+
+    <form action="/tools/social-posts/new-year" method="get" target="_blank" style="margin-top:0.75rem;">
+        <label for="brand_id">Brand</label>
+        <select id="brand_id" name="brand">
+            {% if brands %}
+            {% for b in brands %}
+            <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+            {% else %}
+            <option value="happy-eats">Happy Eats</option>
+            {% endif %}
+        </select>
+
+        <label for="year">Year</label>
+        <input id="year" name="year" type="text" placeholder="2026">
+
+        <button type="submit">🎆 New Year Social Post Generator</button>
+    </form>
+
+    <form action="/tools/collaterals" method="get" style="margin-top:1rem;">
+        <label for="brand_id_collateral">Brand</label>
+        <select id="brand_id_collateral" name="brand">
+            {% if brands %}
+            {% for b in brands %}
+            <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+            {% else %}
+            <option value="happy-eats">Happy Eats</option>
+            {% endif %}
+        </select>
+
+        <button type="submit">📦 Collateral Pack Generator</button>
+    </form>
+
+    <form action="/tools/brand-guidelines" method="get" style="margin-top:1rem;">
+        <button type="submit">📘 Brand Guidelines Generator (Samples)</button>
+    </form>
+</div>
+
+<div class="card">
     <h3>Create / update tool</h3>
     <form action="/tools" method="post">
         <label for="tool_id">Tool id</label>

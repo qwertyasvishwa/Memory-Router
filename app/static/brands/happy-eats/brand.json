@@ -1,0 +1,24 @@
+{
+  "id": "happy-eats",
+  "name": "Happy Eats",
+  "tagline": "Organic. Fresh. Healthy.",
+  "website": "www.happyeats.in",
+  "logoUrl": "/static/happy-eats/brand/logo.png",
+  "theme": {
+    "background0": "#f9f5f0",
+    "background1": "#ece5dc",
+    "ink": "#2c2416",
+    "muted": "rgba(92, 82, 68, 0.82)",
+    "accent": "#d76c2f",
+    "accent2": "#4f8b2c"
+  },
+  "badges": ["100% Handmade", "No Maida", "Zero Trans Fat"],
+  "contact": {
+    "personName": "[Your Name]",
+    "personTitle": "[Your Title]",
+    "email": "contact@happyeats.in",
+    "phone": "+91 98765 43210",
+    "location": "Gujarat, India",
+    "address": ""
+  }
+}

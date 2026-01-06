@@ -16,3 +16,6 @@ server-err.log
 
 # Local tool registry persistence
 .memory_router/
+
+# Generated collateral/tool outputs (deterministic; re-generatable)
+app/static/generated/

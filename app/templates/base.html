@@ -25,16 +25,30 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                gap: 1rem;
+                background: rgba(255, 255, 255, 0.92);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                border-radius: 16px;
+            }
+
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 0.5rem 0.75rem;
             }
 
             nav a {
-                margin-right: 1rem;
                 text-decoration: none;
                 color: #0366d6;
+                padding: 0.25rem 0.4rem;
+                border-radius: 10px;
+                font-weight: 650;
+                line-height: 1.2;
             }
 
-            nav a:last-child {
-                margin-right: 0;
+            nav a:hover {
+                background: rgba(3, 102, 214, 0.08);
             }
 
             .card {
@@ -119,7 +133,6 @@
                 <a href="/entries">Browse entries (session)</a>
                 <a href="/drive">Browse SharePoint drive</a>
                 <a href="/happy-eats">Happy Eats</a>
-                <a href="/static/happy-eats/collateral/social-posts/index.html">Happy Eats Social Posts</a>
                 <a href="/tools">Tools</a>
                 <a href="/ledger">Ledger</a>
                 <a href="/health">Health</a>

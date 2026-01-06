@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>🎆 New Year Social Post Generator</h2>
+    <p style="color:#555;">Brand-aware generator (logo, colors, website). Export PNG from inside the generator.</p>
+
+    <form action="/tools/social-posts/new-year" method="get" style="margin-top:0.75rem; display:grid; gap:0.5rem;">
+        <div>
+            <label for="brand_id">Brand</label>
+            <select id="brand_id" name="brand">
+                {% for b in brands %}
+                <option value="{{ b.id }}" {% if b.id==selected_brand %}selected{% endif %}>{{ b.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="year">Year</label>
+            <input id="year" name="year" type="text" value="{{ year }}" placeholder="2026">
+        </div>
+
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+            <button type="submit">Load</button>
+            <a href="{{ generator_src }}" target="_blank" rel="noreferrer" style="text-decoration:none;">Open generator
+                full screen</a>
+        </div>
+    </form>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+    <iframe title="New Year generator" src="{{ generator_src }}" style="width:100%; height:900px; border:0;"></iframe>
+</div>
+{% endblock %}
+

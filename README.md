@@ -19,11 +19,15 @@ There is **no local database** and **no local filesystem writes** – entries go
 ## Documentation index
 
 - **Project (this file):** `README.md`
+- **Collateral system instructions:** `docs/COLLATERAL_INSTRUCTIONS.md`
+- **Enhancements backlog:** `docs/NEXT_LEVEL_ENHANCEMENTS.md`
+- **UI smoke checklist:** `docs/UI_SMOKE_CHECKLIST.md`
 - **Happy Eats collateral docs (served as static files):**
   - `app/static/happy-eats/collateral/README.md`
   - `app/static/happy-eats/collateral/BRAND_GUIDELINES.md`
 - **Happy Eats social posts gallery (static):** `app/static/happy-eats/collateral/social-posts/index.html`
-- **New Year generator (5 styles + PNG export):** `app/static/happy-eats/collateral/social-posts/new-year-2026-variants.html`
+- **New Year generator (5 styles + PNG export, brand-aware Tools):** `http://localhost:8000/tools/social-posts/new-year?brand=happy-eats&year=2026`
+- **Collateral pack generator (brand-aware Tools):** `http://localhost:8000/tools/collaterals?brand=happy-eats`
 - **Auto-prompt runner (Copilot workflow):** see “Auto-Implementation” below
 
 ## Important: Copilot credits vs in-app AI
@@ -70,12 +74,13 @@ If you want an in-app assistant later, you’ll need a separate model provider (
     - Session browse view: `http://localhost:8000/entries`
     - Health check: `http://localhost:8000/health`
 
-## Happy Eats: where to see the New Year generator
+## Happy Eats: where to see social posts + generator
 
 Once the server is running, open:
 
 - Social posts gallery: `http://localhost:8000/static/happy-eats/collateral/social-posts/index.html`
-- New Year generator (5 styles): `http://localhost:8000/static/happy-eats/collateral/social-posts/new-year-2026-variants.html`
+- New Year generator (5 styles): `http://localhost:8000/tools/social-posts/new-year?brand=happy-eats&year=2026`
+- Collateral pack generator: `http://localhost:8000/tools/collaterals?brand=happy-eats`
 
 The generator uses `html2canvas` (loaded via CDN) to export PNGs.
 
@@ -154,6 +159,14 @@ Tools are persisted locally to:
 - `.memory_router/tools.json`
 
 This keeps the MVP simple (no extra Graph writes for tool metadata yet). You can safely delete the file if you want to reset your tool catalog.
+
+### Brand-aware Tools (UI generators)
+
+Some Tools are UI generators (not Tool Registry “builtin entrypoints”), driven by brand configs:
+
+- Brand configs: `app/static/brands/<brand>/brand.json`
+- New Year social post generator: `/tools/social-posts/new-year`
+- Collateral pack generator: `/tools/collaterals` (outputs to `app/static/generated/<brand>/collateral/`)
 
 ### Git sync (safe-by-default)
 

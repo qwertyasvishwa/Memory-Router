@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .pill {
+        display: inline-block;
+        padding: 0.12rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(3, 102, 214, 0.08);
+        color: #024f9c;
+        font-weight: 650;
+        font-size: 0.85rem;
+        margin-right: 0.4rem;
+        margin-top: 0.35rem;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+    @media (max-width: 720px) {
+        .grid { grid-template-columns: 1fr; }
+    }
+    .concept h4 { margin: 0; }
+    .concept p { margin: 0.5rem 0 0; color: #555; }
+    .meta { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .thumb {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.08);
+        background: #fff;
+    }
+</style>
+
+<div class="card">
+    <p style="margin:0; color:#555;">
+        <a href="/tools">Tools</a> → <a href="/tools/brand-guidelines">Brand Generator</a> → <strong>Samples</strong> →
+        <strong>{{ sample.name }}</strong>
+    </p>
+
+    <h2 style="margin-top:0.75rem;">{{ sample.name }}</h2>
+    {% if sample.identity and sample.identity.tagline %}
+    <p style="margin-top:0.25rem; color:#555;">{{ sample.identity.tagline }}</p>
+    {% endif %}
+
+    {% if sample.description %}
+    <p style="margin-top:0.75rem; color:#555;">{{ sample.description }}</p>
+    {% endif %}
+
+    <p style="margin-top:0.75rem;">
+        <a href="/tools/brand-guidelines">← Back to Samples</a>
+        ·
+        <a href="/static/tools/brand-guidelines/samples/{{ sample.id }}/sample.json" target="_blank">Download JSON</a>
+    </p>
+</div>
+
+{% if sample.principles %}
+<div class="card">
+    <h3 style="margin-top:0;">Core Principles</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Theme</th>
+                <th>Definition</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in sample.principles %}
+            <tr>
+                <td><strong>{{ p.title }}</strong></td>
+                <td style="color:#555;">{{ p.value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if sample.logo_exploration and sample.logo_exploration.concepts %}
+<div class="card">
+    <h3 style="margin-top:0;">Logo Exploration</h3>
+    <p style="margin-top:0.25rem; color:#555;">
+        First-pass concept directions to explore the Kreatika mark before locking the final logo system.
+    </p>
+    <div class="grid" style="margin-top:0.75rem;">
+        {% for c in sample.logo_exploration.concepts %}
+        <div class="card concept" style="margin:0; box-shadow:none; border:1px solid rgba(0,0,0,0.06);">
+            <h4>{{ c.name }}</h4>
+            <p>{{ c.description }}</p>
+            <div class="meta">
+                {% if c.style %}<span class="pill">Style: {{ c.style }}</span>{% endif %}
+                {% if c.feel %}<span class="pill">Feel: {{ c.feel }}</span>{% endif %}
+                {% if c.impact %}<span class="pill">Impact: {{ c.impact }}</span>{% endif %}
+                {% if c.geometry %}<span class="pill">{{ c.geometry }}</span>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if sample.assets and sample.assets.images %}
+<div class="card">
+    <h3 style="margin-top:0;">Reference Drafts</h3>
+    <p style="margin-top:0.25rem; color:#555;">
+        Drop your image files into <code>app/static/tools/brand-guidelines/samples/{{ sample.id }}/</code> to show them here.
+    </p>
+    <div class="grid" style="margin-top:0.75rem;">
+        {% for img in sample.assets.images %}
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            {% if img.exists %}
+            <img class="thumb" src="{{ img.src }}" alt="{{ img.name or 'Reference image' }}">
+            {% else %}
+            <div class="thumb" style="display:flex; align-items:center; justify-content:center; height:220px; color:#555;">
+                Missing: <code style="margin-left:0.4rem;">{{ img.src }}</code>
+            </div>
+            {% endif %}
+            <div style="color:#555;">
+                <strong>{{ img.name }}</strong>
+                {% if img.note %}<div>{{ img.note }}</div>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

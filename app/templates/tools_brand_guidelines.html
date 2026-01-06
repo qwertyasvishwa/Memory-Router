@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <p style="margin:0; color:#555;">
+        <a href="/tools">Tools</a> → <strong>Brand Generator</strong> → <strong>Samples</strong>
+    </p>
+    <h2 style="margin-top:0.75rem;">Brand Guidelines Generator</h2>
+    <p style="color:#555; margin-top:0.25rem;">
+        Explore sample brand guideline structures before generating your own.
+    </p>
+</div>
+
+<div class="card">
+    <h3 style="margin-top:0;">Samples</h3>
+    {% if samples %}
+    <table>
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Description</th>
+                <th>Open</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in samples %}
+            <tr>
+                <td>{{ s.name }}</td>
+                <td style="color:#555;">{{ s.description }}</td>
+                <td><a href="/tools/brand-guidelines/samples/{{ s.id }}">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color:#555;">No samples yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
